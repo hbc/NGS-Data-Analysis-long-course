@@ -4,7 +4,8 @@ These are materials for an 8-day course run over 4 weeks. The four sessions are 
  * **Session I**: Introduction to Unix / Orchestra and NGS Data Analysis
  * **Session II**: RNA-Seq Part I
  * **Session III**: RNA-Seq Part II
- * **Session IV**: RNA-Seq Part III and Related Technologies and Tools
+ * **Session III**: RNA-Seq Part III and Related Technologies and Tools
+
  
  > *NOTE:* Additional materials are inlcuded in this repo but are not part of the main course.
 
