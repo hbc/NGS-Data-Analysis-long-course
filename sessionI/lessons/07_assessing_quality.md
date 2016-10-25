@@ -167,9 +167,6 @@ module load seq/fastqc/0.11.3
 ## Running FASTQC
 fastqc -t 6 *.fq
 
-## Documenting your work
-cat */summary.txt > ~/ngs_course/rnaseq/logs/fastqc_summaries.txt
-
 ## Moving files to our results directory
 mv *fastqc* ../../results/fastqc_untrimmed_reads/
 ```
@@ -282,20 +279,18 @@ We will go over the remaining plots in class. Remember, our report only represen
 >    for zip in *.zip; do unzip $zip; done
 >
 >When you check your history later, it will help you remember what you did!
-
-##### Document your work
-
-What information is contained in the unzipped folder?
-
-```
-$ ls -lh Mov10_oe_1.subset_fastqc
-$ head Mov10_oe_1.subset_fastqc/summary.txt
-```
-
-To save a record, let's `cat` all `fastqc summary.txt` files into one `full_report.txt` and move this to `~/ngs_course/rnaseq/docs`. 
-You can use wildcards in paths as well as file names.  Do you remember how we said `cat` is really meant for concatenating text files?
-    
-`$ cat */summary.txt > ~/ngs_course/rnaseq/logs/fastqc_summaries.txt`
+>
+>What information is contained in the unzipped folder?
+>
+>```
+>$ ls -lh Mov10_oe_1.subset_fastqc
+>$ head Mov10_oe_1.subset_fastqc/summary.txt
+>```
+>
+>To save a record, let's `cat` all `fastqc summary.txt` files into one `full_report.txt` and move this to `~/ngs_course/rnaseq/docs`. 
+>You can use wildcards in paths as well as file names.  Do you remember how we said `cat` is really meant for concatenating text files?
+>    
+>`$ cat */summary.txt > ~/ngs_course/rnaseq/logs/fastqc_summaries.txt`
 
 
 ## Best practices for NGS Analysis 
