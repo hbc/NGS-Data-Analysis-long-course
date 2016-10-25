@@ -1,2 +1,4 @@
-# NGS_Data_Analysis_Summer2016
-Materials for NGS Data Analysis Course Summer 2016 
+# NGS_Data_Analysis-long-course
+Master branch for NGS long course materials. For every iteration of the course please see the different branches.
+
+
