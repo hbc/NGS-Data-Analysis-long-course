@@ -11,7 +11,7 @@ These are materials for an 8-day course run over 4 weeks. The four sessions are 
 
 ---
 
-*NOTE: Additional materials are inlcuded in this repo but are not part of the main course.*
+*NOTE: Additional materials are included in this repo but are not part of the main course.*
 
 
 ---
