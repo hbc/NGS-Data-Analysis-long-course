@@ -1,10 +1,10 @@
 ---
 title: "The Shell: Searching and Redirection"
 author: "Sheldon  McKay, Bob Freeman, Mary Piper"
-date: "January 22, 2016"
+date: "Wednesday October 26, 2016"
 ---
 
-Approximate time: 60 minutes
+Approximate time: 45 minutes
 
 ## Learning Objectives
 
