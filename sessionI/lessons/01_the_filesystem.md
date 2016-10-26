@@ -4,7 +4,7 @@ author: "Sheldon  McKay, Mary Piper, Radhika Khetani"
 date: "Wednesday, October 26, 2016"
 ---
 
-Approximate time: 90 minutes
+Approximate time: 120 minutes
 
 ## Learning Objectives
 - How do you access the shell?
