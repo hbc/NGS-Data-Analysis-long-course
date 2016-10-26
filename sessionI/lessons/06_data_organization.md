@@ -165,7 +165,7 @@ From this study we are using the [RNA-Seq](http://www.ncbi.nlm.nih.gov/geo/query
 
 ## Understanding the workflow
 
-For any bioinformatics experiment you will have to go through a series of steps in order to obtain your final desired output. The execution of these steps in a sequential manner is what we often refer to as a **workflow or pipeline**. A simplified version of the workflow we will be using in this course is provided below. We have some of the steps briefly outlned here, but plan to cover each in more detail over the duration of this course.
+For any bioinformatics experiment you will have to go through a series of steps in order to obtain your final desired output. The execution of these steps in a sequential manner is what we often refer to as a **workflow or pipeline**. A simplified version of the workflow we will be using in this course is provided below. We have some of the steps briefly outlined here, but plan to cover each in more detail over the duration of this course.
 
 <img src=../img/rnaseq_workflow.png width=500>
 
