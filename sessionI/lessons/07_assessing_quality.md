@@ -1,33 +1,17 @@
 ---
-title: "Introducing the data and Quality control using FASTQC"
+title: "Quality control using FASTQC"
 author: "Bob Freeman, Mary Piper"
-date: "Tuesday, January 26, 2016"
+date: "Wednesday October 26, 2016"
 ---
 
-Approximate time: 60 minutes
+Approximate time: 85 minutes
 
 ## Learning Objectives:
 
-* Understand the experiment and its objectives
 * Learn how to evaluate the quality of your NGS data using the program FastQC
 * Use a `for loop` to automate operations on multiple files
 * Create a job submission script to automate quality assessment
 * Learning best practices for NGS analysis
-
-
-## Understanding the dataset
-The dataset we are using is part of a larger study described in [Kenny PJ et al, Cell Rep 2014](http://www.ncbi.nlm.nih.gov/pubmed/25464849). The authors are investigating interactions between various genes involved in Fragile X syndrome, a disease of aberrant protein production, which results in cognitive impairment and autistic-like features. **The authors sought to show that RNA helicase MOV10 regulates the translation of RNAs involved in Fragile X syndrome.**
-
-From this study we are using the [RNA-Seq](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50499) data which is publicly available in the [SRA](http://www.ncbi.nlm.nih.gov/sra). The details of the experimental design are:
-* The RNA was extracted from **HEK293F cells** that were transfected with a MOV10 transgene or an irrelevant siRNA.  
-* The libraries for this dataset are **stranded** and were generated using the **dUTP method**. 
-* Sequencing was carried out on the **Illumina HiSeq-2500 for 100bp single end** reads. 
-* The full dataset was sequenced to **~40 million reads** per sample, but for this workshop we will be looking at a small subset on chr1 (~300,000 reads/sample).
-* For each group we have three replicates as described in the figure below.
-
-
-![Automation](../img/exp_design.png)
-
 
 ##Quality Control of FASTQ files
 
@@ -305,17 +289,6 @@ Ok so now you are all set up and have begun your analysis. You have set up your 
 3. **Do not re-invent the wheel.** If you run into problems, more often than not someone has already encountered that same problem. A solution is either already available or someone is working on it -- so find it!
 
 4. **Testing is essential.** If you are using a tool for the first time, test it out on a single sample or a subset of the data before running your entire dataset through. This will allow you to debug quicker and give you a chance to also get a feel for the tool and the different parameters.
-
-
-### Naming files
-
-A few months from now, you may not remember what you were up to when you created a particular set of files. 
-Sensible file names will make your analysis traversable by you and your collaborators, and writing the methods section for your next paper will be a breeze. Below is a short list of things we suggest when it comes to file naming:
-
-1. **Keep sample names short and meaningful.** If required, include some form of a long explanation for the sample names (i.e comment lines at the top of the metadata file, or add it in your README file).
-2. Have **unique sample names** and try to avoid names that look like dates (Dec14), times (AM1245) and other things that Excel might auto-convert. 
-3. **Remove spaces and punctuation.** When working on the command line, spaces in file names make everything exponentially more difficult. Replace all your spaces with under_scores and avoid the use of any special characters.
-
 
 
 ---
