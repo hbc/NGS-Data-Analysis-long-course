@@ -39,7 +39,7 @@ Change to insert mode, then type in the following lines in the `listing.sh` file
 	echo "These are the contents of this directory:"
 	ls -l 
 
->The `echo` command is a utility for writing to standard output. By providing text in quotations after the command we indicated what it is we wanted written
+>The `echo` command is a utility for writing to standard output. By providing text in quotations after the command we indicated what it is we wanted written. This adds verbosity to the script and allows the user to know at each stage what the script is doing.
 
 Save the file and exit `vim`. Now let's run the new script we have created. To run a shell script you usually use the `bash` or `sh` command.
 
