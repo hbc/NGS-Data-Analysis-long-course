@@ -148,10 +148,9 @@ Pretty simple and cool, huh?
 	
 Now that you've learned how to use loops and variables, let's put this processing power to work. Imagine, if you will, a series of commands that would do the following for us each time we get a new data set:
 
-- Use for loop to iterate over each FASTQ file
 - Dump out bad reads into a new file
-- Get the count of the number of bad reads
-- And write the filename and number of bad reads to a summary log file
+- Get the count of the number of bad reads for each file
+- Write the filename and number of bad reads to a summary log file
 
 You might not realize it, but this is something that you now know how to do. Let's get started...
 
@@ -163,23 +162,27 @@ We always want to start our scripts with a shebang line:
 
 `#!/bin/bash`
 
-This line is the absolute path to the Bash interpreter. The shebang line ensures that the bash shell interprets the script even if it is executed using a different shell.
+When the shebang #! is present, the shell will run the script using the executable program we have specified. In our case, we have a shell script and we want to run it using the executable for the Bash interpreter. So following the `#!` we provide the path to the executable file `/bin/bash`.
 
-After the shebang line, we enter the commands we want to execute. First we want to move into our `raw_fastq` directory:
+> *NOTE:* You may have noticed that the first script we created did not have a shebang line and we were still able to run it. This is because when we run it using the `sh` command we are also identifying the shell interpreter we wish to use. Even though it may seem redundant, we encourage you to include a shebang line as it is useful for others who may use your script. The shebang line ensures that the bash shell interprets the script even if the user running the script is using a different shell.
+
+After the shebang line, we enter the commands we want to execute. For every command, we will add a comment line using the `#`. It is best practice to **comment liberally**, as it informs the future users of this script of each step that is being executed. 
+
+
+First we want to move into our `raw_fastq` directory:
 
 ```
 # enter directory with raw FASTQs
 $ cd ~/ngs_course/unix_lesson/raw_fastq
 ```
-
-And now we loop over all the FASTQs:
+Since we want to run a list of commands for *all of our files*, we will use for loop to iterate over each FASTQ file:
 
 ```
 # loop over all FASTQ files
 for filename in *.fq;
 ```
 
-and we execute the commands for each loop:
+and after the `do`, we specify the commands to execute for each iteration:
 
 ```
 do
@@ -189,6 +192,8 @@ do
   # grab all the bad read records into new file
   grep -B1 -A2 NNNNNNNNNN $filename > $filename-badreads.fastq;
 ``` 
+
+> *NOTE:* The `echo` statements are useful for verbosity of your script.
   
 We'll also count the number of these reads and put that in a new file, using the count (`-c`) flag of `grep`:
 
@@ -198,8 +203,7 @@ grep -cH NNNNNNNNNN $filename >> bad-reads.count.summary;
 done
 ```
 
-If you've noticed, we slipped a new `grep` flag `-H` in there. This flag will report the filename along with the match string. This is useful for when we generate the summary file.
-
+If you've noticed, we slipped a new `grep` flag `-H` in there. This flag will report the filename along with the match string. This is useful since we are appending the results to a log summary file.
 
 
 Exit out of `vim`, and voila! You now have a script you can use to assess the quality of all your new datasets. Your finished script, complete with comments, should look like the following:
