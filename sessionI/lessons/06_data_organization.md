@@ -11,14 +11,14 @@ Approximate time: 45 minutes
 * Recognizing the need for Data Management
 * Planning a good genomics experiment and getting started with project organization
 * Have a general idea of the experiment and its objectives
-* Understand how and why we choose this dataset
+* Understand how and why we chose this dataset
 
 
 ## Data Management
 
 Project organization is one of the most important parts of a sequencing project, but is **often overlooked in the excitement to get a first look at new data**. While it's best to get yourself organized before you begin analysis, it's never too late to start.
 
-In the most important ways, the methods and approaches we need in bioinformatics are the same ones we need at the bench or in the field - **planning, documenting, and organizing** will be the key to good reproducible science. Before we begin organizing our project we will first talk a little bit about how to manage your data and some considerations for when you are working with datasets of of large sizes in general.
+In the most important ways, the methods and approaches we need in bioinformatics are the same ones we need at the bench or in the field - **planning, documenting, and organizing** will be the key to good reproducible science. Before we begin organizing our project we will first talk a little bit about how to manage your data and some considerations for when you are working with datasets of large sizes in general.
 
 * Download [Data management slides]()
 
