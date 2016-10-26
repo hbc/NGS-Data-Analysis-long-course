@@ -555,14 +555,16 @@ important, let's rename it:
 
 > Both `mv` and `cp` require that you specify 2 things after the command on the command line: first is the object being copied, moved or renamed, and the second is the destination it's being moved or copied to, or the new name!
 
-Finally, we decided this was not what we needed to do, and we want to start over with an empty backup directory.
+> **NOTE: With moving and renaming files, it will not ask you if you are sure that you want to "replace existing file".**
+
+
+Finally, we decided this was not what we needed to do, and we want to start over with an empty backup directory. To do this we will use the `rm` command. 
+
+> **NOTE: The `rm` file permanently removes the file. Be careful with this command. The shell doesn't
+just nicely put the files in the Trash. They're really gone.** If you wanted to play it safe and have Unix ask you "are your sure you want to delete this file?", you can include the `-i` argument everytime you run it.
 
 	$ rm Mov10_oe_1.subset-copy.fq_DO_NOT_TOUCH!
 
-> The `rm` file permanently removes the file. Be careful with this command. The shell doesn't
-just nicely put the files in the Trash. They're really gone.
->
-> Same with moving and renaming files. It will **not** ask you if you are sure that you want to "replace existing file".
 
 *** 
 
