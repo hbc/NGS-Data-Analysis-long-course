@@ -1,7 +1,7 @@
 ---
 title: Introduction to Vim
 author: "Mary Piper"
-date: "January 22, 2016"
+date: "Wednesday October 26, 2016"
 ---
 
 Approximate time: 30 min
