@@ -85,7 +85,7 @@ Let's make a a directory in your home folder for everything we do in this NGS Da
 
 Copy the data folder `unix_lesson` from a shared directory/folder on Orchestra into your new directory using the following command:
 
-```$ cp -r /groups/hbctraining/ngs-data-analysisSummer2016/unix_lesson/ ngs_course/```
+```$ cp -r /groups/hbctraining/ngs-data-analysis-longcourse/unix_lesson/ ngs_course/```
 
 >'cp' is the command for copy. This command requires you to specify the location of the item you want to copy (/groups/hbctraining/ngs-data-analysis2016/unix_lesson/) and the location of the destination (ngs_course/). **Please note the space between the 2 locations.** The "-r" is an option that modifies the copy command to do something slightly different than usual.
 
