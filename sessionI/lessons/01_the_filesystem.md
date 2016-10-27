@@ -192,14 +192,15 @@ This tree can also be represented as follows:
 └── .
 ```
 
-Now let's go do that same navigation at the command line.
+There is a command that will show us something similar. What do you think the command might be called?
 
-Type
+	$ tree
 
-```$ cd```
+Now let's learn more about moving between directories at the command line.
 
-> This puts you in your home directory. No matter where you are in the directory system, `cd` will always bring you back to your home directory.
+	$ cd
 
+> This puts you in your home directory. No matter where you are in the directory system, `cd` will always bring you back to your home directory. It is also used to change directories when followed by more instructions.
 
 Now using `cd` and `ls`, go in to the `unix_lesson` directory and list its contents. Now go into the `raw_fastq` directory, and list its contents.
 
