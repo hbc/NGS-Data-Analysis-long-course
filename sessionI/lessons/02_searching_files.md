@@ -74,11 +74,12 @@ from all the files in to another file called `bad_reads.txt`.
 
 `$ grep -B1 -A2 NNNNNNNNNN Mov10_oe_1.subset.fq > bad_reads.txt`
 
+The prompt should sit there a little bit, and then it should look like nothing
+happened. 
+
 `$ ls -l`
 
-The prompt should sit there a little bit, and then it should look like nothing
-happened. But type `ls`. You should have a new file called `bad_reads.txt`. Take
-a look at it and see if it has what you think it should.
+You should have a new file called `bad_reads.txt`. Take a look at it and see if it has what you think it should.
 
 If we use '>>', it will append to rather than overwrite a file.  This can be useful for saving more than one search, for example:
     
