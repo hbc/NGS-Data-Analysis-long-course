@@ -128,7 +128,7 @@ where the ***variable_name*** defines (or initializes) a variable that takes the
 
 For example, we can run the same commands (`echo` and `wc -l`) used in the "Bash variables" section but this time run them sequentially on each file:
 
-```
+```bash
 $ for filename in *.fq
 > do
 >   echo $filename
