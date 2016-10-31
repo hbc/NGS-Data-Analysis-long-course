@@ -87,7 +87,7 @@ If we use '>>', it will append to rather than overwrite a file.  This can be use
 
 `$ ls -l`
 
-Since our `bad_reads.txt` file isn't a raw_fastq file, we should move it to a different location within our directory. We decide to create a new folder called `other`, and move the `bad_reads.txt` to this `other` folder using the command `mv`. 
+Since our `bad_reads.txt` file isn't a raw fastq file, we should move it to a different location within our directory. We decide to create a new folder called `other`, and move the `bad_reads.txt` to this `other` folder using the command `mv`. 
 
 `$ mkdir ../other/`
 
