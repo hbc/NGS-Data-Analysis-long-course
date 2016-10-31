@@ -58,7 +58,7 @@ The first command we will type on the command prompt will be to start a so-calle
 
 Press enter after you type in that command. You will get a couple of messages, but in a few seconds you should get back the command prompt `$`; the string of characters before the command prompt, however, have changed. They should say something like `rsk27@clarinet002-062`. *We will be explaining what this means in more detail tomorrow when we talk about HPC and Orchestra.* 
 
-Make sure that your command prompt is now preceded by a character string that contain words like "clarinet", "bassoon", etc.
+Make sure that your command prompt is now preceded by a character string that contains words like "clarinet", "bassoon", etc.
 
 Let's make a a directory in your home folder for everything we do in this NGS Data Analysis course. We will use the `mkdir` command which we will discuss in more detail later. For now, type the following command at the command prompt.
 
