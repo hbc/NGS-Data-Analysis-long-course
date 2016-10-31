@@ -20,7 +20,7 @@ Project organization is one of the most important parts of a sequencing project,
 
 In the most important ways, the methods and approaches we need in bioinformatics are the same ones we need at the bench or in the field - **planning, documenting, and organizing** will be the key to good reproducible science. Before we begin organizing our project we will first talk a little bit about how to manage your data and some considerations for when you are working with datasets of large sizes in general.
 
-* Download [Data management slides]()
+* Download [Data management slides](https://github.com/hbc/NGS-Data-Analysis-long-course/raw/Fall_2016/sessionI/slides/data_management.pdf)
 
 
 ### Planning 
