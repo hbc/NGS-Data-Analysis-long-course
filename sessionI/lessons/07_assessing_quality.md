@@ -107,6 +107,7 @@ So far in our FASTQC analysis, we have been directly submitting commands to Orch
 **Job submission scripts** for Orchestra are just regular scripts, but contain the Orchestra **options/directives** for job submission, such as *number of cores, name of queue, runtime limit, etc*. We can submit these scripts to whichever queue we specify in the script using the `bsub` command as follows:
 
 ```
+# DO NOT RUN THIS
 $ bsub < job_submission_script.lsf
 ```
 Submission of the script using the `bsub` command allows the load sharing facility (LSF) to run your job when its your turn. Let's create a job submission script to load the FASTQC module, run FASTQC on all of our fastq files, and move the files to the appropriate directory.
