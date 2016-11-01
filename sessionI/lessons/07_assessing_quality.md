@@ -51,10 +51,6 @@ If we check which modules we currently have loaded, we should not see FastQC.
 
 `$ module list`
 
-If we try to run FastQC on one of our fastq files, Orchestra won't be able to find the program.
-
-`$ fastqc Mov10_oe_1.subset.fq`
-
 This is because the FastQC program is not in our $PATH (i.e. its not in a directory that unix will automatically check to run commands/programs).
 
 `$ $PATH`
