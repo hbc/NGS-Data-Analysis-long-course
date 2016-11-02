@@ -254,7 +254,7 @@ $ scp user_name@orchestra.med.harvard.edu:/home/user_name/ngs_course/rnaseq/resu
 * Load the Human genome (hg19) into IGV using the dropdown menu at the top left of your screen. _Note: there is also an option to "Load Genomes from File..." under the "Genomes" pull-down menu - this is useful when working with non-model organisms_
 * Load the .bam file using the **"Load from File..."** option under the **"File"** pull-down menu. *IGV requires the .bai file to be in the same location as the .bam file that is loaded into IGV, but there is no direct use for that file.*
 
-![IGV screenshot](../img/igv_screenshot.png)
+![IGV screenshot](../img/IGV_mov10.png)
 
 ***
 
