@@ -1,8 +1,8 @@
 ---
 layout: topic
 title: Introduction to R and RStudio
-authors: Mary Piper and Meeta Mistry
-date: "Tuesday, June 28, 2016"
+authors: Mary Piper, Meeta Mistry
+date: "Wednesday, September 28, 2016"
 ---
 Approximate time: 30 minutes
 
@@ -14,28 +14,46 @@ Approximate time: 30 minutes
 
 ## What is R?
 
-R is a programming language and environment for statistical computing and graphics. 
+The common misconception is that R is a programming language but in fact it is much more than that. Think of R as an environment for statistical computing and graphics, which brings together a number of features to provide powerful functionality.
 
-* Based on the statistical computing programming language S.
-* Open source software 
-* Superior (if not just comparable) to commercial alternatives like MATLAB. 
-* Available on all platforms.
+The R environment combines:
+
+* effective handling of big data 
+* collection of integrated tools
+* graphical facilities
+* simple and effective programming language
+
+
 
 ## Why use R?
 
+<img src="../img/why_R.png" width=600>
+
+
+
+R is a powerful, extensible environment. It has a wide range of statistics and general data analysis and visualization capabilities.
+
 * Data handling, manipulation, and storage
-* Huge collection of tools for data analysis (R has over 7,000
-  user contributed packages at this time)
 * Wide array of statistical methods and graphical techniques available
-* Well-developed programming language - not just for statistics, but also general purpose programming.
-* Large and growing community of peers.
+* Easy to install on any platform and use (and it’s free!)
+* Open source with a large and growing community of peers
 
 
 ## What is RStudio?
 
-RStudio is freely available open-source IDE (Integrated Development Environment). RStudio provides an environment with many features to make using R easier and is a great alternative to working on R in the terminal. 
+RStudio is freely available open-source Integrated Development Environment (IDE). RStudio provides an environment with many features to make using R easier and is a great alternative to working on R in the terminal. 
+
+<img src="../img/rstudio_logo.png" width=300>
+
+* Graphical user interface, not just a command prompt
+* Great learning tool 
+* Free for academic use
+* Platform agnostic
+* Open source
+
 
 ## Creating a new project directory in RStudio
+
 Let's create a new project directory for our "Introduction to R" lesson today. 
 
 1. Open RStudio
@@ -63,7 +81,9 @@ Let's create a new project directory for our "Introduction to R" lesson today.
 
 Before we organize our working directory, let's check to see where our current working directory is located by typing into the console:
 
-`getwd()`
+```r
+getwd()
+```
 
 Your working directory should be the `Intro-to-R` folder constructed when you created the project. The working directory is where RStudio will automatically look for any files you bring in and where it will automatically save any files you create, unless otherwise specified. 
 
@@ -90,9 +110,13 @@ When finished, your working directory should look like:
 
 ### Adding files to your working directory
 
-There are a few files that we will be working with in the next few lessons and you can access them using the links provided below. If you right click on the link, and "Save link as..". Choose `~/Desktop/Intro-to-R/data` as the destination of the file. You should now see the file appear in your working directory.
+There are a few files that we will be working with in the next few lessons and you can access them using the links provided below. If you right click on the link, and "Save link as..". Choose `~/Desktop/Intro-to-R/data` as the destination of the file. You should now see the file appear in your working directory. **We will disucss these files a bit later in the lesson.**
 
-* Download metadata file using [this link](https://github.com/hbc/NGS_Data_Analysis_Course/raw/master/sessionII/data/mouse_exp_design.csv)
+* Download the **normalized counts file** by right clicking on [this link](https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionII/data/counts.rpkm.csv)
+* Download **metadata file** using [this link](https://github.com/hbc/NGS_Data_Analysis_Course/raw/master/sessionII/data/mouse_exp_design.csv)
+
+> *NOTE:* If the files download automatically to some other location on your laptop, you can move them to the your working directory using your file explorer or navigating to the files in the `Files` tab of the bottom right panel of RStudio
+
 
 ## Interacting with R
 
@@ -173,8 +197,29 @@ If you're in Rstudio and you can't figure out why your command isn't running, yo
 
 ***
 
+## Interacting with data in R
+
+R is commonly used for handling big data, and so it only makes sense that we learn about R in the context of some kind of relevant data. We had previously downloaded two files to our working directory. Since we will be working with these files over the course of the workshop, let's take a few minutes to familiarize ourselves with the data.
+
+### The dataset
+In this example dataset, we have collected whole brain samples from 12 mice and want to evaluate expression differences between them. The expression data represents normalized count data obtained from RNA-sequencing of the 12 brain samples. This data is stored in a comma separated values (CSV) file as a 2-dimensional matrix, with **each row corresponding to a gene and each column corresponding to a sample**.
+
+<img src="../img/counts_view.png" width=900> 
+
+
+### The metadata
+We have another file in which we identify **information about the data** or **metadata**. Our metadata is also stored in a CSV file. In this file, each row corresponds to a sample and each column contains some information about each sample. 
+
+The first column contains the row names, and **note that these are identical to the column names in our expression data file above** (albeit, in a slightly different order). The next few columns contain information about our samples that allow us to categorize them. For example, the second column contains genotype information for each sample. Each sample is classified in one of two categories: Wt (wildtype) or KO (knockout). *What types of categories do you observe in the remaining columns?*
+
+<img src="../img/metadata_view.png" width=400> 
+
+R is particularly good at handling this type of **categorical data**. Rather than simply storing this information as text, the data is represented in a specific data structure which allows the user to sort and manipulate the data in a quick and efficient manner. We will discuss this in more detail as we go through the different lessons in R!  
+
 
 ## Best practices
+
+Before we move on to more complex concepts and getting familiar with the language, we want to point out a few things about best practices when working with R which will help you stay organized in the long run:
 
 * Code and workflow are more reproducible if we can document everything that we do. Our end goal is not just to "do stuff", but to do it in a way that anyone can easily and exactly replicate our workflow and results. **All code should be written in the script editor and saved to file, rather than working in the console.** 
 * The **R console** should be mainly used to inspect objects, test a function or get help. 

@@ -2,7 +2,7 @@
 layout: topic
 title: Functions in R
 author: Data Carpentry contributors
-date: "Tuesday, June 28, 2016"
+date: "Wednesday, September 28, 2016"
 ---
 Approximate time: 50 min
 
@@ -22,8 +22,9 @@ A key feature of R is functions. Functions are **"self contained" modules of cod
 
 The general usage for a function is the name of the function followed by parentheses:
 
-	function_name(input)
-
+```r
+function_name(input)
+```
 The input(s) are called **arguments**, which can include:
 
 1. the physical object (any data structure) on which the function carries out a task 
@@ -31,7 +32,7 @@ The input(s) are called **arguments**, which can include:
 
 Not all functions take arguments, for example:
 
-```
+```r
 getwd()
 ```
 
@@ -47,48 +48,69 @@ You can also get functions from external [*packages or libraries*](https://githu
 
 Let's revisit a function that we have used previously to combine data `c()` into vectors. The *arguments* it takes is a collection of numbers, characters or strings (separated by a comma). The `c()` function performs the task of combining the numbers or characters into a single vector. You can also use the function to add elements to an existing vector:
 
-
-	glengths <- c(glengths, 90) # adding at the end	
-	glengths <- c(30, glengths) # adding at the beginning
-
+```r
+glengths <- c(glengths, 90) # adding at the end	
+glengths <- c(30, glengths) # adding at the beginning
+```
 
 What happens here is that we take the original vector `glengths` (containing three elements), and we are adding another item to either end. We can do this over and over again to build a vector or a dataset.
 
 Since R is used for statistical computing, many of the base functions involve mathematical operations. One example would be the function `sqrt()`. The input/argument must be a number, and the the output is the square root of that number. Let's try finding the square root of 81:
 
-	sqrt(81)
-
-
-
+```r
+sqrt(81)
+```
 
 Now what would happen if we **called the function** (e.g. ran the function), on a *vector of values* instead of a single value? 
 
-	sqrt(glengths)
-
+```r
+sqrt(glengths)
+```
 
 In this case the task was performed on each individual value of the vector `glengths` and the respective results were displayed.
 
 
 Let's try another function, this time using one that we can change some of the *options* (arguments that change the behavior of the function), for example `round`:
 
+```r
+round(3.14159)
+```
 
-	round(3.14159)
-
-
-We can see that we get `3`. That's because the default is to round to the nearest whole number. If we want a different number of significant digits, we can type `digits=2` or however many we may want.
-
-
-	round(3.14159, digits=2)
+We can see that we get `3`. That's because the default is to round to the nearest whole number. **What if we want a different number of significant digits?**
 
 
-If you provide the arguments in the exact same order as they are defined (in the help manual) you don't have to name them:
+#### Seeking help
+
+The best way of finding out this information is to use the `?` followed by the name of the function. Doing this will open up the help manual in the bottom right panel of RStudio that will provide a description of the function, usage, arguments, details, and examples: 
+
+```r
+?round
+```	
+Alternatively, if you are familiar with the function but just need to remind yourself of the names of the arguments, you can use:
+
+```r
+args(round)
+```
+
+Even more useful is the `example()` function. This will allow you to run the examples section from the Online Help to see exactly how it works when executing the commands. Let's try that for `round()`:
+
+```r
+example("round")
+```
+
+In our example, we can change the number of digits returned by **adding an argutment**. We can type `digits=2` or however many we may want:
 
 
+```r
+round(3.14159, digits=2)
+```
+
+> *NOTE:* If you provide the arguments in the exact same order as they are defined (in the help manual) you don't have to name them:
+>
 	round(3.14159, 2)
+>
+>However, it's usually not recommended practice because it's a lot of remembering to do, and if you share your code with others that includes less known functions it makes your code difficult to read. (It's however OK to not include the names of the arguments for basic functions like `mean`, `min`, etc...). Another advantage of naming arguments, is that the order doesn't matter.  This is useful when a function has many arguments. 
 
-
-However, it's usually not recommended practice because it's a lot of remembering to do, and if you share your code with others that includes less known functions
-it makes your code difficult to read. (It's however OK to not include the names of the arguments for basic functions like `mean`, `min`, etc...). Another advantage of naming arguments, is that the order doesn't matter.  This is useful when a function has many arguments. 
 
 ***
 **Exercise** 
@@ -97,48 +119,112 @@ it makes your code difficult to read. (It's however OK to not include the names 
 
 ***
 
-## Seeking help
+## Packages and Libraries
 
-### I know the name of the function I want to use, but I'm not sure how to use it
+**Packages** are collections of R functions, data, and compiled code in a well-defined format, created to add specific functionality. There are 7,000+ user contributed packages and growing.
 
-Suppose we didn't know how to use the `round` function and wanted more significant digits; the best way of finding out this information is to use the `?` followed by the name of the function. Doing this will open up the help manual in the bottom right panel of RStudio that will provide a description of the function, usage, arguments, details, and examples: 
+There are a set of **standard (or base) packages** which are considered part of the R source code and automatically available as part of your R installation. Base packages contain the **basic functions** that allow R to work, and enable standard statistical and graphical functions on datasets; for example, all of the functions that we have been using so far in our examples. 
 
-	?round
+The directories in R where the packages are stored are called the **libraries**. The terms *package* and *library* are sometimes used synonomously and there has been [discussion](http://www.r-bloggers.com/packages-v-libraries-in-r/) amongst the community to resolve this. It is somewhat counter-intuitive to _load a package_ using the `library()` function and so you can see how confusion can arise.
 
 
-If you know the function, but just need to remind yourself of the names of the arguments, you can use:
+You can check what packages are loaded in your R session by typing into the console:
 
-	args(round)
+```r
+sessionInfo()
+```
 
-### I want to use a function that does X, there must be a function for it but I don't know which one...
+In this workshop we will mostly be using functions from the standard base packages. However, the more you work with R you will come to realize that there is a cornucopia of R packages that offer a wide variety of functionality. To use additional packages will require installation. Many packages can be installed from the [CRAN](http://cran.r-project.org/) or [Bioconductor](https://www.bioconductor.org/) repositories.
 
-If you are looking for a function to do a particular task, you can use `help.search()` (but only looks through the installed packages):
+### Package installation from CRAN 
 
-	help.search("scatter")
+CRAN is a repository where the latest downloads of R (and legacy versions) are found in addition to source code for thousands of different user contributed R packages.
 
-If you can't find what you are looking for, you can use the [rdocumention.org](http://www.rdocumentation.org) website that search through
-the help files across all packages available.
+<img src="../img/cran_packages.png" width=600>
 
-### I am stuck... I get an error message that I don't understand
+Packages for R can be installed from the [CRAN](http://cran.r-project.org/) package repository using the `install.packages` function. This function will download the source code from on the CRAN mirrors and install the package (and any dependencies) locally on your computer. 
 
-Start by googling the error message. However, this doesn't always work very well
-because often, package developers rely on the error catching provided by R. You
-end up with general error messages that might not be very helpful to diagnose a
-problem (e.g. "subscript out of bounds").
+An example is given below for the `ggplot2` package that will be required for some images we will create later on. Run this code to install `ggplot2`.
 
-However, you should check stackoverflow. Search using the `[r]` tag. Most
-questions have already been answered, but the challenge is to use the right
-words in the search to find the answers:
-[http://stackoverflow.com/questions/tagged/r](http://stackoverflow.com/questions/tagged/r)
 
-The [Introduction to R](http://cran.r-project.org/doc/manuals/R-intro.pdf) can
-also be dense for people with little programming experience but it is a good
-place to understand the underpinnings of the R language.
+```r
+install.packages('ggplot2')
+```
+### Package installation from Bioconductor
+Alternatively, packages can also be installed from [Bioconductor](https://www.bioconductor.org/), another repository of packages which provides tools for the analysis and comprehension of high-throughput **genomic data**. These packages includes (but is not limited to) tools for performing statistical analysis, annotation packages, and accessing public datasets.
 
-The [R FAQ](http://cran.r-project.org/doc/FAQ/R-FAQ.html) is dense and technical
-but it is full of useful information.
+<img src="../img/bioconductor_logo.png" width=300>
 
-### Asking for help
+There are many packages that are available in CRAN and Bioconductor, but there are also packages that are specific to one repository. Generally, you can find out this information with a Google search or by trial and error. To install from Bioconductor, you will first need to install Bioconductor and all the standard packages. *This only needs to be done once ever for your R installation.* 
+
+**If you were successful with the installation from CRAN, you do not need to run this**
+
+```r
+source("http://bioconductor.org/biocLite.R")
+biocLite()
+```
+
+Once you have the standard packages installed, you can install additional packages using the `biocLite.R` script. If it's a new R session you will also have to source the script again. Here we show that the same package `ggplot2` is available through Bioconductor:
+
+
+```r
+biocLite('ggplot2')
+```
+### Package installation from source
+
+Finally, R packages can also be installed from source. This is useful when you do not have an internet connection (and have the source files locally), since the other two methods are retrieving the source files from remote sites. 
+
+To install from source, we use the same `install.packages` function but we have additional arguments that provide *specifications* to *change from defaults*:
+
+```r
+install.packages('ggplot2_1.0.1.tar.gz', type="source", repos=NULL)
+```
+### Loading libraries
+Once you have the package installed, you can load it into your R session for use. Any of the functions that are specific to that package will be available for you to use by simply calling the function as you would for any of the base functions. *Note that quotations are not required here.*
+
+
+```r
+library(ggplot2)
+```
+
+You can also check what is loaded in your current environment by using `sessionInfo()` and you you should see your package listed as:
+
+```r
+other attached packages:
+[1] ggplot2_2.0.0
+```
+
+### Finding functions specific to a package
+
+This is your first time using `ggplot2`, how do you know where to start and what functions are available to you? One way to do this, is by using the `Package` tab in RStudio. If you click on the tab, you will see listed all packages that you have installed. For those *libraries that you have loaded*, you will see a blue checkmark in the box next to it. Scroll down to `ggplot2` in your list:
+
+<img src="../img/ggplot_help.png" width=300>  
+
+
+If your library is successfully loaded you will see the box checked, as in the screenshot above. Now, if you click on `ggplot2` RStudio will open up the help pages and you can scroll through.
+
+An alternative is to find the help manual online, which can be less technical and sometimes easier to follow. For example, [this website](http://docs.ggplot2.org/current/) is much more comprehensive for ggplot2 and is the result of a Google search. Many of the Bioconductor packages also have very helpful vignettes that include comprehensive tutorials with mock data that you can work with.
+
+### Finding functions but not knowing which package it is a part of
+
+If you are looking for a function to do a particular task, you can use `help.search()` (*but only looks through the installed packages*):
+
+```r
+help.search("scatter")
+```
+
+If you can't find what you are looking for, you can use the [rdocumention.org](http://www.rdocumentation.org) website that search through the help files across all packages available.
+
+### Crytpic error messages
+
+It is very likley that someone else has encountered this same problem already! 
+
+* Start by googling the error message.  However, this doesn't always work very well because often, package developers rely on the error catching provided by R. You end up with general error messages that might not be very helpful to diagnose a problem (e.g. "subscript out of bounds").
+
+* Check stackoverflow. Search using the `[r]` tag. Most questions have already been answered, but the challenge is to use the right words in the search to find the answers: [http://stackoverflow.com/questions/tagged/r](http://stackoverflow.com/questions/tagged/r)
+
+
+## Asking for help
 
 The key to getting help from someone is for them to grasp your problem rapidly. You
 should make it as easy as possible to pinpoint where the issue might be.
@@ -186,81 +272,22 @@ it with this command:
   answer pointing to the misuse of your words rather than answering your
   question). You will also have more success if your question is about a base
   function rather than a specific package.
+* The [Bioconductor support site](https://support.bioconductor.org/). This is very useful and if you tag your post, there is a high likelihood of getting an answer from the developer.
 * If your question is about a specific package, see if there is a mailing list
   for it. Usually it's included in the DESCRIPTION file of the package that can
   be accessed using `packageDescription("name-of-package")`. You may also want
   to try to email the author of the package directly.
 * There are also some topic-specific mailing lists (GIS, phylogenetics, etc...),
   the complete list is [here](http://www.r-project.org/mail.html).
-
-## Packages and Libraries
-
-**Packages** are collections of R functions, data, and compiled code in a well-defined format, created to perform specific tasks. 
-
-There are a set of **standard (or base) packages** which are considered part of the R source code and automatically available as part of your R installation. Base packages contain the **basic functions** that allow R to work, and enable standard statistical and graphical functions on datasets; for example, all of the functions that we have been using so far in our examples. 
-
-The directories in R where the packages are stored are called the **libraries**. The terms *package* and *library* are sometimes used synonomously and there has been [discussion](http://www.r-bloggers.com/packages-v-libraries-in-r/) amongst the community to resolve this. It is somewhat counter-intuitive to _load a package_ using the `library()` function and so you can see how confusion can arise.
-
-
-You can check what packages are loaded in your R session by typing into the console:
-
-	sessionInfo()
-
-
-In this workshop we will mostly be using functions from the standard base packages. However, the more you work with R you will come to realize that there is a cornucopia of R packages that offer a wide variety of functionality. To use additional packages will require installation. Many packages can be installed from the [CRAN](http://cran.r-project.org/) or [Bioconductor](https://www.bioconductor.org/) repositories.
-
-### Package installation from CRAN 
-Packages for R can be installed from the [CRAN](http://cran.r-project.org/) package repository using the `install.packages` function. An example is given below for the `ggplot2` package that will be required for some images we will create later on. Run this code to install `ggplot2`.
-
-
-```r
-install.packages('ggplot2')
-```
-### Package installation from Bioconductor
-Alternatively, packages can also be installed from [Bioconductor](https://www.bioconductor.org/), another repository of packages but mostly pertaining to genomic data analysis. There are many packages that are available in CRAN and Bioconductor, but there are also packages that are specific to one repository. Generally, you can find out this information with a Google search or by trial and error. To install from Bioconductor, you will first need to install Bioconductor and all the standard packages. *This only needs to be done once ever for your R installation.* 
-
-**If you were successful with the installation from CRAN, you do not need to run this**
-
-```r
-source("http://bioconductor.org/biocLite.R")
-biocLite()
-```
-
-Once you have the standard packages installed, you can install additional packages using the `biocLite.R` script. If it's a new R session you will also have to source the script again. Here we show that the same package `ggplot2` is available through Bioconductor:
-
-
-```r
-biocLite('ggplot2')
-```
-### Package installation from source
-
-Finally, R packages can also be installed from source. This is useful when you do not have an internet connection (and have the source files locally), since the other two methods are retrieving the source files from remote sites. 
-
-To install from source, we use the same `install.packages` function but we have additional arguments that provide *specifications* to *change from defaults*:
-
-	install.packages('ggplot2_1.0.1.tar.gz', type="source", repos=NULL)
-
-### Loading libraries
-Once you have the package installed, you can load it into your R session for use. Any of the functions that are specific to that package will be available for you to use by simply calling the function as you would for any of the base functions. *Note that quotations are not required here.*
-
-
-```r
-library(ggplot2)
-```
-
-You can also check what is loaded in your current environment by using `sessionInfo()` and you you should see your package listed as:
-
-```
-other attached packages:
-[1] ggplot2_2.0.0
-```
-
-
+  
 ### More resources
 * The [Posting Guide](http://www.r-project.org/posting-guide.html) for the R
   mailing lists.
 * [How to ask for R help](http://blog.revolutionanalytics.com/2014/01/how-to-ask-for-r-help.html)
   useful guidelines
+* The [Introduction to R](http://cran.r-project.org/doc/manuals/R-intro.pdf) can also be dense for people with little programming experience but it is a good place to understand the underpinnings of the R language.
+* The [R FAQ](http://cran.r-project.org/doc/FAQ/R-FAQ.html) is dense and technical but it is full of useful information.
+
 
 ---
 
