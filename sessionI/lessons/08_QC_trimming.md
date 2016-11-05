@@ -63,7 +63,7 @@ Let's check for the *Trimmomatic* module and load it:
 
 ``` bash
 $ module avail seq/
-$ module load seq/Trimmomatic/0.33`
+$ module load seq/Trimmomatic/0.33
 ```
 
 
