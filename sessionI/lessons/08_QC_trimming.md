@@ -1,6 +1,6 @@
 ---
 title: "Quality Control - Trimming"
-author: "Bob Freeman, Mary Piper"
+author: "Mary Piper, Radhika Khetani"
 date: "Thursday, January 28th, 2016"
 ---
 
