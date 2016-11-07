@@ -61,9 +61,9 @@ Then the seeds are stitched together based on the best alignment for the read (s
 
 ![STAR_step5](../img/alignment_STAR_step5.png)
 
-### Running STAR
+## Running STAR
 
-#### Set-up
+### Set-up
 
 To get started with this lesson, start an interactive session with 6 cores:
 
@@ -117,7 +117,7 @@ Aligning reads using STAR is a two step process:
 $ ls -l /groups/shared_databases/igenome/
 ```
 
-#### Creating a genome index
+### Creating a genome index
 
 For this workshop we are using reads that originate from a small subsection of chromosome 1 (~300,000 reads) and so we are using only chr1 as the reference genome. 
 
@@ -171,7 +171,7 @@ STAR --runThreadN 6 \
 $ bsub < genome_index.lsf 
 ```
 
-#### Aligning reads
+### Aligning reads
 
 After you have the genome indices generated, you can perform the read alignment. We previously generated the genome indices for you in `/groups/hbctraining/ngs-data-analysis2016/rnaseq/reference_data/reference_STAR` directory so that we don't get held up waiting on the generation of the indices.
 
@@ -194,7 +194,7 @@ We are going to explore how to **automate running the STAR command** by doing th
 2. specifying *filename as a command line parameter* when running the STAR command from a script
 3. executing the command *in parallel for all files* from a script
 
-#### STAR command in interactive bash
+### STAR command in interactive bash
 
 For now, we're going to work on just one sample to set up our workflow. To start we will use the trimmed first replicate in the Mov10 over-expression group, `Mov10_oe_1.subset.fq.qualtrim25.minlen35.fq`. Details on STAR and its functionality can be found in the [user manual](https://github.com/alexdobin/STAR/blob/master/doc/STARmanual.pdf); we encourage you to peruse through to get familiar with all available options.
 
@@ -229,11 +229,11 @@ STAR --genomeDir /groups/hbctraining/ngs-data-analysis2016/rnaseq/reference_data
 # DO NOT RUN THIS!
 ```
 
-#### Running STAR script to take a filename as input
+### Running STAR script to take a filename as input
 
 The interactive queue on Orchestra offers a great way to test commands to make sure they perform the way you intend before adding them a script. Now that we know the STAR command executed properly, we want to create a script with some flexibility that will take a filename as input to run the STAR command.
 
-##### Positional parameters
+#### Positional parameters
 
 **Positional parameters** allow flexibility within a script. These are special variables that allow us to change the values in a script by entering those values as command line arguments. For example, the following command has two command line arguments specified:
 
@@ -286,7 +286,7 @@ In this command, `word_count.sh` is $0 and `Mov10_oe_1.subset.fq.qualtrim25.minl
 
 [This is an example of a simple script that used the concept of positional parameters and the associated variables.](http://steve-parker.org/sh/eg/var3.sh.txt)
 
-##### Using positional parameters to specify an input filename for the STAR command
+#### Using positional parameters to specify an input filename for the STAR command
 
 Now let's write a script to run the STAR command and use positional parameters to specify which filename to run the script on:
 
@@ -379,7 +379,7 @@ done
 # DO NOT RUN THIS!
 ```
 
-#### Parallelizing workflow for efficiency
+### Parallelizing workflow for efficiency
 
 The above script will run through the analysis for all your input fastq files, but it will do so in serial. **We can set it up so that the pipeline is working on all the trimmed data in parallel (at the same time)**. This will save us a lot of time when we have realistic datasets.
 
@@ -418,7 +418,7 @@ You can see their progress by using the `bjobs` command (though there is a lag o
 
 Don't forget about the `bkill` command, should something go wrong and you need to cancel your jobs.
 
-#### Log files
+### Log files
 
 Last but not least, it is best practice to keep everything contained within the planned storage that you had created when setting up for this project. There should be a number of standard error (`.err`) and standard out (`.out`) files that you will want to keep for future reference. Move these over to your `logs` folder: 
 
@@ -427,12 +427,3 @@ Last but not least, it is best practice to keep everything contained within the 
 
 ---
 *This lesson has been developed by members of the teaching team at the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
-
-
-
-
-
-
-
-
-
