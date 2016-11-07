@@ -185,27 +185,6 @@ We can also apply filters to select reads based on where they fall within the `F
 * `-f` - to find the reads that agree with the flag statement 
 * `-F`  - to find the reads that do not agree with the flag statement
 
-Let's use the modifier to find the number of reads that map to the reverse strand. From the table above we know that flag 16 translates to the read is reverse strand, so our command would be:
-
-```
-$ samtools view -f 16 -c Mov10_oe_1.subset.fq.qualtrim25.minlen35.fq_Aligned.sortedByCoord.out.bam 
-
-```
-
-To find the number of reads on the forward strand, we need to count those reads that **do not meet the condition 16**. We do this using the capitalized F flag:
-
-```
-$ samtools view -F 16 -c Mov10_oe_1.subset.fq.qualtrim25.minlen35.fq_Aligned.sortedByCoord.out.bam
-
-```
-***
-
-**Exercise**
-
-Use the flags table to count how many reads are unmapped? How many reads are mapped?
-
-***
-
 
 ### Indexing the BAM file
 
