@@ -232,11 +232,17 @@ The interactive queue on Orchestra offers a great way to test commands to make s
 
 ##### Positional parameters
 
-We can specify a filename as input using **positional parameters**. Positional parameters allow flexibility within a script.
+**Positional parameters** allow flexibility within a script. These are special variables that allow us to change the values in a script by entering those values as command line arguments. For example, the following command has two command line arguments specified:
+
+```
+$ sh script.sh filename.fq
+```
+
+The command is 'sh', and the arguments are the name of the script, "script.sh" and the name of the fastq file, "filename.fq". The argument after the command (script.sh) is designated as $0, and the argument after $0 is $1 (filename.fq).
 
 *The command-line arguments $1, $2, $3,...$9 are positional parameters, with $0 pointing to the actual command, program or shell script, and $1, $2, $3, ...$9 as the arguments to the command." This basically means that "Script Name" == $0, "First Parameter" == $1, "Second Parameter" == $2 and so on...*
 
-To explore positional parameters, let's create a script called `word_count.sh` to count the number of words, lines, and characters in a specified file:
+We can specify a filename to use as input to a script using **positional parameters**. To explore this using positional parameters, let's create a script called `word_count.sh` to count the number of words, lines, and characters in a specified file:
 
 ```
 $ vim word_count.sh
@@ -256,7 +262,7 @@ We can run this script by entering the following:
 ```
 $ sh word_count.sh Mov10_oe_1.subset.fq.qualtrim25.minlen35.fq
 ```
-In this command, `word_count.sh` is $0 and `Mov10_oe_1.subset.fq.qualtrim25.minlen35.fq` is $1.
+In this command, `word_count.sh` is $0 and `Mov10_oe_1.subset.fq.qualtrim25.minlen35.fq` is $1. Whatever we enter in the $1 position when we run the command will be used in place of $1 inside the script for `wc $1`.
 
 Let's say we wanted to specify as input the option or flag of the `wc` command to return the number of words, lines, or characters. We could create another variable, $2 as the flag for `wc`:
 
