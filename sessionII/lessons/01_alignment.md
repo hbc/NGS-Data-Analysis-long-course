@@ -216,6 +216,8 @@ Listed below are additional parameters that we will use in our command:
 We can access the software by simply using the STAR command followed by the basic parameters described above and any additional parameters. The full command is provided below for you to copy paste into your terminal. If you want to manually enter the command, it is advisable to first type out the full command in a text editor (i.e. [Sublime Text](http://www.sublimetext.com/) or [Notepad++](https://notepad-plus-plus.org/)) on your local machine and then copy paste into the terminal. This will make it easier to catch typos and make appropriate changes. 
 
 ```
+# DO NOT RUN THIS!
+
 STAR --genomeDir /groups/hbctraining/ngs-data-analysis2016/rnaseq/reference_data/reference_STAR \
 --runThreadN 6 \
 --readFilesIn Mov10_oe_1.subset.fq.qualtrim25.minlen35.fq \
@@ -224,6 +226,7 @@ STAR --genomeDir /groups/hbctraining/ngs-data-analysis2016/rnaseq/reference_data
 --outSAMunmapped Within \
 --outSAMattributes Standard 
 
+# DO NOT RUN THIS!
 ```
 
 #### Running STAR script to take a filename as input
@@ -350,20 +353,11 @@ $ sh star_analysis_on_input_file.sh <name of fastq>
 
 The above script will run in an interactive session for one file at a time, but **what if we wanted to run this script as a job submission to LSF, and with only one command have LSF run through the analysis for all your input fastq files**?
 
-To run the above script iteratively for all of the files on a worker node via the job scheduler, we need to create a **new submission script** that will need 2 important components:
-
-1. our **LSF directives** at the beginning of the script. This is so that the scheduler knows what resources we need in order to run our job on the compute node(s).
-2. a **for loop** that iterates through and runs the above script for all the fastq files.
-
-Let's create a new file with `vim` and call it `star_analysis_on_allfiles.lsf`:
+To run the above script iteratively for all of the files on a worker node via the job scheduler, we could write a **new submission script** that uses a **for loop** to iterate through and run the above script for all the fastq files.
 
 ```
-$ vim star_analysis_on_allfiles.lsf
-```
+# DO NOT RUN THIS!
 
-The top of the file should contain the shebang line and LSF directives:
-
-```
 #!/bin/bash
 #BSUB -q priority       # Partition to submit to (comma separated)
 #BSUB -n 6                  # Number of cores, since we are running the STAR command with 6 threads
@@ -381,10 +375,8 @@ for file in *.fq
 do
 sh ~/ngs_course/rnaseq/data/trimmed_fastq/star_analysis_on_input_file.sh $file
 done
-```
 
-```
-$ bsub < star_analysis_on_allfiles.lsf
+# DO NOT RUN THIS!
 ```
 
 #### Parallelizing workflow for efficiency
