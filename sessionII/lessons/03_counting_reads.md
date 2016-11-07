@@ -61,15 +61,13 @@ Let's move the bam files over to the `results/STAR/bams` directory
 $ mv ~/ngs_course/rnaseq/results/STAR/*fq_Aligned*bam ~/ngs_course/rnaseq/results/STAR/bams
 # check to make sure the move worked and that only the files we wanted moved over
 ```
-featureCounts is not available as a module on Orchestra, but we can add the path for it to our `$PATH` variable. 
+featureCounts is not available as a module on Orchestra, but we have already added the path for it to our `$PATH` variable last time. 
 
 ``` bash
-$ export PATH=/opt/bcbio/centos/bin:$PATH
+$ echo $PATH  # You should see /opt/bcbio/centos/bin among other paths
 ```
 
-> Remember that this export command is going to "put featureCounts in your path" only for this interactive session.
->
-> **Modify the export command in your `~/.bashrc` file to be `export PATH=/opt/bcbio/centos/bin:$PATH`.**
+> ** If you don't see `/opt/bcbio/centos/bin` in your `$PATH` variable, add the following `export` command to your `~/.bashrc` file using vim: `export PATH=/opt/bcbio/centos/bin:$PATH`.**
 
 
 #### Running featureCounts
