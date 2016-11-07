@@ -377,9 +377,9 @@ The top of the file should contain the shebang line and LSF directives:
 
 cd ~/ngs_course/rnaseq/data/trimmed_fastq/
 
-for fq in *.fq 
+for file in *.fq 
 do
-sh ~/ngs_course/rnaseq/data/trimmed_fastq/star_analysis_on_input_file.sh $fq
+sh ~/ngs_course/rnaseq/data/trimmed_fastq/star_analysis_on_input_file.sh $file
 done
 ```
 
@@ -406,9 +406,9 @@ This file will loop through the same files as in the previous script, but the co
 
 cd ~/ngs_course/rnaseq/data/trimmed_fastq/
 
-for fq in *.fq
+for file in *.fq
 do
-bsub -q priority -n 6 -W 1:30 -R "rusage[mem=4000]" -J rnaseq_mov10 -o %J.out -e %J.err sh ~/ngs_course/rnaseq/data/trimmed_fastq/star_analysis_on_input_file.sh $fq
+bsub -q priority -n 6 -W 1:30 -R "rusage[mem=4000]" -J rnaseq_mov10 -o %J.out -e %J.err sh ~/ngs_course/rnaseq/data/trimmed_fastq/star_analysis_on_input_file.sh $file
 sleep 1
 done
 ```
