@@ -114,7 +114,7 @@ The `FLAG` value that is displayed can be translated into information about the 
 
 In our example we have a number that exist in the table, making it relatively easy to translate. But suppose our read alignment has a flag of 163 -- what does this translate to? It is the sum of 4 different flags:
 
-`163 = 1 + 2 + 32 + +128  `
+`163 = 1 + 2 + 32 + 128  `
 
 Which tells us that:  
 
