@@ -44,22 +44,28 @@ featureCounts can also take into account whether your data are **stranded** or n
 #### Setting up to run featureCounts
 First things first, start an interactive session with 4 cores:
 	
-	$ bsub -Is -n 4 -q interactive bash
+``` bash
+$ bsub -Is -n 4 -q interactive bash
+```
 
 Now, change directories to your rnaseq directory and start by creating 2 directories, (1) a directory for the output and (2) a directory for the bam files we generated yesterday:
 
-	$ cd ~/ngs_course/rnaseq/
-	$ mkdir results/counts results/STAR/bams
-	
+``` bash
+$ cd ~/ngs_course/rnaseq/
+$ mkdir results/counts results/STAR/bams
+```
+
 Let's move the bam files over to the `results/STAR/bams` directory
 	
-	$ mv ~/ngs_course/rnaseq/results/STAR/*fq_Aligned*bam ~/ngs_course/rnaseq/results/STAR/bams
-	
-	# check to make sure the move worked and that only the files we wanted moved over
-
+``` bash
+$ mv ~/ngs_course/rnaseq/results/STAR/*fq_Aligned*bam ~/ngs_course/rnaseq/results/STAR/bams
+# check to make sure the move worked and that only the files we wanted moved over
+```
 featureCounts is not available as a module on Orchestra, but we can add the path for it to our `$PATH` variable. 
 
-	$ export PATH=/opt/bcbio/centos/bin:$PATH
+``` bash
+$ export PATH=/opt/bcbio/centos/bin:$PATH
+```
 
 > Remember that this export command is going to "put featureCounts in your path" only for this interactive session.
 >
@@ -70,7 +76,9 @@ featureCounts is not available as a module on Orchestra, but we can add the path
 
 How do we use this tool, what is the command and what options/parameters are available to us?
 
-	$ featureCounts
+``` bash
+$ featureCounts
+```
 
 So, it looks like the usage is `featureCounts [options] -a <annotation_file> -o <output_file> input_file1 [input_file2] ... `, where `-a`, `-o` and input files are required.
 
@@ -90,39 +98,47 @@ and the following are the values for the required parameters:
 
 Let's run this now:
 
-	$ featureCounts -T 4 -s 2 \ 
-	  -a ~/ngs_course/rnaseq/data/reference_data/chr1-hg19_genes.gtf \
-	  -o ~/ngs_course/rnaseq/results/counts/Mov10_featurecounts.txt \
-	  ~/ngs_course/rnaseq/results/STAR/bams/*bam
-	  
+``` bash
+$ featureCounts -T 4 -s 2 \ 
+  -a ~/ngs_course/rnaseq/data/reference_data/chr1-hg19_genes.gtf \
+  -o ~/ngs_course/rnaseq/results/counts/Mov10_featurecounts.txt \
+  ~/ngs_course/rnaseq/results/STAR/bams/*bam
+```
+
 > If you wanted to collect the information that is on the screen as the job runs, you can modify the command and add the `2>` redirection at the end. This type of redirection will collect all the information from the terminal/screen into a file.
 
-	**DO NOT RUN THIS** 
-	# note the last line of the command below
+``` bash
+# **DO NOT RUN THIS** 
+# note the last line of the command below
 	
-	$ featureCounts -T 4 -s 2 \ 
-	  -a ~/ngs_course/rnaseq/data/reference_data/chr1-hg19_genes.gtf \
-	  -o ~/ngs_course/rnaseq/results/counts/Mov10_featurecounts.txt \
-	  ~/ngs_course/rnaseq/results/STAR/bams/*bam \
-	  2> /ngs_course/rnaseq/results/counts/Mov10_featurecounts.screen-output
-
+$ featureCounts -T 4 -s 2 \ 
+  -a ~/ngs_course/rnaseq/data/reference_data/chr1-hg19_genes.gtf \
+  -o ~/ngs_course/rnaseq/results/counts/Mov10_featurecounts.txt \
+  ~/ngs_course/rnaseq/results/STAR/bams/*bam \
+  2> /ngs_course/rnaseq/results/counts/Mov10_featurecounts.screen-output
+```
 #### featureCounts output
 
 The output of this tool is 2 files, *a count matrix* and *a summary file* that tabulates how many the reads were "assigned" or counted and the reason they remained "unassigned". Let's take a look at the summary file:
 	
-	$ less results/counts/Mov10_featurecounts.txt.summary
-	
+``` bash
+$ less results/counts/Mov10_featurecounts.txt.summary
+```
 Now let's look at the count matrix:
 	
-	$ less results/counts/Mov10_featurecounts.txt
-	
+``` bash
+$ less results/counts/Mov10_featurecounts.txt
+```	
 There is information about the genomic coordinates and the length of the gene, we don't need this for the next step, so we are going to extract the columns that we are interested in.
 	
-	$ cut -f1,7,8,9,10,11,12 results/counts/Mov10_featurecounts.txt > results/counts/Mov10_featurecounts.Rmatrix.txt
-
-The next step is to clean it up a little further by modifying the header line:
+``` bash
+$ cut -f1,7,8,9,10,11,12 results/counts/Mov10_featurecounts.txt > results/counts/Mov10_featurecounts.Rmatrix.txt
+```
+The next step is to clean it up a little further by modifying the header line (we could also do this in R, or in a GUI text editor):
 	
-	$ vim results/counts/Mov10_featurecounts.Rmatrix.txt
+``` bash
+$ vim results/counts/Mov10_featurecounts.Rmatrix.txt
+```
 
 ### Note on counting PE data
 
