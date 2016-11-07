@@ -238,7 +238,7 @@ The interactive queue on Orchestra offers a great way to test commands to make s
 $ sh script.sh filename.fq
 ```
 
-The command is 'sh', and the arguments are the name of the script, "script.sh" and the name of the fastq file, "filename.fq". The argument after the command (script.sh) is designated as $0, and the argument after $0 is $1 (filename.fq).
+The command is 'sh', and the arguments are the name of the script, "script.sh" and the name of the fastq file, "filename.fq". The argument after the command is designated as $0 (script.sh), and the argument after $0 is $1 (filename.fq).
 
 *The command-line arguments $1, $2, $3,...$9 are positional parameters, with $0 pointing to the actual command, program or shell script, and $1, $2, $3, ...$9 as the arguments to the command." This basically means that "Script Name" == $0, "First Parameter" == $1, "Second Parameter" == $2 and so on...*
 
