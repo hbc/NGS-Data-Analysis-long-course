@@ -217,7 +217,7 @@ If you can't find what you are looking for, you can use the [rdocumention.org](h
 
 ### Crytpic error messages
 
-It is very likley that someone else has encountered this same problem already! 
+It is very likely that someone else has encountered this same problem already! 
 
 * Start by googling the error message.  However, this doesn't always work very well because often, package developers rely on the error catching provided by R. You end up with general error messages that might not be very helpful to diagnose a problem (e.g. "subscript out of bounds").
 
