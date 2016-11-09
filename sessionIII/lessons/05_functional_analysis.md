@@ -45,7 +45,7 @@ To describe the roles of genes and gene products, GO terms are organized into th
 - **Molecular function:** represents the biochemical activity of the gene product, such activities could include "ligand", "GTPase", and "transporter". 
 - **Cellular component:** refers to the location in the cell of the gene product. Cellular components could include "nucleus", "lysosome", and "plasma membrane".
 
-"A particular protein may function in several processes, contain domains that carry out diverse molecular functions, and participate in multiple alternative interactions with other proteins, organelles or locations in the cell" [[3](go.pdf)]. Therefore, a single gene product can be associated with many GO terms. Each GO term has a term name (e.g. DNA repair) and a unique term accession number (GO:0005125).
+Each GO term has a term name (e.g. DNA repair) and a unique term accession number (GO:0005125), and a single gene product can be associated with many GO terms, since a single gene product "may function in several processes, contain domains that carry out diverse molecular functions, and participate in multiple alternative interactions with other proteins, organelles or locations in the cell" [[3](go.pdf)]. 
 
 #### GO term hierarchy
 
@@ -55,7 +55,7 @@ For example, the protein, "p53", would contain a wealth of information on it's r
 
 The GO ontologies were developed to describe and query biological knowledge with differing levels of information available. To do this, GO ontologies are loosely hierarchical, ranging from general, 'parent', terms to more specific, 'child' terms. The GO ontologies are "loosely" hierarchical since 'child' terms can have multiple 'parent' terms.
 
-Some genes with less information may only be associated with general 'parent' terms or no terms at all, while other genes with a lot of information have many terms.
+Some genes with less information may only be associated with general 'parent' terms or no terms at all, while other genes with a lot of information be associated with many terms.
 
 ![Nature Reviews Cancer 7, 23-34 (January 2007)](../img/go_heirarchy.jpg)
 
