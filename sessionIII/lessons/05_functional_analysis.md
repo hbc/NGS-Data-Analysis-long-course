@@ -67,7 +67,7 @@ In a set of genes, the frequency of GO terms can be determined, and the comparis
 
 ![go_frequencies](../img/go_freq.png)
 
-To determine whether GO terms (or motifs and pathways) are over- or under-represented, you can determine the **probability of having a certain number of genes associated with specific GO terms for the size of the gene list based on the background set**. The background dataset can be all genes in genome for your organism or you can select your own background to use.
+To determine whether GO terms (or motifs and pathways) are over- or under-represented, you can determine the **probability of having the observed proportion of genes associated with a specific GO term in your gene list based on the proportion of genes associated with the same GO term in the background set**. The background dataset can be all genes in genome for your organism or you can select your own background to use.
 
 For example, let's suppose there are 13,000 total genes in the honeybee genome and 85 genes are associated with the GO term "DNA repair". In your gene list, there are 50 genes associated with "DNA repair" out of 1,000 genes in gene list. 
 
