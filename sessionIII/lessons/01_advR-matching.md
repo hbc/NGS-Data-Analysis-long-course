@@ -17,21 +17,17 @@ Let's open our `Intro-to-R` project saved on the `Desktop`, and download a count
 
 Open the project in *RStudio* by selecting `Open Project...` from the `File` menu and navigating to the `Intro-to-R` project. When you open the project, you should see your environment populate with the variables we created in the last session. If your environment does not populate, you can re-run the entire script.
 
-Now download the counts file by clicking on the "Save link as.." after right clicking on [this link](https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionII/data/counts.rpkm.csv)
+Now, read in the counts data downloaded previously (counts.rpkm.csv):
 
 	rpkm_data <- read.csv("data/counts.rpkm.csv")
 
 Take a look at the first few lines of the data matrix to see what's in there.
 
-
 	head(rpkm_data)
-
 
 It looks as if the sample names (header) in our data matrix are similar to the row names of our metadata file, but it's hard to tell since they are not in the same order. We can do a quick check of the dimensions and at least see if the numbers match up. 
 
-
 	ncol(rpkm_data)
-
 
 What we want to know is, **do we have data for every sample that we have metadata?** 
 
@@ -134,7 +130,7 @@ We have a list of IDs for marker genes of particular interest. We want to extrac
 We'll be using the `match` function to evaluate which samples are present in both dataframes, and then re-order them. This function takes at least 2 arguments: 
 
 1. a vector of values to *be matched*
-2. a vector of values to be *matched against*. 
+2. a vector of values to be *searched for values matching the first vector*
 
 The function returns the position in the second vector of the matches. Let's create vectors `first` and `second` to demonstrate how it works:
 
