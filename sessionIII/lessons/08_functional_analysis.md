@@ -154,6 +154,29 @@ Supek F, Bošnjak M, Škunca N, Šmuc T. REVIGO summarizes and visualizes long l
 
 ## clusterProfiler
 Similar to gprofileR, the tool [clusterProfiler](http://bioconductor.org/packages/release/bioc/html/clusterProfiler.html) performs over-representation analysis on GO terms associated with a list of genes. The GO terms output by clusterProfiler are generally quite similar to those output by gprofileR, but there are small differences due to the different algorithms used by the two different programs.
+```
+# Load libraries
+library(clusterProfiler)
+library(DOSE)
+library(org.Hs.eg.db)
+library(biomaRt)
+
+# Subset results to only include significant genes meeting threshold criteria
+sig_genes <- subset(res_tableOE, threshold == TRUE) # Saving genes with absolute fold changes > 1.5 (log2FC >0.58) and padj values < 0.05
+
+# Change values into ENSEMBL IDs
+
+# Create background dataset for hypergeometric testing                           
+all_genes <- row.names(data)
+
+# Run GO enrichment analysis 
+ego <- enrichGO(gene=sig_genes, universe=all_genes, keytype = 'GENENAME', OrgDb=org.Hs.eg.db, ont="BP", pAdjustMethod = "BH", qvalueCutoff =0.05, readable=TRUE)
+
+# Output results from GO analysis
+GO_processes <- ego@result
+knitr::kable(head(GO_processes, n=20))
+```
+
 
 ## [Other functional analysis methods](https://github.com/hbc/DGE_workshop/blob/master/lessons/functional_analysis_other_methods.md)
 
