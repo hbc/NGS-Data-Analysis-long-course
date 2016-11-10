@@ -1,30 +1,27 @@
 ---
 title: "Setting up for Gene-level differential expression analysis using DESeq2"
 author: "Meeta Mistry, Radhika Khetani"
-date: "October 17, 2016"
+date: "November 10, 2016"
 ---
 
 Approximate time: 40 minutes
 
 ## Learning Objectives 
 
-* Have a general idea of the experiment and its objectives
-* Understand how and why we choose this dataset
+* A review of the experiment and its objectives
 * Getting setup in R (project setup, loading data, loading libraries)
 * Becoming familiar with the `DESeqDataSet` object 
 
  
-## Understanding the dataset
+## Review of the dataset
 
-We will be using a real RNA-Seq dataset for today's class. It is part of a larger study described in [Kenny PJ et al, Cell Rep 2014](http://www.ncbi.nlm.nih.gov/pubmed/25464849). 
+We will be using the full count matrix from the RNA-Seq dataset we started with in our workflow from the previous session.  It is part of a larger study described in [Kenny PJ et al, Cell Rep 2014](http://www.ncbi.nlm.nih.gov/pubmed/25464849). Although we have gone through this before, we have a brief summary to remind you of the biological relevance and experimental design.
 
-We are only using the [RNA-Seq](http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE50499) dataset which is publicly available in the [SRA](http://www.ncbi.nlm.nih.gov/sra). The RNA-Seq was performed on HEK293F cells that were either transfected with a MOV10 transgene, or siRNA to knock down Mov10 expression, or non-specific (irrelevant) siRNA. This resulted in 3 conditions **Mov10 oe** (over expression), **Mov10 kd** (knock down) and **Irrelevant kd**, respectively. The number of replicates is as shown below. 
+The RNA-Seq was performed on HEK293F cells that were either transfected with a MOV10 transgene, or siRNA to knock down Mov10 expression, or non-specific (irrelevant) siRNA. This resulted in 3 conditions **Mov10 oe** (over expression), **Mov10 kd** (knock down) and **Irrelevant kd**, respectively. The number of replicates is as shown below. 
 
 Using these data, we will evaluate transcriptional patterns associated with perturbation of MOV10 expression. Please note that the irrelevant siRNA will be treated as our control condition.
 
 <img src="../img/dataset.png" width="400">
-
-
 
 ***What is the purpose of these datasets? What does Mov10 do?***
 
@@ -42,28 +39,6 @@ The authors are investigating interactions between various genes involved in Fra
 * What patterns of expression can we identify with the loss or gain of MOV10? 
 * Are there any genes shared between the two conditions?
 
-## Metadata
-
-In addition to the raw sequence data that is available in SRA we also need to collect **information about the data**, also known as **metadata**.
-
-Data sharing is important in the biological sciences to promote scientific integrity, and disseminate scientific discovery; but it can be difficult if all of the required information is not provided. From the SRA we can retrieve the sequence data (FASTQ files), but how useful is it if we know nothing about the samples that this sequence data originated from? **Metadata is a broadly used term which encompasses any kind of information that relates to our data, whether it is about the experimental design (i.e genotype) or metrics related to the sequence data (i.e sequencing depth).**
-
-Here, we provide metadata for the data we are using today.
-
-* The RNA was extracted from treated **HEK293F cells**.  
-* The cDNA libraries for this dataset are **stranded** and were generated using the **TruSeq Stranded mRNA Library Prep Kit** from Illumian. 
-* Sequencing was carried out on the **Illumina HiSeq-2500 for 100bp single end** reads. 
-* **~40 million reads** per sample were generated.
-
-***
-
-**Exercise**
-
-1. What types of metadata are used in your experimental design (any experiment)?
-2. What other kinds of metadata might a sequencing project generate?
-3. Why is this type of information important?
-
-***
 
 ## From Sequence Data to Count Matrix
 
