@@ -199,7 +199,7 @@ Finally, the category netplot shows the relationships between the genes associat
 cnetplot(ego, categorySize="pvalue", showCategory = 5, foldChange=sig_foldchanges)
 ```
 
-**NOTE:** If you are interested in significant processes that are not among the top five, you can subset your 'ego' dataset to only display these processes:
+**NOTE:** If you are interested in significant processes that are not among the top five, you can subset your `ego` dataset to only display these processes:
 
 ```
 ego2 <- ego
