@@ -202,6 +202,7 @@ cnetplot(ego, categorySize="pvalue", showCategory = 5, foldChange=sig_foldchange
 **NOTE:** If you are interested in significant processes that are not among the top five, you can subset your 'ego' dataset to only display these processes:
 
 ```
+ego2 <- ego
 ego2@result <- ego@result[c(1,3,5,8,13),]
 ```
 
