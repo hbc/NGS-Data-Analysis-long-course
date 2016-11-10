@@ -163,8 +163,8 @@ library(biomaRt)
 
 # Subset results to only include significant genes meeting threshold criteria
 sig_genes_table <- subset(res_tableOE, threshold == TRUE) # Saving genes with absolute fold changes > 1.5 (log2FC >0.58) and padj values < 0.05
-sig_foldchanges <- sig_genes$log2FoldChange
-sig_genes <- rownames(sig_genes)
+sig_genes <- rownames(sig_genes_table)
+sig_foldchanges <- sig_genes_table$log2FoldChange
 
 # Change values into ENSEMBL IDs
 
