@@ -1,7 +1,7 @@
 ---
 title: "QC methods for DE analysis using DESeq2"
 author: "Meeta Mistry, Radhika Khetani"
-date: "Octtober 17, 2016"
+date: "November 10, 2016"
 ---
 
 Approximate time: 50 minutes
