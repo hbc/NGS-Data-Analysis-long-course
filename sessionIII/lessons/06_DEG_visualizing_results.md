@@ -58,15 +58,15 @@ Let's first create variables that contain our threshold criteria:
 
 The `lfc.cutoff` is set to 0.58; remember that we are working with log2 fold changes so this translates to an actual fold change of 1.5 which is pretty reasonable. Let's create vector that helps us identify the genes that meet our criteria:
 
-	threshold <- res_tableOE$padj < padj.cutoff & abs(res_tableOE$log2FoldChange) > lfc.cutoff
+	threshold_oe <- res_tableOE$padj < padj.cutoff & abs(res_tableOE$log2FoldChange) > lfc.cutoff
 
 We now have a logical vector of values that has a length which is equal to the total number of genes in the dataset. The elements that have a `TRUE` value correspond to genes that meet the criteria (and `FALSE` means it fails). **How many genes are differentially expressed in the Overexpression compared to Control, given our criteria specified above?** Does this reduce our results? 
 
-	length(which(threshold == TRUE))
+	length(which(threshold_oe == TRUE))
 	
 To add this vector to our results table we can use the `$` notation to create the column on the left hand side of the assignment operator, and the assign the vector to it:
 
-	res_tableOE$threshold <- threshold                
+	res_tableOE$threshold <- threshold_oe                
 
 Now we can easily subset the results table to only include those that are significant using either the `subset()` function:
 
@@ -74,11 +74,11 @@ Now we can easily subset the results table to only include those that are signif
 
 Using the same thresholds as above (`padj.cutoff < 0.05` and `lfc.cutoff = 0.58`), create a threshold vector to report the number of genes that are up- and down-regulated in Mov10_knockdown compared to control.
 
-	threshold <- res_tableOKD$padj < padj.cutoff & abs(res_tableKD$log2FoldChange) > lfc.cutoff
+	threshold_kd <- res_tableOKD$padj < padj.cutoff & abs(res_tableKD$log2FoldChange) > lfc.cutoff
 
 Take this new threshold vector and add it as a new column called `threshold` to the `res_tableKD` which contains a logical vector denoting genes as being differentially expressed or not. **How many genes are differentially expressed in the Knockdwn compared to Control?**
 
-	res_tableKD$threshold <- threshold  
+	res_tableKD$threshold <- threshold_kd  
  
 
 ## Visualizing the results
@@ -122,18 +122,11 @@ Now we can start plotting. The `geom_point` object is most applicable, as this i
 
 Alternatively, we could extract only the genes that are identifed as significant and the plot the expression of those genes using a heatmap.
 
-
-First, let's sort the results file by adjusted p-value:
-	
-	### Sort the results tables
-	res_tableOE_sorted <- res_tableOE[order(res_tableOE$padj), ]
-	res_tableKD_sorted <- res_tableKD[order(res_tableKD$padj), ]
-	
-Now let's get the gene names for those significant genes:
+To get the gene names for those significant genes:
 
 	### Get significant genes
-	sigOE <- row.names(res_tableOE_sorted)[which(res_tableOE_sorted$threshold)]
-	sigKD <- row.names(res_tableKD_sorted)[which(res_tableKD_sorted$threshold)]
+	sigOE <- row.names(res_tableOE)[which(res_tableOE$threshold)]
+	sigKD <- row.names(res_tableKD)[which(res_tableKD$threshold)]
 	
 We can then use those genes to select the corresponding rows from the normalized data matrix:
 
@@ -143,8 +136,7 @@ We can then use those genes to select the corresponding rows from the normalized
 Now let's draw the heatmap using `pheatmap`:
 
 	### Annotate our heatmap (optional)
-	annotation <- data.frame(sampletype=meta[,'sampletype'], 
-                         row.names=row.names(meta))
+	annotation <- meta[,'sampletype', drop=F]
 
 	### Set a color palette
 	heat.colors <- brewer.pal(6, "YlOrRd")
