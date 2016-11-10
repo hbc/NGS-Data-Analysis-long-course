@@ -162,7 +162,9 @@ library(org.Hs.eg.db)
 library(biomaRt)
 
 # Subset results to only include significant genes meeting threshold criteria
-sig_genes <- subset(res_tableOE, threshold == TRUE) # Saving genes with absolute fold changes > 1.5 (log2FC >0.58) and padj values < 0.05
+sig_genes_table <- subset(res_tableOE, threshold == TRUE) # Saving genes with absolute fold changes > 1.5 (log2FC >0.58) and padj values < 0.05
+sig_foldchanges <- sig_genes$log2FoldChange
+sig_genes <- rownames(sig_genes)
 
 # Change values into ENSEMBL IDs
 
@@ -172,11 +174,32 @@ all_genes <- row.names(data)
 # Run GO enrichment analysis 
 ego <- enrichGO(gene=sig_genes, universe=all_genes, keytype = 'GENENAME', OrgDb=org.Hs.eg.db, ont="BP", pAdjustMethod = "BH", qvalueCutoff =0.05, readable=TRUE)
 
-# Output results from GO analysis
-GO_processes <- ego@result
-knitr::kable(head(GO_processes, n=20))
+# Output results from GO analysis to a table
+cluster_summary <- summary(ego)
 ```
 
+### Visualizing clusterProfiler results
+ClusterProfiler has a variety of options for viewing the over-represented GO terms. We will explore the dotplot, enrichment plot, and the category netplot.
+
+The dotplot shows the number of genes associated with the first 50 terms (size) and the p-adjusted values for these terms (color). 
+
+```
+dotplot(ego, showCategory=50)
+```
+
+The enrichment plot shows the relationship between the top 50 most significantly enriched GO terms, by grouping similar terms together.
+
+```
+enrichMap(ego, n=50, vertex.label.font=10)
+```
+
+Finally, the category netplot shows the relationships between the genes associated with the top five most significant GO terms, and the fold changes of the significant genes associated with these terms. This plot is particularly useful for hypothesis generation in identifying genes that may be important to several of the most affected processes. 
+
+**NOTE:** If you are interested in significant processes that are not among the top five, you can subset your 'ego' dataset to only display these processes:
+
+```
+ego2@result <- ego@result[c(1,3,5,8,13),]
+```
 
 ## [Other functional analysis methods](https://github.com/hbc/DGE_workshop/blob/master/lessons/functional_analysis_other_methods.md)
 
