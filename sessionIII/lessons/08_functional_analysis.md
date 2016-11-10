@@ -193,7 +193,11 @@ The enrichment plot shows the relationship between the top 50 most significantly
 enrichMap(ego, n=50, vertex.label.font=10)
 ```
 
-Finally, the category netplot shows the relationships between the genes associated with the top five most significant GO terms, and the fold changes of the significant genes associated with these terms. This plot is particularly useful for hypothesis generation in identifying genes that may be important to several of the most affected processes. 
+Finally, the category netplot shows the relationships between the genes associated with the top five most significant GO terms and the fold changes of the significant genes associated with these terms (color). This plot is particularly useful for hypothesis generation in identifying genes that may be important to several of the most affected processes. 
+
+```
+cnetplot(ego, categorySize="pvalue", showCategory = 5, foldChange=sig_foldchanges)
+```
 
 **NOTE:** If you are interested in significant processes that are not among the top five, you can subset your 'ego' dataset to only display these processes:
 
