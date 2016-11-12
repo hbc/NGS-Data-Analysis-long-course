@@ -234,7 +234,7 @@ ego2@result <- ego@result[c(3,16,17,18,25),]
 
 ![cnet_example](../img/ego2_example.png)
 
-## [Other functional analysis methods](https://github.com/hbc/DGE_workshop/blob/master/lessons/functional_analysis_other_methods.md)
+## [Other functional analysis methods](https://github.com/hbc/NGS-Data-Analysis-long-course/blob/Fall_2016/sessionIII/lessons/functional_analysis_other_methods.md)
 
 Over-representation analyses are only a single type of functional analysis method that is available for teasing apart the biological processes important to your condition of interest. Other types of analyses can be equally important or informative, including functional class scoring and pathway topology methods. Functional class scoring methods most often take as input the foldchanges for all genes, then look to see whether gene sets for particular biological processes are enriched among the high or low fold changes. This type of analysis can be particularly helpful if differential expression analysis only output a small list of significant DE genes. Finally, pathway topology analysis often takes into account both fold changes and adjusted p-values to identify dysregulated pathways and outputs whether pathways are inhibited/activated. We have [materials](https://github.com/hbc/DGE_workshop/blob/master/lessons/functional_analysis_other_methods.md) to lead you through these other types of functional analyses, and we encourage you to take the time to work through them.
 
