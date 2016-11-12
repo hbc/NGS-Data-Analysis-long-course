@@ -196,7 +196,7 @@ ego <- enrichGO(gene=sig_genes, universe=all_genes, keytype ="ENSEMBL", OrgDb=or
 # Output results from GO analysis to a table
 cluster_summary <- summary(ego)
 ```
-![]()
+![cluster_summary](../img/cluster_summary.png)
 
 ### Visualizing clusterProfiler results
 ClusterProfiler has a variety of options for viewing the over-represented GO terms. We will explore the dotplot, enrichment plot, and the category netplot.
@@ -207,7 +207,7 @@ The dotplot shows the number of genes associated with the first 50 terms (size) 
 dotplot(ego, showCategory=25)
 ```
 
-![]()
+![dotplot](../img/dotplot.png)
 
 The enrichment plot shows the relationship between the top 50 most significantly enriched GO terms, by grouping similar terms together.
 
@@ -215,7 +215,7 @@ The enrichment plot shows the relationship between the top 50 most significantly
 enrichMap(ego, n=25, vertex.label.font=10)
 ```
 
-![]()
+![enrichplot](../img/enrich.png)
 
 Finally, the category netplot shows the relationships between the genes associated with the top five most significant GO terms and the fold changes of the significant genes associated with these terms (color). This plot is particularly useful for hypothesis generation in identifying genes that may be important to several of the most affected processes. 
 
@@ -223,7 +223,7 @@ Finally, the category netplot shows the relationships between the genes associat
 cnetplot(ego, categorySize="pvalue", showCategory = 5, foldChange=sig_foldchanges)
 ```
 
-![]()
+![cnetplot](../img/cnet.png)
 
 **NOTE:** If you are interested in significant processes that are not among the top five, you can subset your `ego` dataset to only display these processes:
 
@@ -232,7 +232,7 @@ ego2 <- ego
 ego2@result <- ego@result[c(3,16,17,18,25),]
 ```
 
-![]()
+![cnet_example](../img/ego2_example.png)
 
 ## [Other functional analysis methods](https://github.com/hbc/DGE_workshop/blob/master/lessons/functional_analysis_other_methods.md)
 
