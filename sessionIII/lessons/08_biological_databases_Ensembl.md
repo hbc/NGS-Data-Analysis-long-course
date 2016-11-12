@@ -153,24 +153,24 @@ Read in the counts file:
 ```
 # Read in counts file
 
-> full_counts <- read.table("data/counts.txt")
+full_counts <- read.table("data/counts.txt")
 
-> counts <- head(full_counts, n=50)
+counts <- head(full_counts, n=50)
 ```
 
 Install the `biomaRt` package. The package is from Bioconductor, so we can use the following code to install:
 
 ```
-> source("http://bioconductor.org/biocLite.R")
+source("http://bioconductor.org/biocLite.R")
 
-> biocLite("biomaRt")
+biocLite("biomaRt")
 ```
 Now load the library:
 
 ```
 # Load library
 
-> library("biomaRt")
+library("biomaRt")
 ```
 
 Now the same three steps required by the web interface are required by the R package. We are going show how to run the three steps by using BioMart to achieve the following goal: ***Return the gene names for a list of Ensembl mouse IDs***
@@ -184,21 +184,24 @@ Choose a BioMart database - we will choose the `Ensembl Genes 84`:
 ```
 # To connect to a BioMart database - useMart()
 
-> listMarts(host =  'www.ensembl.org')
+listMarts(host =  'www.ensembl.org')
 
-> ensembl_genes <- useMart('ENSEMBL_MART_ENSEMBL', host =  'www.ensembl.org')
+ensembl_genes <- useMart('ENSEMBL_MART_ENSEMBL',
+                        host =  'www.ensembl.org')
 ```
 
 Choose the *Mus musculus* genes (GRCm38.p4) dataset within the `Ensembl Genes 84` database:
 
 ```
-# To query the chosen BioMart database for a specific species - useDataset()
+# To query the BioMart database for a specific species - useDataset() within the query command
 
-> datasets <- listDatasets(ensembl_genes)
+datasets <- listDatasets(ensembl_genes)
 
-> View(datasets)
+View(datasets)
 
-> mouse <- useDataset("mmusculus_gene_ensembl", mart = ensembl_genes)
+mouse <- useDataset("mmusculus_gene_ensembl",
+                   useMart('ENSEMBL_MART_ENSEMBL',
+                           host =  'www.ensembl.org'))
 ```
 
 ##### **Step 2: Select your filters or inputs**
@@ -212,16 +215,16 @@ We can build a query of our dataset using the `getBM()` function. First we can s
 
 ## "Filters" is a vector for the type of input; in our case, our input is Ensembl IDs
 
-> filters <- listFilters(mouse)
+filters <- listFilters(mouse)
 
-> View(filters)
+View(filters)
 
-> getBM(filters= "ensembl_gene_id", ...)
+getBM(filters= "ensembl_gene_id", ...)
 
                     
 ## "Values" is a vector of values for the filter; in our case, our Ensembl IDs are the row names of the counts dataset
 
-> getBM(filters= "ensembl_gene_id", 
+getBM(filters= "ensembl_gene_id", 
 		values= row.names(counts), ...)
 ```
 
@@ -233,13 +236,13 @@ We can continue building our `getBM()` function by specifying what we want outpu
 
 ## "Attributes" is a vector of attributes for the output we want to generate
 
-> attributes <- listAttributes(mouse)
+attributes <- listAttributes(mouse)
 
-> View(attributes)
+View(attributes)
 
 ## Use BioMart to return gene names for a list of Ensembl IDs:
 
-> gene_names <- getBM(filters= "ensembl_gene_id",
+gene_names <- getBM(filters= "ensembl_gene_id",
                     values= row.names(counts), 
                     attributes= c("ensembl_gene_id", "external_gene_name"), ...)
 ```
@@ -249,14 +252,14 @@ Finally, to complete the `getBM()` function, we need to specify which dataset to
 ```
 # To build a query - getBM(filters, values, attributes, mart)
 
-> gene_names <- getBM(filters= "ensembl_gene_id",
+gene_names <- getBM(filters= "ensembl_gene_id",
                     values= row.names(counts), 
                     attributes= c("ensembl_gene_id", "external_gene_name"), 
                     mart= mouse)
 
 ## Now we can run the query. BioMart queries can take a bit of time depending on the size of your dataset and the attributes you are asking for.                    
 
-> View(gene_names)
+View(gene_names)
                     
 ```
 
@@ -265,19 +268,19 @@ Now that we have our gene names, we need to match them to the Ensembl IDs in our
 ```
 # Create column in counts dataset called ensembl_gene_id with the Ensembl IDs
 
-> counts$ensembl_gene_id <- row.names(counts)
+counts$ensembl_gene_id <- row.names(counts)
 
 # Merge the two dataframes by ensembl_gene_id
 
-> ensembl_results <- merge(counts, gene_names, by="ensembl_gene_id")
+ensembl_results <- merge(counts, gene_names, by="ensembl_gene_id")
 
 # Make the row.names the Ensembl IDs again, and remove the ensembl_gene_id column
 
-> row.names(ensembl_results) <- ensembl_results$ensembl_gene_id
+row.names(ensembl_results) <- ensembl_results$ensembl_gene_id
 
-> ensembl_results <- ensembl_results[, -1]
+ensembl_results <- ensembl_results[, -1]
 
-> write.csv(ensembl_results, "results/annotated_counts.csv", quote=F)
+write.csv(ensembl_results, "results/annotated_counts.csv", quote=F)
 ```
 ##### What if you are using an older genome? 
 
@@ -287,17 +290,17 @@ If we want to use the archived databases in R, we need to change our query a bit
 ```
 # Using an older genome build
 
-> ensembl_genes_mm9 <- useMart('ENSEMBL_MART_ENSEMBL', host =  'may2012.archive.ensembl.org')
+ensembl_genes_mm9 <- useMart('ENSEMBL_MART_ENSEMBL', host =  'may2012.archive.ensembl.org')
 
-> mouse_mm9 <- useDataset("mmusculus_gene_ensembl", mart = ensembl_genes_mm9)
+mouse_mm9 <- useDataset("mmusculus_gene_ensembl", mart = ensembl_genes_mm9)
 
-> gene.names_mm9 <- getBM(filters= "ensembl_gene_id", 
+gene.names_mm9 <- getBM(filters= "ensembl_gene_id", 
                     attributes= c("ensembl_gene_id", "external_gene_name"),
                     values= row.names(counts),
                     mart= mouse_mm9)
 
-# The filters and attributes change for different builds of the genome, so you might find yourself looking them up if you change bulids                    
-> attributes_mm9 <- listAttributes(mouse_mm9)
+# The filters and attributes change for different builds of the genome, so you might find yourself looking them up if you change builds                    
+attributes_mm9 <- listAttributes(mouse_mm9)
 View(attributes_mm9)
 
 gene.names_mm9 <- getBM(filters= "ensembl_gene_id", 
