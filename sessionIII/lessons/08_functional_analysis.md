@@ -204,7 +204,7 @@ ClusterProfiler has a variety of options for viewing the over-represented GO ter
 The dotplot shows the number of genes associated with the first 50 terms (size) and the p-adjusted values for these terms (color). 
 
 ```
-dotplot(ego, showCategory=50)
+dotplot(ego, showCategory=25)
 ```
 
 ![]()
@@ -212,7 +212,7 @@ dotplot(ego, showCategory=50)
 The enrichment plot shows the relationship between the top 50 most significantly enriched GO terms, by grouping similar terms together.
 
 ```
-enrichMap(ego, n=50, vertex.label.font=10)
+enrichMap(ego, n=25, vertex.label.font=10)
 ```
 
 ![]()
