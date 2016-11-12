@@ -206,7 +206,9 @@ mouse <- useDataset("mmusculus_gene_ensembl",
 
 ##### **Step 2: Select your filters or inputs**
 
-We can build a query of our dataset using the `getBM()` function. First we can specify our input using the `filters`argument. 
+We can build a query of our dataset using the `getBM()` function and specifying the filters, filter values, attributes, and mart object database to search: `getBM(filters, values, attributes, mart)`
+
+First we can specify our input using the `filters`argument. 
 
 **What is our input?** We want to return gene names for a list of Ensembl mouse IDs from within our `counts` dataframe; therefore our input will be Ensembl IDs and their values will be the row names of our counts dataframe.
 
@@ -219,7 +221,7 @@ filters <- listFilters(mouse)
 
 View(filters)
 
-getBM(filters= "ensembl_gene_id", ...)
+getBM(filters= "ensembl_gene_id", ...)  # The "..." represents that the getBM() function is not complete
 
                     
 ## "Values" is a vector of values for the filter; in our case, our Ensembl IDs are the row names of the counts dataset
@@ -300,7 +302,9 @@ gene.names_mm9 <- getBM(filters= "ensembl_gene_id",
                     mart= mouse_mm9)
 
 # The filters and attributes change for different builds of the genome, so you might find yourself looking them up if you change builds                    
+
 attributes_mm9 <- listAttributes(mouse_mm9)
+
 View(attributes_mm9)
 
 gene.names_mm9 <- getBM(filters= "ensembl_gene_id", 
