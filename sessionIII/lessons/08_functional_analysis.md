@@ -101,7 +101,14 @@ For our gProfiler analysis, we are going to use the Mov10_oe results table subse
 
 library(gProfileR)
 
-gprofiler_results_oe <- gprofiler(query = sigOE, 
+# Subsetting dataset to only include significant genes with padj < 0.05
+
+sig_genes_table <- subset(res_tableOE, padj < 0.05) 
+sig_genes_table <- data.frame(sig_genes_table)
+
+# Running gprofiler to identify enriched processes among significant genes
+
+gprofiler_results_oe <- gprofiler(query = rownames(sig_genes_table), 
                                   organism = "hsapiens",
                                   ordered_query = F, 
                                   exclude_iea = F, 
@@ -161,22 +168,35 @@ library(DOSE)
 library(org.Hs.eg.db)
 library(biomaRt)
 
-# Subset results to only include significant genes meeting threshold criteria
-sig_genes_table <- subset(res_tableOE, threshold == TRUE) # Saving genes with absolute fold changes > 1.5 (log2FC >0.58) and padj values < 0.05
-sig_genes <- rownames(sig_genes_table)
-sig_foldchanges <- sig_genes_table$log2FoldChange
+# clusterProfiler does not work as easily using gene names, so turning gene names into Ensembl IDs using biomaRt package for the significant genes and the background genes
 
-# Change values into ENSEMBL IDs
+mart <- useDataset("hsapiens_gene_ensembl",
+                   useMart('ENSEMBL_MART_ENSEMBL',
+                           host =  'grch37.ensembl.org'))
+                           
+sig_genes_ensembl <- getBM(filters = "external_gene_name", 
+                values = rownames(sig_genes_table),
+                attributes = c("ensembl_gene_id", "external_gene_name"),
+                mart = mart)
+                
+sig_genes <- as.character(sig_genes_ensembl$ensembl_gene_id)
 
-# Create background dataset for hypergeometric testing                           
-all_genes <- row.names(data)
+# Create background dataset for hypergeometric testing using all genes tested for significance in the raw counts dataset
+
+all_genes <- getBM(filters = "external_gene_name", 
+                   values = rownames(data),
+                   attributes = "ensembl_gene_id",
+                   mart = mart)
+                   
+all_genes <- as.character(all_genes$ensembl_gene_id)
 
 # Run GO enrichment analysis 
-ego <- enrichGO(gene=sig_genes, universe=all_genes, keytype = 'GENENAME', OrgDb=org.Hs.eg.db, ont="BP", pAdjustMethod = "BH", qvalueCutoff =0.05, readable=TRUE)
+ego <- enrichGO(gene=sig_genes, universe=all_genes, keytype ="ENSEMBL", OrgDb=org.Hs.eg.db, ont="BP", pAdjustMethod = "BH", qvalueCutoff =0.05, readable=TRUE)
 
 # Output results from GO analysis to a table
 cluster_summary <- summary(ego)
 ```
+![]()
 
 ### Visualizing clusterProfiler results
 ClusterProfiler has a variety of options for viewing the over-represented GO terms. We will explore the dotplot, enrichment plot, and the category netplot.
@@ -187,11 +207,15 @@ The dotplot shows the number of genes associated with the first 50 terms (size) 
 dotplot(ego, showCategory=50)
 ```
 
+![]()
+
 The enrichment plot shows the relationship between the top 50 most significantly enriched GO terms, by grouping similar terms together.
 
 ```
 enrichMap(ego, n=50, vertex.label.font=10)
 ```
+
+![]()
 
 Finally, the category netplot shows the relationships between the genes associated with the top five most significant GO terms and the fold changes of the significant genes associated with these terms (color). This plot is particularly useful for hypothesis generation in identifying genes that may be important to several of the most affected processes. 
 
@@ -199,12 +223,16 @@ Finally, the category netplot shows the relationships between the genes associat
 cnetplot(ego, categorySize="pvalue", showCategory = 5, foldChange=sig_foldchanges)
 ```
 
+![]()
+
 **NOTE:** If you are interested in significant processes that are not among the top five, you can subset your `ego` dataset to only display these processes:
 
 ```
 ego2 <- ego
-ego2@result <- ego@result[c(1,3,5,8,13),]
+ego2@result <- ego@result[c(3,16,17,18,25),]
 ```
+
+![]()
 
 ## [Other functional analysis methods](https://github.com/hbc/DGE_workshop/blob/master/lessons/functional_analysis_other_methods.md)
 
