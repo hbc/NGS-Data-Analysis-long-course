@@ -39,13 +39,6 @@ The authors are investigating interactions between various genes involved in Fra
 * What patterns of expression can we identify with the loss or gain of MOV10? 
 * Are there any genes shared between the two conditions?
 
-
-## From Sequence Data to Count Matrix
-
-Arguably the most common use for transcriptome data is to search for differentially expressed genes. Finding genes that are differentially expressed between conditions is an integral part of understanding the molecular basis of phenotypic variation. The following steps briefly describe the steps and give examples of tools that one might use to obtain gene counts to perform differential expression (DE analysis) on RNA-Seq data.
-
-<img src="../img/Overview_DGE_workshop.png" width="400">
-
 ## Differential expression analysis
 
 There are a number of software packages that have been developed for differential expression analysis of RNA-seq data, and new methods are continuously being developed. Many studies describing comparisons between these methods show that while there is some agreement, there is also much variability. **Additionally, there is no one method that performs optimally under all conditions [[Soneson and Dleorenzi, 2013](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-91)].**
