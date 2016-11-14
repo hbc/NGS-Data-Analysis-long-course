@@ -97,7 +97,7 @@ Each species in Ensembl has its own home page, where you can find out who provid
 
 ## Ensembl Biomart
 
-While Ensembl contains extensive genomic information, we often want to mine the data to export a custom dataset. Ensembl offers the `Biomart` tool for accessing and mining the Ensembl database. You can access BioMart directly using the web interface; alternatively, there is an R package, "biomaRt", available for use directly in R.
+While Ensembl contains extensive genomic information, we often want to mine the data to export a custom dataset. Ensembl offers the `Biomart` tool for accessing and mining the Ensembl database. You can access BioMart directly using the web interface; alternatively, there is an R package, "biomaRt", available for use for mining Ensembl data from R.
 
 ### Web interface
 
