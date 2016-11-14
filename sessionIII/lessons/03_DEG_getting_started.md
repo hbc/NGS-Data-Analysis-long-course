@@ -46,20 +46,13 @@ Arguably the most common use for transcriptome data is to search for differentia
 
 <img src="../img/Overview_DGE_workshop.png" width="400">
 
-An in-depth explanation of these steps is outside the scope of today's class, but a couple of points:
-* Even though this flow diagram only shows 1 tool per step after the sequencing step, there are several tools available.
-* This is the more standard workflow with an alignment + a counting step, but more recently people are moving to an alignment-free counting workflow using tools like [Salmon](https://combine-lab.github.io/salmon/) and [Kallisto](https://pachterlab.github.io/kallisto/about.html). These newer tools will generate an abundance estimate for the genes, instead of "raw" counts, but the downstream steps for statistical analysis are similar. 
-
 ## Differential expression analysis
 
 There are a number of software packages that have been developed for differential expression analysis of RNA-seq data, and new methods are continuously being developed. Many studies describing comparisons between these methods show that while there is some agreement, there is also much variability. **Additionally, there is no one method that performs optimally under all conditions [[Soneson and Dleorenzi, 2013](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-91)].**
 
-
 ![deg1](../img/deg_methods1.png) 
 
 ![deg1](../img/deg_methods2.png) 
-
-In the next few lessons, we will walk you through an **end-to-end gene-level RNA-seq differential expression workflow** using various R packages. We will start with the count matrix, perform exploratory data analysis for quality assessment and to explore the relationship between samples, perform differential expression analysis, and visually explore the results.
 
 ## Setting up
 
