@@ -268,19 +268,9 @@ View(gene_names)
 Now that we have our gene names, we need to match them to the Ensembl IDs in our counts dataset. If the columns from two dataframes have the same name, we can merge the dataframes using those columns:
 
 ```
-# Create column in counts dataset called ensembl_gene_id with the Ensembl IDs
-
-counts$ensembl_gene_id <- row.names(counts)
-
 # Merge the two dataframes by ensembl_gene_id
 
-ensembl_results <- merge(counts, gene_names, by="ensembl_gene_id")
-
-# Make the row.names the Ensembl IDs again, and remove the ensembl_gene_id column
-
-row.names(ensembl_results) <- ensembl_results$ensembl_gene_id
-
-ensembl_results <- ensembl_results[, -1]
+ensembl_results <- merge(counts, gene_names, by.x="row.names", by.y = "ensembl_gene_id")
 
 write.csv(ensembl_results, "results/annotated_counts.csv", quote=F)
 ```
