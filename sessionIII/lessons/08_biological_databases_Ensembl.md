@@ -102,9 +102,7 @@ While Ensembl contains extensive genomic information, we often want to mine the 
 8. You can access BioMart from any page using the link in the menu bar.
 ![biomart](../img/ensembl_biomart.png)
 
-	
-### BioMart
-#### Web interface
+### Web interface
 
 The BioMart tool for data mining the Ensembl database is easy to use and requires three steps:
 
@@ -116,14 +114,14 @@ The BioMart tool for data mining the Ensembl database is easy to use and require
 
 Let’s use BioMart to obtain information on genomic location and transcript count for [this gene list](https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIV/results/sigOE_hw.txt); download this list by clicking on the link, or copy the list from your browser.
 
-##### **Step 1: Choose a dataset** 
+#### **Step 1: Choose a dataset** 
 Click on `Dataset` and choose the database `Ensembl Genes 84` and `Homo sapiens genes(GRCh38.p5)`. 
 _**NOTE:** if we wanted to use an older version of BioMart, we could click on the lower right-hand link to `View in archive site`._
 
-##### **Step 2: Select your filters or inputs**
+#### **Step 2: Select your filters or inputs**
 Click on `Filters`. Expand `GENE` and click on the box next to `Input external references ID list`. Choose `HGNC symbol(s)` from the drop-down menu. Either choose the file `sigOE_hw.txt` or copy and paste the gene names in the file into the text box.
 
-##### **Step 3: Choose the attributes to output**
+#### **Step 3: Choose the attributes to output**
 Click on `Attributes`and keep `Features` selected.
 
 Expand `GENE` and choose the following:
@@ -139,7 +137,7 @@ Expand `GENE` and choose the following:
 
 Click on `Results` button in the upper left-hand corner. Save output to a comma-separated value (CSV) file. In the HTML table, click on the link for `MOV10` to take you to the Ensembl gene page.
 
-#### biomaRt R package
+### biomaRt R package
 When you are performing an NGS analysis, you often find a need to access BioMart, for example, to find genomic locations, convert gene IDs, or filter sequences from your data. Luckily for us, there is an R package for BioMart, called `biomaRt`, which allows us to perform BioMart queries from R.
 
 Let's explore BioMart functionality in R using a counts dataset with Ensembl IDs as row names. We would like to convert the Ensembl IDs to gene names. We can use `biomaRt` package to perform this conversion easily within R.
@@ -175,7 +173,7 @@ library("biomaRt")
 
 Now the same three steps required by the web interface are required by the R package. We are going show how to run the three steps by using BioMart to achieve the following goal: ***Return the gene names for a list of Ensembl mouse IDs***
 
-##### **Step 1: Choose a dataset**
+#### **Step 1: Choose a dataset**
 
 Similar to the web interface, we will choose a database (`Ensembl Genes 84`) and a species dataset (`Mus musculus genes (GRCm38.p4)`). 
 
@@ -204,7 +202,7 @@ mouse <- useDataset("mmusculus_gene_ensembl",
                            host =  'www.ensembl.org'))
 ```
 
-##### **Step 2: Select your filters or inputs**
+#### **Step 2: Select your filters or inputs**
 
 We can build a query of our dataset using the `getBM()` function and specifying the filters, filter values, attributes, and mart object database to search: `getBM(filters, values, attributes, mart)`
 
@@ -230,7 +228,7 @@ getBM(filters= "ensembl_gene_id",
 		values= row.names(counts), ...)
 ```
 
-##### **Step 3: Choose the attributes to output**
+#### **Step 3: Choose the attributes to output**
 
 We can continue building our `getBM()` function by specifying what we want output for each of our Ensembl IDs using the `attributes` argument. We would like to output the Ensembl ID and the gene name. 
 ```
@@ -274,7 +272,7 @@ ensembl_results <- merge(counts, gene_names, by.x="row.names", by.y = "ensembl_g
 
 write.csv(ensembl_results, "results/annotated_counts.csv", quote=F)
 ```
-##### What if you are using an older genome? 
+#### What if you are using an older genome? 
 
 Check the archived BioMart sites to determine the archived database desired. 
 
