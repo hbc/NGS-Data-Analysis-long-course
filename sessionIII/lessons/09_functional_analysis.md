@@ -183,7 +183,7 @@ sig_genes <- as.character(sig_genes_ensembl$ensembl_gene_id)
 
 # Create background dataset for hypergeometric testing using all genes tested for significance in the raw counts dataset
 
-all_genes <- getBM(filters = "external_gene_name", 
+all_genes <- getBM(filters = "external_gene_id", 
                    values = rownames(data),
                    attributes = "ensembl_gene_id",
                    mart = mart)
