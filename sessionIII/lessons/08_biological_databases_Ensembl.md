@@ -156,14 +156,7 @@ full_counts <- read.table("data/counts.txt")
 counts <- head(full_counts, n=50)
 ```
 
-Install the `biomaRt` package. The package is from Bioconductor, so we can use the following code to install:
-
-```
-source("http://bioconductor.org/biocLite.R")
-
-biocLite("biomaRt")
-```
-Now load the library:
+Load the biomaRt library:
 
 ```
 # Load library
