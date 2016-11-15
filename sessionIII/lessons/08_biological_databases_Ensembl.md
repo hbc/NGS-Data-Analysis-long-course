@@ -140,9 +140,7 @@ Click on `Results` button in the upper left-hand corner. Save output to a comma-
 ### biomaRt R package
 When you are performing an NGS analysis, you often find a need to access BioMart, for example, to find genomic locations, convert gene IDs, or filter sequences from your data. Luckily for us, there is an R package for BioMart, called `biomaRt`, which allows us to perform BioMart queries from R.
 
-Let's explore BioMart functionality in R using a counts dataset with Ensembl IDs as row names. We would like to convert the Ensembl IDs to gene names. We can use `biomaRt` package to perform this conversion easily within R.
-
-Let's open RStudio and create a new R project named `biomart` on our Desktop. Ensure you are in the correct working directory, then create three folders: `data`, `meta`, and `results`. Finally, create a new script and save as `biomart.R`.
+Let's explore BioMart functionality in R using a counts dataset with Ensembl IDs as row names. We would like to **convert the Ensembl IDs to gene names**. We can use `biomaRt` package to perform this conversion easily within R.
 
 Click on the link to the [counts file](https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIV/results/counts.txt) and save it to your `data` folder.
 
