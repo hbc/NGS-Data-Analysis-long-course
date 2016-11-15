@@ -220,16 +220,17 @@ enrichMap(ego, n=25, vertex.label.font=10)
 Finally, the category netplot shows the relationships between the genes associated with the top five most significant GO terms and the fold changes of the significant genes associated with these terms (color). This plot is particularly useful for hypothesis generation in identifying genes that may be important to several of the most affected processes. 
 
 ```
-cnetplot(ego, categorySize="pvalue", showCategory = 5, foldChange=sig_foldchanges)
+cnetplot(ego, categorySize="pvalue", showCategory = 5)
 ```
 
 ![cnetplot](../img/cnet.png)
 
-**NOTE:** If you are interested in significant processes that are not among the top five, you can subset your `ego` dataset to only display these processes:
+**NOTE:** You can color genes by foldchanges by adding an argument called `foldChange` with a vector of foldchanges corresponding to the sig_genes vector. Also, if you are interested in significant processes that are not among the top five, you can subset your `ego` dataset to only display these processes:
 
 ```
 ego2 <- ego
 ego2@result <- ego@result[c(3,16,17,18,25),]
+cnetplot(ego2, categorySize="pvalue", showCategory = 5)
 ```
 
 ![cnet_example](../img/ego2_example.png)
