@@ -115,7 +115,7 @@ The BioMart tool for data mining the Ensembl database is easy to use and require
 Let’s use BioMart to obtain information on genomic location and transcript count for [this gene list](https://raw.githubusercontent.com/hbc/NGS_Data_Analysis_Course/master/sessionIV/results/sigOE_hw.txt); download this list by clicking on the link, or copy the list from your browser.
 
 #### **Step 1: Choose a dataset** 
-Click on `Dataset` and choose the database `Ensembl Genes 84` and `Homo sapiens genes(GRCh38.p5)`. 
+Click on `Dataset` and choose the database `Ensembl Genes 86` and `Homo sapiens genes(GRCh38.p5)`. 
 _**NOTE:** if we wanted to use an older version of BioMart, we could click on the lower right-hand link to `View in archive site`._
 
 #### **Step 2: Select your filters or inputs**
