@@ -208,7 +208,16 @@ spia_result <- spia(de=sig_genes, all=background_genes, organism="hsa")
 head(spia_result, n=20)
 ```
 
-SPIA outputs a table showing significantly dysregulated pathways based on over-representation and signaling perturbations accumulation. The table shows the following information: `pSize` is the number of genes on the pathway; `NDE` is the number of DE genes per pathway; `tA` is the observed total perturbation accumulation in the pathway; `pNDE` is the probability to observe at least NDE genes on the pathway using a hypergeometric model; `pPERT` is the probability to observe a total accumulation more extreme than tA only by chance; `pG` is the p-value obtained by combining pNDE and pPERT; `pGFdr` and `pGFWER` are the False Discovery Rate and respectively Bonferroni adjusted global p-values; and the Status gives the direction in which the pathway is perturbed (activated or inhibited). KEGGLINK gives a web link to the KEGG website that displays the pathway image with the differentially expressed genes highlighted in red.
+SPIA outputs a table showing significantly dysregulated pathways based on over-representation and signaling perturbations accumulation. The table shows the following information: 
+- `pSize` is the number of genes on the pathway
+- `NDE` is the number of DE genes per pathway
+- `tA` is the observed total perturbation accumulation in the pathway
+- `pNDE` is the probability to observe at least NDE genes on the pathway using a hypergeometric model
+- `pPERT` is the probability to observe a total accumulation more extreme than tA only by chance
+- `pG` is the p-value obtained by combining pNDE and pPERT
+- `pGFdr` and `pGFWER` are the False Discovery Rate and respectively Bonferroni adjusted global p-values
+- `Status` gives the direction in which the pathway is perturbed (activated or inhibited). 
+- `KEGGLINK` gives a web link to the KEGG website that displays the pathway image with the differentially expressed genes highlighted in red.
 
 We can view the significantly dysregulated pathways by viewing the over-representation and perturbations for each pathway.
 
