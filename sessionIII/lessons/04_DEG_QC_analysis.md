@@ -20,9 +20,10 @@ A simple and commonly used strategy to avoid this is to take the logarithm of th
 
 The DESeq2 solution to this is the **regularized log transform** [[Love, Huber, and Anders 2014](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4302049/pdf/13059_2014_Article_550.pdf)]. For genes with high counts, the `rlog` transformation will give similar result to the ordinary log2 transformation of normalized counts. For genes with lower counts, however, the values are shrunken towards the genes’ means across all samples.
 
-
-	### Transform counts for data visualization
-	rld <- rlog(dds, blind=TRUE)
+```r
+### Transform counts for data visualization
+rld <- rlog(dds, blind=TRUE)
+```
 
 The `rlog` function returns a `DESeqTransform`, another type of DESeq-specific object. The reason you don't just get a matrix of transformed values is because all of the parameters (i.e. size factors) that went in to computing the rlog transform are stored in that object. We will be using this object to plot figures for quality assessment.
 
@@ -37,8 +38,10 @@ One way to visualize sample-to-sample distances is a principal components analys
 
 The function `plotPCA()` requires two arguments as input: an `rlog` object and the `intgroup` (the column in our metadata that we are interested in). 
 
-	### Plot PCA 
-	plotPCA(rld, intgroup="sampletype")
+```r
+### Plot PCA 
+plotPCA(rld, intgroup="sampletype")
+```
 
 ![pca](../img/pca_500.png)
 
@@ -62,20 +65,25 @@ Using correlation values is referred to as an inter-correlation analysis (ICA). 
 Samples that show particularly low correlation values with all other samples (< 0.80) represent outliers. These samples are usually removed. Additionally, the heatmap is useful in identifying batch effects based on block structures that correspond to when the samples were run.
 
 Since there is no built-in function for heatmaps in DESeq2 we will be using `pheatmap()`. This function requires a matrix/dataframe of numeric values as input, and so the first thing we need to is retrieve that information from the `rld` object:
-	
-	### Extract the rlog matrix from the object
-	rld_mat <- assay(rld) 
+
+```r
+### Extract the rlog matrix from the object
+rld_mat <- assay(rld) 
+```
 
 Then we need to compute the pairwise correlation values for samples. We can do this using the `cor()` function:
 
-	### Compute pairwise corrrelation values
-	rld_cor <- cor(rld_mat)
-
+```r
+### Compute pairwise corrrelation values
+rld_cor <- cor(rld_mat)
+```
 
 And now to plot the correlation values as a heatmap:
 
-	### Plot heatmap
-	pheatmap(rld_cor)
+```r
+### Plot heatmap
+pheatmap(rld_cor)
+```
 
 ![heatmap1](../img/pheatmap-1.png)
 
@@ -84,7 +92,7 @@ Overall, we observe pretty high correlations across the board ( > 0.999) suggest
 
 > NOTE: The `pheatmap` function has a number of different arguments that we can alter from default values to enhance the aesthetics of the plot. If you are curious and want to explore more, try running the code below. *How does your plot change?* Take a look through the help pages (`?pheatmap`) and identify what each of the added arguments is contributing to the plot.
 >
-> ```
+> ```r
 > heat.colors <- brewer.pal(6, "Blues")
 > pheatmap(rld_cor, color = heat.colors, border_color=NA, fontsize = 10, 
 >			fontsize_row = 10, height=20)
