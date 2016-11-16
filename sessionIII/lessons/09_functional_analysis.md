@@ -95,8 +95,9 @@ Also, due to the hierarchical structure of GO terms, you may return many terms t
 
 #### Running gProfiler
 
-For our gProfiler analysis, we are going to use the Mov10_oe results table subsetted using the thresholds of logFC = 1 (2x) and padj = 0.05, which is saved as `SigOE`. 
-```
+For our gProfiler analysis, we are going to subset our `res_tableOE` only using a padjusted-value threshold of 0.05 (padj = 0.05). 
+
+```r
 ### Functional analysis of MOV10 Overexpression using gProfileR (some of these are defaults; check help pages) 
 
 library(gProfileR)
@@ -123,7 +124,7 @@ gprofiler_results_oe <- gprofiler(query = rownames(sig_genes_table),
 
 Let's save the gProfiler results to file:
 
-```
+```r
 ## Write results to file
 
 write.table(gprofiler_results_oe, 
@@ -133,7 +134,7 @@ write.table(gprofiler_results_oe,
 
 Now, extract only the lines in the gProfiler results with GO term accession numbers for downstream analyses:
 
-```
+```r
 ## Extract GO IDs for downstream analysis
 
 allterms_oe <- gprofiler_results_oe$term.id
@@ -161,7 +162,8 @@ Supek F, Bošnjak M, Škunca N, Šmuc T. REVIGO summarizes and visualizes long l
 
 ## clusterProfiler
 Similar to gprofileR, the tool [clusterProfiler](http://bioconductor.org/packages/release/bioc/html/clusterProfiler.html) performs over-representation analysis on GO terms associated with a list of genes. The GO terms output by clusterProfiler are generally quite similar to those output by gprofileR, but there are small differences due to the different algorithms used by the programs.
-```
+
+```r
 # Load libraries
 library(clusterProfiler)
 library(DOSE)
@@ -203,7 +205,7 @@ ClusterProfiler has a variety of options for viewing the over-represented GO ter
 
 The dotplot shows the number of genes associated with the first 50 terms (size) and the p-adjusted values for these terms (color). 
 
-```
+```r
 dotplot(ego, showCategory=25)
 ```
 
@@ -211,7 +213,7 @@ dotplot(ego, showCategory=25)
 
 The enrichment plot shows the relationship between the top 25 most significantly enriched GO terms, by grouping similar terms together.
 
-```
+```r
 enrichMap(ego, n=25, vertex.label.font=10)
 ```
 
@@ -219,7 +221,7 @@ enrichMap(ego, n=25, vertex.label.font=10)
 
 Finally, the category netplot shows the relationships between the genes associated with the top five most significant GO terms and the fold changes of the significant genes associated with these terms (color). This plot is particularly useful for hypothesis generation in identifying genes that may be important to several of the most affected processes. 
 
-```
+```r
 cnetplot(ego, categorySize="pvalue", showCategory = 5)
 ```
 
@@ -227,7 +229,7 @@ cnetplot(ego, categorySize="pvalue", showCategory = 5)
 
 **NOTE:** You can color genes by foldchanges by adding an argument called `foldChange` with a vector of foldchanges corresponding to the `sig_genes` vector. Also, if you are interested in significant processes that are **not** among the top five, you can subset your `ego` dataset to only display these processes:
 
-```
+```r
 ego2 <- ego
 ego2@result <- ego@result[c(3,16,17,18,25),]
 cnetplot(ego2, categorySize="pvalue", showCategory = 5)
