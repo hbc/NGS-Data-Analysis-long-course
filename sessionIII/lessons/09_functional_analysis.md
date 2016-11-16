@@ -225,7 +225,7 @@ cnetplot(ego, categorySize="pvalue", showCategory = 5)
 
 ![cnetplot](../img/cnet.png)
 
-**NOTE:** You can color genes by foldchanges by adding an argument called `foldChange` with a vector of foldchanges corresponding to the sig_genes vector. Also, if you are interested in significant processes that are not among the top five, you can subset your `ego` dataset to only display these processes:
+**NOTE:** You can color genes by foldchanges by adding an argument called `foldChange` with a vector of foldchanges corresponding to the `sig_genes` vector. Also, if you are interested in significant processes that are **not** among the top five, you can subset your `ego` dataset to only display these processes:
 
 ```
 ego2 <- ego
