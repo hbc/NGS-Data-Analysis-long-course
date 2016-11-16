@@ -288,7 +288,7 @@ gene.names_mm9 <- getBM(filters= "ensembl_gene_id",
                     mart= mouse_mm9)
 ```
 
-However, `external_gene_name` is no longer how to specify 'gene name'. To find the correct way to specify gene names, you will need to look up the attributes again:
+However, for `attributes`, specifying gene names using `external_gene_name` no longer works. To find the correct way to specify gene names for this mouse build, you will need to look up the attributes again:
 
 ```r
 attributes_mm9 <- listAttributes(mouse_mm9)
