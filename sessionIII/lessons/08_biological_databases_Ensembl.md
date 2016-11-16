@@ -268,7 +268,7 @@ write.csv(ensembl_results, "results/annotated_counts.csv", quote=F)
 
 Check the archived BioMart sites to determine the archived database desired. 
 
-If we want to use the archived databases in R, we need to change our query a bit:
+If we want to use the archived databases in R, we need to change our query a bit to specify an older genome build:
 
 ```r
 # Using an older genome build
