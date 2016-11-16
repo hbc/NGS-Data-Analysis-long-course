@@ -92,6 +92,7 @@ Now the data is ready to run for GAGE analysis. The [GAGE vignette](https://www.
 
 keggres = gage(foldchanges, gsets=kegg.gs, same.dir=T)
 names(keggres)
+
 head(keggres$greater) #Pathways that are up-regulated
 head(keggres$less) #Pathways that are down-regulated
 
@@ -109,9 +110,7 @@ keggresids
 Now that we have the IDs for the pathways that are significantly up-regulated in our dataset, we can visualize these pathways and the genes identified from our dataset causing these pathways to be enriched using [Pathview](https://www.bioconductor.org/packages/devel/bioc/vignettes/pathview/inst/doc/pathview.pdf). 
 
 ```r
-# Run Pathview
-
-## Use Pathview to view significant up-regulated pathways
+# Use Pathview to view significant up-regulated pathways
 
 pathview(gene.data = foldchanges, pathway.id=keggresids, species="human", kegg.dir="results/")
 ```
@@ -121,7 +120,7 @@ pathview(gene.data = foldchanges, pathway.id=keggresids, species="human", kegg.d
 Using the GAGE tool, we can identify significantly enriched gene ontology terms for biological process and molecular function based on the log2 fold changes for all genes. While gProfileR is an overlap statistic analysis tool which uses a threshold (adjusted p<0.05 here) to define which genes are analyzed for GO enrichment, gene set enrichment analysis tools like GAGE use a list of genes (here ranked by logFC) without using a threshold. This allows GAGE to use more information to identify enriched biological processes. The introduction to GSEA goes into more detail about the advantages of this approach: [http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1239896/](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC1239896/).
 
 ```r
-#Acquire datasets
+# Acquire datasets
 
 data(go.sets.hs)
 head(names(go.sets.hs))
@@ -130,21 +129,21 @@ data(go.subs.hs)
 names(go.subs.hs)
 head(go.subs.hs$MF)
 
-#Use gage to explore enriched biological processes
-#Biological process 
+# Use gage to explore enriched biological processes
 
 go_bp_sets = go.sets.hs[go.subs.hs$BP]
 ```
 
 > If we wanted to identify enriched molecular functions we would use the code: `go.sets.hs[go.subs.hs$MF]`
 
-
 ```r
 # Run GAGE
 go_bp_res = gage(foldchanges, gsets=go_bp_sets, same.dir=T)
 class(go_bp_res)
 names(go_bp_res)
+
 head(go_bp_res$greater)
+
 go_df_enriched <- data.frame(go_bp_res$greater)
 
 GO_enriched_BP <- subset(go_df_enriched, q.val < 0.05)
@@ -186,6 +185,7 @@ head(sig_genes)
 
 
 ## Remove NA and duplicated values
+
 sig_genes <- sig_genes[!is.na(names(sig_genes))] 
 
 sig_genes <- sig_genes[!duplicated(names(sig_genes))]
