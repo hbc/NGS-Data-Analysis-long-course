@@ -273,17 +273,24 @@ If we want to use the archived databases in R, we need to change our query a bit
 ```r
 # Using an older genome build
 
-ensembl_genes_mm9 <- useMart('ENSEMBL_MART_ENSEMBL', host =  'may2012.archive.ensembl.org')
+mouse_mm9 <- useDataset("mmusculus_gene_ensembl",
+                   useMart('ENSEMBL_MART_ENSEMBL',
+                           host =  'may2012.archive.ensembl.org'))
+```
 
-mouse_mm9 <- useDataset("mmusculus_gene_ensembl", mart = ensembl_genes_mm9)
+The filters and attributes change for different builds of the genome, so you might find yourself looking them up if you change builds. Using our previous filters and attributes we would have run the following:                    
 
+```r
+# DO NOT RUN			   
 gene.names_mm9 <- getBM(filters= "ensembl_gene_id", 
                     attributes= c("ensembl_gene_id", "external_gene_name"),
                     values= row.names(counts),
                     mart= mouse_mm9)
+```
 
-# The filters and attributes change for different builds of the genome, so you might find yourself looking them up if you change builds                    
+However, `external_gene_name` is no longer how to specify 'gene name'. To find the correct way to specify gene names, you will need to look up the attributes again:
 
+```r
 attributes_mm9 <- listAttributes(mouse_mm9)
 
 View(attributes_mm9)
