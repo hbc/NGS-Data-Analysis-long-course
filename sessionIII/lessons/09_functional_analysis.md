@@ -209,7 +209,7 @@ dotplot(ego, showCategory=25)
 
 ![dotplot](../img/dotplot.png)
 
-The enrichment plot shows the relationship between the top 50 most significantly enriched GO terms, by grouping similar terms together.
+The enrichment plot shows the relationship between the top 25 most significantly enriched GO terms, by grouping similar terms together.
 
 ```
 enrichMap(ego, n=25, vertex.label.font=10)
