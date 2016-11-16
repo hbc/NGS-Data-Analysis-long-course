@@ -146,7 +146,7 @@ Click on the link to the [counts file](https://raw.githubusercontent.com/hbc/NGS
 
 Read in the counts file:
 
-```
+```r
 # Read in counts file
 
 full_counts <- read.table("data/counts.txt")
@@ -156,7 +156,7 @@ counts <- head(full_counts, n=50)
 
 Load the biomaRt library:
 
-```
+```r
 # Load library
 
 library("biomaRt")
@@ -170,7 +170,7 @@ Similar to the web interface, we will choose a database (`Ensembl Genes 84`) and
 
 Choose a BioMart database - we will choose the `Ensembl Genes 84`:
 
-```
+```r
 # To connect to a BioMart database - useMart()
 
 listMarts(host =  'www.ensembl.org')
@@ -181,7 +181,7 @@ ensembl_genes <- useMart('ENSEMBL_MART_ENSEMBL',
 
 Choose the *Mus musculus* genes (GRCm38.p4) dataset within the `Ensembl Genes 84` database:
 
-```
+```r
 # To query the BioMart database for a specific species - useDataset() within the query command
 
 datasets <- listDatasets(ensembl_genes)
@@ -201,7 +201,7 @@ First we can specify our input using the `filters`argument.
 
 **What is our input?** We want to return gene names for a list of Ensembl mouse IDs from within our `counts` dataframe; therefore our input will be Ensembl IDs and their values will be the row names of our counts dataframe.
 
-```
+```r
 # To build a query - getBM(filters, values, ...)
 
 ## "Filters" is a vector for the type of input; in our case, our input is Ensembl IDs
@@ -222,7 +222,8 @@ getBM(filters= "ensembl_gene_id",
 #### **Step 3: Choose the attributes to output**
 
 We can continue building our `getBM()` function by specifying what we want output for each of our Ensembl IDs using the `attributes` argument. We would like to output the Ensembl ID and the gene name. 
-```
+
+```r
 # To build a query - getBM(filters, values, attributes, ...)
 
 ## "Attributes" is a vector of attributes for the output we want to generate
@@ -240,7 +241,7 @@ gene_names <- getBM(filters= "ensembl_gene_id",
 
 Finally, to complete the `getBM()` function, we need to specify which dataset to query.
 
-```
+```r
 # To build a query - getBM(filters, values, attributes, mart)
 
 gene_names <- getBM(filters= "ensembl_gene_id",
@@ -256,7 +257,7 @@ View(gene_names)
 
 Now that we have our gene names, we need to match them to the Ensembl IDs in our counts dataset. If the columns from two dataframes have the same name, we can merge the dataframes using those columns:
 
-```
+```r
 # Merge the two dataframes by ensembl_gene_id
 
 ensembl_results <- merge(counts, gene_names, by.x="row.names", by.y = "ensembl_gene_id")
@@ -268,7 +269,8 @@ write.csv(ensembl_results, "results/annotated_counts.csv", quote=F)
 Check the archived BioMart sites to determine the archived database desired. 
 
 If we want to use the archived databases in R, we need to change our query a bit:
-```
+
+```r
 # Using an older genome build
 
 ensembl_genes_mm9 <- useMart('ENSEMBL_MART_ENSEMBL', host =  'may2012.archive.ensembl.org')
