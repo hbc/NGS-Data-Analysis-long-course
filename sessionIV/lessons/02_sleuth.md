@@ -85,21 +85,16 @@ The terminal window should now turn into the R console with the R prompt `>`.
 
 Since Sleuth was designed to use the output of Kallisto as input, our Sailfish transcript abundance estimates need to be massaged into the format of the Kallisto output. To do this, we are going to use the package [Wasabi](https://github.com/COMBINE-lab/wasabi). 
 
-To manually install a package on Orchestra from CRAN or Bioconductor, we can use the following code:
+To manually install a package on Orchestra from CRAN we would have to specify where our library is using the following: `install.packages("name-of-your-package", lib="~/R/library")`. For Bioconductor packages nothing will change since we have already modified the environment variable to point to the library.
+
+Let's install the `Wasabi` package, which is a Bioconductor package.
 
 ```
-# DO NOT RUN THIS
-# Install of CRAN packages
-install.packages("name-of-your-package", lib="~/R/library")
-
-# Install of Bioconductor packages
 source("http://bioconductor.org/biocLite.R")
-biocLite()
-biocLite("nameofpackage")
+biocLite("COMBINE-lab/wasabi")
+
+# When asked whether you want to "Update all/some/none?" Select `n` for none.
 ```
-
-Using this code, install the `Wasabi` package, which is a Bioconductor package.
-
 ```
 source("http://bioconductor.org/biocLite.R")
 biocLite("COMBINE-lab/wasabi")
@@ -129,16 +124,7 @@ library(dplyr)
 
 Now that we are set-up and our packages are installed, we can use Wasabi to convert the Sailfish (or Salmon) output into a Sleuth-compatible format. 
 
-First, we create a simple vector containing the paths to the directories containing the transcript abundance estimates for each sample (folders containing the .quant files). We can use the `file.path()` function to give the paths to each of the directories. It works as follows:
-
-```
-# DO NOT RUN THIS
-path <- file.path("path", "to", c("directory1", "directory2")
-
-head(path)
-
-"path/to/directory1", "path/to/directory2"
-```
+First, we create a simple vector containing the paths to the directories containing the transcript abundance estimates for each sample (folders containing the .quant files). We can use the `file.path()` function to give the paths to each of the directories. 
 
 Now, let's use this function to create our list of the paths to our transcript abundance files:
 
@@ -213,11 +199,8 @@ sfdata
 
 Determine the covariates and/or confounders that should be included in your experimental design model. Sleuth can be used to analyze multiple conditions from complex experimental designs.
 
-Within Sleuth, models are written similar to DESeq2 using the following syntax:
+Within Sleuth, models are written similar to DESeq2 using the following syntax: `design <- ~ sex + treatment`.
 
-```
-# DO NOT RUN
-design <- ~ sex + treatment
 ```
 This formula would test for the overall effect of treatment controlling for differences due to sex. The condition being tested is the last term added to the formula. 
 
