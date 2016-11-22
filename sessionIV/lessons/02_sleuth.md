@@ -201,7 +201,6 @@ Determine the covariates and/or confounders that should be included in your expe
 
 Within Sleuth, models are written similar to DESeq2 using the following syntax: `design <- ~ sex + treatment`.
 
-```
 This formula would test for the overall effect of treatment controlling for differences due to sex. The condition being tested is the last term added to the formula. 
 
 More complex designs can be analyzed using Sleuth as well. For example, interaction terms can be added to the design formula to test if the effect attributable to a given condition is different based on another factor, for example, if the treatment effect differs
