@@ -48,9 +48,9 @@ $ bsub -Is -R "rusage[mem=16000]" -q interactive bash
 
 $ cd ~/ngs_course/rnaseq
 
-$ cp /groups/hbctraining/ngs-data-analysisSummer2016/rnaseq/snapshots/meta/Mov10_full_meta.txt meta/
+$ cp /groups/hbctraining/ngs-data-analysis-longcourse/rnaseq/snapshots/meta/Mov10_full_meta.txt meta/
 
-$ cp -r /groups/hbctraining/ngs-data-analysisSummer2016/rnaseq/snapshots/sailfish/* sailfish/
+$ cp -r /groups/hbctraining/ngs-data-analysis-longcourse/rnaseq/snapshots/sailfish/* sailfish/
 ```
 
 Now let's make a folder for our sleuth results and load the R module to run it.
