@@ -21,7 +21,7 @@ In the standard RNA-seq pipeline that we have presented so far in this course, w
 
 [Sailfish](http://www.cs.cmu.edu/~ckingsf/software/sailfish/index.html) and it's more recent "upgrade" [Salmon](https://combine-lab.github.io/salmon/), are based on the philosophy of lightweight algorithms. They use the sequence of genes or transcripts as input (in FASTA format), and do not align the whole read. Instead it's a 2-step process based on **counting "kmers"**.
 
-<img src="../img/kmer_counting.png" width="500">
+<img src="../img/kmer_counting_copy.png" width="500">
 
 **Step 1: Indexing:** The first step is to create an index. This step involves evaluating the sequences for all possible unique sequences of length k (kmer) in the **transcriptome** (genes/transcripts) to create an index.
 
