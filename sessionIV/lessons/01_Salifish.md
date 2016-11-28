@@ -19,18 +19,46 @@ In the standard RNA-seq pipeline that we have presented so far in this course, w
 
 ### What is Sailfish?
 
-[Sailfish](http://www.cs.cmu.edu/~ckingsf/software/sailfish/index.html) and it's more recent "upgrade" [Salmon](https://combine-lab.github.io/salmon/), are based on the philosophy of lightweight algorithms. They use the sequence of genes or transcripts as input, and do not align the whole read. Instead it's a 2-step process based on counting "kmers":
+[Sailfish](http://www.cs.cmu.edu/~ckingsf/software/sailfish/index.html) and it's more recent "upgrade" [Salmon](https://combine-lab.github.io/salmon/), are based on the philosophy of lightweight algorithms. They use the sequence of genes or transcripts as input (in FASTA format), and do not align the whole read. Instead it's a 2-step process based on **counting "kmers"**.
 
-**a.** they first evaluate the sequences for all possible unique sequences of length k (kmer) in the **transcriptome** (genes/transcripts) to create an index. The Sailfish index has four components: 
+<img src="../img/kmer_counting.png" width="500">
 
-* (1) a perfect hash containing the number of unique k-mers per transcript 
-* (2) an array recording the number of times each k-mer occurs in the reference set
-* (3) an index mapping each **transcript to the multiset of k-mers** that it contains
-* (4) an index mapping each **k-mer to the set of transcripts** in which it appears.
+**Step 1: Indexing:** The first step is to create an index. This step involves evaluating the sequences for all possible unique sequences of length k (kmer) in the **transcriptome** (genes/transcripts) to create an index.
 
-**b.** then they count the number of times those kmers appear in the **sequenced reads**, i.e. the fastq. This count information is used to figure out which transcript the read probably came from, and estimate the abundance of each gene or transcript. 
+**The index helps creates a signature for each transcript in our reference transcriptome.** The Sailfish index has four components: 
 
-<img src="../img/nbt.2862-F1.jpg" width="400">
+1. a perfect hash containing the number of unique k-mers per transcript 
+2. an array recording the number of times each k-mer occurs in the reference set
+3. an index mapping each **transcript to the multiset of k-mers** that it contains
+4. an index mapping each **k-mer to the set of transcripts** in which it appears.
+
+<img src="../img/sailfish_index.png" width="500">
+
+
+**Step 2: Quantification:** The next step is to count the number of times those k-mers appear in the sequenced reads (i.e. the FASTQ file). This count information is used to figure out which transcript the read probably came from, and estimate the abundance of each gene or transcript. 
+
+1. Shred the reads into k-mers of size k.
+2. Count the number of times each indexed k-mer occurs in the set of reads.
+3. Sailfish then applies a 2-step EM algorithm to estimate abundance for each transcript
+
+<img src="../img/sailfish_quant.png" width="400">
+
+*Sailfish uses the frequency of k-mers that occur to determine transcript abundance based on transcript signatures in the index.*
+
+> *NOTE:* that if there are k-mers in the reads that are not in the index they are not counted. As such, trimming is not required when using this method.
+
+> The worklows above are taken from the Sailfish publication, [Patro R. et al, 2014](http://www.nature.com/nbt/journal/v32/n5/full/nbt.2862.html).
+
+
+**Sailfish Bias Correction:**
+
+* Sailfish automatically considers transcript length, GC content and dinucleotide frequencies as potential bias factors
+* For each transcript, the prediction of the regression model represents the contribution of the bias factors (as covariates) to this transcript's estimated abundance
+* These regression estimates (which may be positive or negative) are subtracted from the original estimates to obtain bias-corrected KPKMs
+
+<img src="../img/sailfish_bias.png" width="400">
+
+
 
 ## Running Sailfish on Orchestra
 
@@ -45,7 +73,7 @@ Sailfish is not available as a module on Orchestra, but it is installed as part 
     
     $ export PATH=/opt/bcbio/centos/bin:$PATH
     
-As you can imagine from the above schematic, taken from [Patro R. et al, 2014](http://www.nature.com/nbt/journal/v32/n5/full/nbt.2862.html), there are 2 steps when running the analysis too:
+As you can imagine from the description above, when running Sailfish there are also two steps.
 
 a. "Index" the transcriptome (transcripts or genes) using the `index` command:
     
@@ -53,9 +81,9 @@ a. "Index" the transcriptome (transcripts or genes) using the `index` command:
     $ sailfish index -p <num of cores> -k <kmer size> -t <fasta of gene sequences> 
                          -o <folder name>
 
-**We are not going to run this in class, but it only takes a few minutes.** We will be using an index we have generated from transcript sequences (all known transcripts with multiples for some genes), but this can be generated from genic sequences too. 
+**We are not going to run this in class, but it only takes a few minutes.** We will be using an index we have generated from transcript sequences (all known transcripts/ splice isoforms with multiples for some genes), but this can be generated from genic sequences too. 
 
-b. Get the abundance using the quantification step using the `quant` command and the parameters described below (morE information on parameters can be found [here](http://sailfish.readthedocs.org/en/master/sailfish.html#description-of-important-options):
+b. Get the abundance using the quantification step using the `quant` command and the parameters described below (more information on parameters can be found [here](http://sailfish.readthedocs.org/en/master/sailfish.html#description-of-important-options):
 
 
    * `i`: specify the location of the index directory; for us it is `/groups/hbctraining/ngs-data-analysisSummer2016/rnaseq/sailfish.ensembl2.idx/`
@@ -64,7 +92,7 @@ b. Get the abundance using the quantification step using the `quant` command and
    * `--useVBOpt`: use variational Bayesian EM algorithm rather than the ‘standard EM’ to optimize abundance estimates (more accurate) 
    * `-o`: output quantification file name
 
-To run the quantification step on a single sample we have the command provided below. Let's try running it on our susbet sample for `Mov10_oe_1.subset.fq`:
+To run the quantification step on a single sample we have the command provided below. Let's try running it on our subset sample for `Mov10_oe_1.subset.fq`:
 
 ``` 
     $ sailfish quant -i /groups/hbctraining/ngs-data-analysisSummer2016/rnaseq/sailfish.ensembl2.idx/ \
@@ -80,7 +108,9 @@ You should see a new directory has been created that is named by the string valu
 
     $ ls -l Mov10_oe_1.subset.sailfish/
     
-There is a logs directory, which contains all of the text that was printed to screen as Sailfish was running. Additionally, there is a file called `quant.sf`. This is the quantification file in which each row corresponds to a transcript, listed by Ensembl ID, and the columns correspond to metrics for each transcript:
+There is a logs directory, which contains all of the text that was printed to screen as Sailfish was running. Additionally, there is a file called `quant.sf`. 
+
+This is the **quantification file** in which each row corresponds to a transcript, listed by Ensembl ID, and the columns correspond to metrics for each transcript:
 
 ```
 Name    Length  EffectiveLength TPM     NumReads
@@ -96,7 +126,11 @@ ENST00000605284 17      8.69981 0       0
 
 ```
 
- The first two columns are self-explanatory, the name of the transcript and the length of the transcript in base pairs (bp). The effective length is represents, <enter definition here> and is used in computing the TPM value. The TPM, or Transcripts per Million is a normalization method as described in [1](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2820677/), and is meant as an estimate of the number of transcripts, per million observed transcripts, originating from each isoform. It's benefit over the F/RPKM measure is that it is independent of the mean expressed transcript length. The NumReads column lists the total number of reads that were counted for that transcript.
+*  The first two columns are self-explanatory, the name of the transcript and the length of the transcript in base pairs (bp). 
+*  The effective length represents the the various factors that effect the length of transcript due to technical limitations of the sequencing platform.
+* Sailfish outputs ‘pseudocounts’ which predict the relative abundance of different isoforms in the form of three possible metrics (KPKM, RPKM, and TPM). TPM (transcripts per million) is a commonly used normalization method as described in [1](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2820677/) and is computed based on the effective length of the transcript.
+* Estimated number of reads (an estimate of the number of reads drawn from this transcript given the transcript’s relative abundance and length)
+
  
 ## Running Sailfish on multiple samples 
 
