@@ -1,7 +1,7 @@
 ---
 title: "Differential expression of transcripts using Sleuth"
 author: "Mary Piper"
-date: "Tuesday, June 14th, 2016"
+date: "Monday, November 28, 2016"
 ---
 
 Contributors: Mary Piper
@@ -13,26 +13,32 @@ Approximate time: 1.25 hours
 
 * Understand how sleuth determines biological and technical variation
 * Learn how to run R on Orchestra and how to set up personal R libraries
-* Explore how to run `for loops` in R
 
 ## What is Sleuth?
 
 [Sleuth](http://pachterlab.github.io/sleuth/) is a fast, lightweight tool that uses transcript abundance estimates output from pseudo-alignment algorithms that use bootstrap sampling, such as Sailfish, Salmon, and Kallisto, to perform differential expression analysis of transcripts. 
 
-The bootstrap sampling is required for estimation of technical variance. If multiple technical replicates were performed on a cDNA library for an RNA-Seq experiment, and the counts per transcript estimated, the inferred counts would not be Poisson distributed [[1](https://liorpachter.wordpress.com/2015/08/17/a-sleuth-for-rna-seq/)] Therefore, the process of estimating transcript-level counts introduces technical variation.
+Sleuth models biological and technical variance separately, with 
 
-Bootstrapping essentially estimates technical variance by taking a different sub-sample of reads for each bootstapping run for estimating the transcript abundances. The technical variance is the variation in transcript abundance estimates calculated for each of the different sub-samplings (or bootstraps).
+- biological variance: 
+	- variance of biological and experimental origin
+- technical variance: 
+	- the number of reads sequenced from a transcript due to random nature of sequencing 
+	- transcript abundance estimation of ambiguously mapping reads
+
+Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
+
+Reads mapping to many transcripts results in uncertainty in abundance estimates which translates into variance in quantification across samples, and the bootstrap sampling is required for estimation of this technical variance. Bootstrapping essentially estimates technical variance by using a different sub-sample of reads each round to estimate the transcript abundances. **The technical variance is the variation in transcript abundance estimates calculated for each of the different sub-samplings (or bootstraps) and it accounts for the technical variation associated with the transcript estimation process**.
 
 These bootstraps act as proxy for technical replicates and are used to model the variability in the abundance estimates due to "random processes underlying RNA-Seq as well as the statistical procedure of read assignment" [[2](https://rawgit.com/pachterlab/sleuth/master/inst/doc/intro.html), [3](http://biorxiv.org/content/biorxiv/early/2016/06/10/058164.full.pdf)].
 
-Sleuth models the estimated (log) counts  using a linear model, but includes the technical variance (variance between bootstrapping runs) as a parameter in the model. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
+Sleuth models the true abundance mean (log) counts  using a linear model, but includes the technical variance (variance between bootstrapping runs) as error in the response variable. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
 
 Sleuth was built to use the bootstrapped estimates of transcript abundance from Kallisto; however, abundance estimates from Sailfish (or Salmon) work just as well, as long as bootstrapping is performed. 
 
 In addition to performing differential expression analysis of transcripts, the sleuth tool also provides an html interface allowing exploration of the data and differential expression results interactively. More information about the theory/process for sleuth is available in [this blogpost](https://liorpachter.wordpress.com/2015/08/17/a-sleuth-for-rna-seq/) and step-by-step instructions are available in [this tutorial](https://rawgit.com/pachterlab/sleuth/master/inst/doc/intro.html).
 
 ***NOTE:*** *Kallisto is distributed under a non-commercial license, while Sailfish and Salmon are distributed under the [GNU General Public License, version 3](http://www.gnu.org/licenses/gpl.html).*
-
 
 
 ## Set-up for Running Sleuth on Orchestra
@@ -145,46 +151,65 @@ files will be used as input to Sleuth.
 
 ## Sleuth for estimation of differential expression of transcripts
 
-To run Sleuth, we not only need the transcript abundance files, but we also need the metadata file specifying which samplegroups the samples belong to, and any other metadata we want included in the analysis. To analyze isoform-level differential expression with Sleuth, we need to perform a series of steps:
+![sleuth](../img/sleuth_workflow.png)
 
-1. Create a dataframe needed to generate the Sleuth analysis object:
+The workflow for Sleuth is similar to the workflow followed for DESeq2, even though, the models for estimating differential expression are very different. 
 
-  - columns containing any metadata to be in the analysis
-  - a column named `sample` containing all of the sample names matching the names in the metadata file
-  - a column named `path` containing the path to the abundance estimate files output from `wasabi`
+- Creation of Sleuth object to provide metadata, count data, and design formula for the analysis, in addition to a biomaRt database to switch between transcript IDs and associated gene names.
+
+- Fit the sleuth model
+	
+	- Estimation of size (normalization) factors using the median of ratios method, similar to DESeq2 
+	
+	- Normalization of estimated counts using size factors
+
+	- Filtering of low abundance transcripts (< 5 est counts in more than 47% of the samples)
+
+	- Normalization of technical variation estimates
+
+	- Estimation of biological variance and shrinkage estimates (With small sample sizes, we will make very bad estimates of transcript-wise dispersion unless we share information across transcripts. Sleuth regularizes the biological variance estimate with shrinkage, similar to DESeq2, except uses a different statistical method (similar to Limma Voom).)
+	
+	- Parameter estimation and estimation of variance using the general linear model.
+
+	- Identification of coefficients indicating overall expression strength and Beta values for estimating fold changes	
+
+- Test for significant differences between conditions
+
+
+### Create Sleuth object for analysis
+
+![sleuth](../img/sleuth_workflow.png)
+
+To run Sleuth, we not only need the transcript abundance files, but we also need the metadata file specifying which samplegroups the samples belong to, and any other metadata we want included in the analysis. We also need the location of the estimated counts files, the model design, and a biomaRt database to easily convert between transcript IDs and associated gene names. To create this object we need to perform the following steps:
+
+1. Create a dataframe containing metadata and locations of the estimated counts files:
+
+  	- including any columns containing metadata to used in the analysis
+  	- a column named `sample` containing all of the sample names matching the names in the metadata file
+  	- a column named `path` containing the path to the abundance estimate files output from `wasabi`
         
 2. Create a variable containing the model design 
 
 3. Use biomaRt to create a dataset for Sleuth to query for Ensembl IDs and associated gene names
 
-4. Fit the sleuth model incorporating the experimental design
+#### Step 1: Create a dataframe needed to generate Sleuth analysis object
 
-5. Test for significant differences between conditions
+##### Read in the metadata file 
 
-### Step 1: Create a dataframe needed to generate Sleuth analysis object
-
-#### Read in the metadata file 
-
-Read in the metadata file and use the `data.frame()` function to ensure it is a dataframe:
+Read in the metadata file and use the `data.frame()` function to ensure it is a dataframe, then combine the metadata with the paths to the transcript abundance files to use as input for the Sleuth analysis. Sleuth expects the data to be presented in a specific format with specific column and row names; therefore, we will create the dataframe based on the sleuth requirements for analysis.
 
 ```
 # Read in metadata file
 
 summarydata <- data.frame(read.table("meta/Mov10_full_meta.txt", header=TRUE, row.names=1), check.rows=FALSE)
 
-
-```
-#### Create dataframe to be used to generate the sleuth analysis object
-
-Now, combine the metadata with the paths to the transcript abundance files to use as input for the Sleuth analysis. Sleuth expects the data to be presented in a specific format with specific column and row names; therefore, we will create the dataframe based on the sleuth requirements for analysis.
-
-```
 # Name the directory paths for the abundance files with their corresponding sample IDs
+
 ## Make sure the order of the `sfdirs` created above matches the order of samples in the `summarydata` rownames
 
 names(sf_dirs) <- rownames(summarydata)
 
-# Generate the dataframe to be used to create the sleuth analysis object
+# Generate the dataframe
 
 sfdata <- summarydata
 
@@ -195,13 +220,13 @@ sfdata$path <- sf_dirs
 sfdata
 ```
 
-### Step 2: Provide the model design
+#### Step 2: Provide the model design
 
 Determine the covariates and/or confounders that should be included in your experimental design model. Sleuth can be used to analyze multiple conditions from complex experimental designs.
 
 Within Sleuth, models are written similar to DESeq2 using the following syntax: `design <- ~ sex + treatment`.
 
-This formula would test for the overall effect of treatment controlling for differences due to sex. The condition being tested is the last term added to the formula. 
+The formula above would test for the overall effect of treatment controlling for differences due to sex. The condition being tested is the last term added to the formula. 
 
 More complex designs can be analyzed using Sleuth as well. For example, interaction terms can be added to the design formula to test if the effect attributable to a given condition is different based on another factor, for example, if the treatment effect differs
 between sexes. To learn more about setting up design formulas for more complex designs, see the [DESeq2 tutorial](https://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.pdf) (chapter 3 discusses complex experimental designs). There is also a [recent post](http://nxn.se/post/134227694720/timecourse-analysis-with-sleuth) describing the use of Sleuth to perform time course analyses. While Sleuth has much flexiblity in design models, it is unable to support some complex designs, such as nested models.
@@ -212,7 +237,7 @@ Since the only condition we plan to test is our sample type, our design formula 
 design <- ~ sampletype
 ```
 
-### Step 3: Create Biomart dataset to query
+#### Step 3: Create Biomart dataset to query
 
 Obtain the Ensembl transcript/gene IDs and gene names for annotation of results by using the biomaRt package to query the Ensembl genome database. BiomaRt allows extensive genome information to be accessible during an analysis.
 
@@ -221,19 +246,23 @@ Obtain the Ensembl transcript/gene IDs and gene names for annotation of results 
 
 ## Specify that the database to query is the human gene database
 
-mart <- useMart(biomart = "ENSEMBL_MART_ENSEMBL",dataset="hsapiens_gene_ensembl", host = "dec2015.archive.ensembl.org") 	  #feb2014=build 37
+human_37 <- useDataset("hsapiens_gene_ensembl",
+				useMart(biomart = "ENSEMBL_MART_ENSEMBL", 
+					host = "dec2015.archive.ensembl.org")) #feb2014=build 37
 
 ## Specify the information to return
 
-t2g <- getBM(attributes = c("ensembl_transcript_id", "ensembl_gene_id", "external_gene_name"), mart = mart)
+t2g <- getBM(attributes = c("ensembl_transcript_id", "ensembl_gene_id", "external_gene_name"), 
+			mart = human_37)
 
 ## Rename the columns for use in Sleuth
 
 t2g <- dplyr::rename(t2g, target_id = ensembl_transcript_id, ens_gene = ensembl_gene_id, ext_gene = external_gene_name)
 ```
-### Step 4: Fit the sleuth model incorporating the experimental design
 
-#### Fit the transcript abundance data to the Sleuth model
+### Fit the sleuth model
+
+#### Step 1: Fit the transcript abundance data to the Sleuth model
 
 ```
 # Create sleuth object for analysis 
@@ -248,7 +277,7 @@ so <- sleuth_fit(so)
 
 ```
 
-#### Check which models have been fit and which coefficients can be tested
+#### Step 2: Check which models have been fit and which coefficients can be tested
 
 Ensure the design model and coefficients are correct for your analysis.
 
@@ -262,7 +291,7 @@ models(so)
 >***An ordered factor will not give interpretable output, so do not order the factor using the factor() function, use relevel() instead.***
 
 
-### Step 5: Test significant differences between conditions using the Wald test
+### Test significant differences between conditions using the Wald test
 
 ```
 # Wald test for specific condition
@@ -302,10 +331,11 @@ Within RStudio we need to install and load Sleuth similar to what we did on Orch
 source("http://bioconductor.org/biocLite.R")
 biocLite("devtools")    # only if devtools not yet installed
 biocLite("pachterlab/sleuth")
-
+install.packages("dplyr") # only if dplyr not yet installed
 # Load the sleuth library
 
 library(sleuth)
+library(dplyr)
 ```
 
 After the R object has successfully transferred, you can load the object into your new R project using `load()` or by double-clicking on the `oe.RData` object in the RStudio file directory:
