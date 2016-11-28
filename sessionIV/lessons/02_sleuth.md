@@ -259,7 +259,6 @@ t2g <- getBM(attributes = c("ensembl_transcript_id", "ensembl_gene_id", "externa
 
 t2g <- dplyr::rename(t2g, target_id = ensembl_transcript_id, ens_gene = ensembl_gene_id, ext_gene = external_gene_name)
 ```
-![sleuth](../img/sleuth_object.png)
 
 ### Fit the sleuth model
 
