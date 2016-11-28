@@ -178,7 +178,7 @@ The workflow for Sleuth is similar to the workflow followed for DESeq2, even tho
 
 ### Create Sleuth object for analysis
 
-![sleuth](../img/sleuth_workflow.png)
+![sleuth](../img/sleuth_object.png)
 
 To run Sleuth, we not only need the transcript abundance files, but we also need the metadata file specifying which samplegroups the samples belong to, and any other metadata we want included in the analysis. We also need the location of the estimated counts files, the model design, and a biomaRt database to easily convert between transcript IDs and associated gene names. To create this object we need to perform the following steps:
 
