@@ -259,8 +259,11 @@ t2g <- getBM(attributes = c("ensembl_transcript_id", "ensembl_gene_id", "externa
 
 t2g <- dplyr::rename(t2g, target_id = ensembl_transcript_id, ens_gene = ensembl_gene_id, ext_gene = external_gene_name)
 ```
+![sleuth](../img/sleuth_object.png)
 
 ### Fit the sleuth model
+
+![sleuth](../img/sleuth_workflow.png)
 
 #### Step 1: Fit the transcript abundance data to the Sleuth model
 
@@ -294,7 +297,9 @@ models(so)
 ### Test significant differences between conditions using the Wald test
 
 ```
-# Wald test for specific condition
+# Wald test for differential expression of isoforms
+
+![sleuth](../img/sleuth_workflow.png)
 
 oe <- sleuth_wt(so, 'sampletypeMOV10_overexpression')
 
