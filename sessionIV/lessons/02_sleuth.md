@@ -27,7 +27,7 @@ Sleuth accounts for this technical variability by using bootstraps as a proxy fo
 
 Sleuth models the unobserved true abundance (logarithm of true counts) using a general linear model, but includes the technical variance (variance between bootstrapping runs) as error in the response variable. 
 
-![stat1](../img/sleuth_formula1.png {width=40px height=40px})
+![stat1](../img/sleuth_formula1.png width="24")
 
 The observed abundance estimates (log) represent the sum of the true counts and the technical noise. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
 
