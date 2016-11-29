@@ -11,7 +11,8 @@ Approximate time: 1.25 hours
 ## Learning Objectives
 
 
-* Understand how sleuth determines biological and technical variation
+* Determine differential expression of isoforms and visualization of results using Sleuth
+* Understand how Sleuth determines biological and technical variation
 * Learn how to run R on Orchestra and how to set up personal R libraries
 
 ## What is Sleuth?
