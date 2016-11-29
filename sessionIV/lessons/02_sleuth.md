@@ -25,7 +25,13 @@ Due to statistical procedure required to assign reads to gene isoforms, in addit
 
 Sleuth accounts for this technical variability by using bootstraps as a proxy for technical replicates, which are used to model the variability in the abundance estimates. Bootstrapping essentially estimates technical variance by using a different sub-sample of reads during each round of bootstrapping. **The technical variance is the variation in transcript abundance estimates calculated for each of the different sub-samplings (or bootstraps) and it accounts for the technical variation associated with the transcript abundance estimation process**. 
 
-Sleuth models the true abundance mean (log) counts using a general linear model, but includes the technical variance (variance between bootstrapping runs) as error in the response variable. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
+Sleuth models the unobserved true abundance (logarithm of true counts) using a general linear model, but includes the technical variance (variance between bootstrapping runs) as error in the response variable. 
+
+![stat1](../img/sleuth_formula1.png)
+
+The observed abundance estimates (log) represent the sum of the true counts and the technical noise. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
+
+![stat2](../img/sleuth_formula2.png)
 
 In addition to performing differential expression analysis of transcripts, the sleuth tool also provides an html interface allowing exploration of the data and differential expression results interactively. More information about the theory/process for sleuth is available in [this blogpost](https://liorpachter.wordpress.com/2015/08/17/a-sleuth-for-rna-seq/) and step-by-step instructions are available in [this tutorial](https://rawgit.com/pachterlab/sleuth/master/inst/doc/intro.html).
 
