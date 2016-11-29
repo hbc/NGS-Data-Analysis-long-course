@@ -225,13 +225,14 @@ Once all your jobs are completed, you can merge all the counts files using `past
 	# the final command
 	$ paste ../new_analysis/counts/*.txt | awk '{print $1"\t"$2"\t"$4"\t"$6"\t"$8"\t"$10"\t"$12"\t"$14"\t"$16}' > ../new_analysis/counts/all_counts.txt 		
 
+> **A better and faster alternative to running featureCounts for each file in the script, would be just run featurecounts on all the bam files together, once all the jobs have completed.**
+
 ## Using R on a Unix system
 
 You can also run R scripts from the command prompt in Unix. These scripts are just like shell scripts, but with R code in them; we created a few last session. For running a script from the Unix command prompt, it will have to take into account the absolute or relative location of the files and folders that will be used. Also, your local environment will need to have all the packages installed and available. 
 
-You can run an R script from the Unix command prompt in one of the following ways:
-	
-	# for a script called mean.R, you can do one of the following (**do not run this now**)
+You can run an R script from the shell command prompt in several ways, 3 different ways are listed below for a script called `mean.R`:
+**Do not run this**
 	
 	$ R < mean.R
 	
