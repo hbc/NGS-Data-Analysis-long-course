@@ -17,23 +17,11 @@ Approximate time: 1.25 hours
 
 ## What is Sleuth?
 
-[Sleuth](http://pachterlab.github.io/sleuth/) is a fast, lightweight tool that uses transcript abundance estimates output from pseudo-alignment algorithms that use bootstrap sampling, such as Sailfish, Salmon, and Kallisto, to perform differential expression analysis of transcripts. 
+[Sleuth](http://pachterlab.github.io/sleuth/) is a fast, lightweight tool that uses transcript abundance estimates output from pseudo-alignment algorithms that use bootstrap sampling, such as Sailfish, Salmon, and Kallisto, to perform differential expression analysis of gene isoforms. 
 
-Sleuth models biological and technical variance separately, with 
+For the analysis of read isoforms, reads often map to multiple transcripts, which results in uncertainty in abundance estimates. The uncertainty in isoform abundance estimates translates into variance in quantification across samples, and the bootstrap sampling is required for estimation of this technical variance. Bootstrapping essentially estimates technical variance by using a different sub-sample of reads each round to estimate the transcript abundances. **The technical variance is the variation in transcript abundance estimates calculated for each of the different sub-samplings (or bootstraps) and it accounts for the technical variation associated with the transcript abundance estimation process**. These bootstraps act as proxy for technical replicates and are used to model the variability in the abundance estimates due to "random processes underlying RNA-Seq as well as the statistical procedure of read assignment" [[2](https://rawgit.com/pachterlab/sleuth/master/inst/doc/intro.html), [3](http://biorxiv.org/content/biorxiv/early/2016/06/10/058164.full.pdf)].
 
-- biological variance: 
-	- variance of biological and experimental origin
-- technical variance: 
-	- the number of reads sequenced from a transcript due to random nature of sequencing 
-	- transcript abundance estimation of ambiguously mapping reads
-
-Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
-
-Reads mapping to many transcripts results in uncertainty in abundance estimates which translates into variance in quantification across samples, and the bootstrap sampling is required for estimation of this technical variance. Bootstrapping essentially estimates technical variance by using a different sub-sample of reads each round to estimate the transcript abundances. **The technical variance is the variation in transcript abundance estimates calculated for each of the different sub-samplings (or bootstraps) and it accounts for the technical variation associated with the transcript estimation process**.
-
-These bootstraps act as proxy for technical replicates and are used to model the variability in the abundance estimates due to "random processes underlying RNA-Seq as well as the statistical procedure of read assignment" [[2](https://rawgit.com/pachterlab/sleuth/master/inst/doc/intro.html), [3](http://biorxiv.org/content/biorxiv/early/2016/06/10/058164.full.pdf)].
-
-Sleuth models the true abundance mean (log) counts  using a linear model, but includes the technical variance (variance between bootstrapping runs) as error in the response variable. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
+Sleuth models the true abundance mean (log) counts using a linear model, but includes the technical variance (variance between bootstrapping runs) as error in the response variable. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
 
 Sleuth was built to use the bootstrapped estimates of transcript abundance from Kallisto; however, abundance estimates from Sailfish (or Salmon) work just as well, as long as bootstrapping is performed. 
 
@@ -48,7 +36,7 @@ While Sailfish and Sleuth are lightweight algorithms that can be quickly run on 
 
 ### Setting up the filesystem
 
-Let's get started by setting up our directory. First let's copy over our meta data and the full sailfish output files. 
+Let's get started by setting up our directory. First let's copy over our metadata and the full sailfish output files. 
 
 ```
 $ bsub -Is -R "rusage[mem=16000]" -q interactive bash
