@@ -352,20 +352,32 @@ Move `oe.RData` into the `sleuth` folder.
 
 ### Exploring transcript-level expression between samples
 
-Now that we have our environment set up, we can perform some exploratory analyses. 
-
-#### Visualization of transcript expression for a single Mov10 isoform
-
-Let's get the transcript expression values for Mov10 transcript "ENST00000357443". We would like to observe technical and biological variation between the samples, so we need to attain the expression estimates for each bootstrap sampling for every sample using the `get_bootstraps()` function in sleuth:
+Now that we have our environment set up, we can perform some exploratory analyses. Sleuth offers us the option to explore the data and results interactively using a web interface. 
 
 ```
-boot_mov10_443 <- get_bootstraps(oe, "ENST00000357443")
+sleuth_live(oe)
 ```
 
-If we view `boot_mov10_443`, we will see the estimated counts (est_counts) and Transcripts Per Million (tpm) values for each bootstrap of every sample. We can visualize the estimates and distributions:
+Using this web interface, we can explore diagnostic plots and summaries of experimental factors and expression levels. We also have the ability to perform clustering analyses such as PCA and heatmaps. Finally, we can analyze the differential expression results by plotting MA and volcano plots and by exploring expression levels at the transcript and gene levels. A brief tutorial explaining the options available interactively can be found [here](http://www.rna-seqblog.com/iihg-intro-to-sleuth-for-rna-seq/).
 
-```
-ggplot(boot_mov10_443, aes(sample, est_counts + 1, fill = sampletype)) + 
+Explore the results table under the `analyses` tab, `test table`.
+
+![results_table](../img/mov10_test_table.png)
+
+Look at the expression levels of Mov10 for three different isoforms using the `analyses` tab, `gene view`. Look for the Mov10 gene, ENSG00000155363. Compare expression of the different isoforms of Mov10.
+
+![mov_isoforms](../img/mov10_isoform_expression.png)
+
+> **NOTE:** The expression levels can be explored manually as well. For example, to plot the transcript expression values for Mov10 transcript "ENST00000357443" we would need technical variation estimates for each sample. To attain the expression estimates for each bootstrap sampling for every sample using the `get_bootstraps()` function in sleuth:
+>
+>```
+>boot_mov10_443 <- get_bootstraps(oe, "ENST00000357443")
+>```
+>
+>If we view `boot_mov10_443`, we will see the estimated counts (est_counts) and Transcripts Per Million (tpm) values for each bootstrap of every sample. We can visualize the estimates and distributions:
+>
+>```
+>ggplot(boot_mov10_443, aes(sample, est_counts + 1, fill = sampletype)) + 
         geom_boxplot() + 
         facet_wrap(~target_id, ncol = 1) + 
         theme_bw() + 
@@ -373,22 +385,22 @@ ggplot(boot_mov10_443, aes(sample, est_counts + 1, fill = sampletype)) +
         theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
         ylab("estimated counts") + 
         xlab("")
-```
-
-The technical variation associated with the transcript abundance estimates for each sample is represented by the box plots. The biological variation is observed by viewing across biological replicates.
-
-While this isoform of Mov10 shows the expected pattern of expression, with high expression in the Mov10 over-expressed samples and lower expression in the Mov10 knockdown samples. We can look at the other isoforms of Mov10 as well. 
-
-To get the transcript IDs of all Mov10 transcripts, we can subset the dataset to those rows with gene names of "MOV10" and only return the transcript IDs. We can use the `drop` argument to return a vector instead of a dataframe:
-
-```
-mov10 <- subset(sleuth_results_oe, ext_gene == "MOV10", select=target_id, drop=T)
-```
-
-Now we would like to get the bootstraps for each transcript in this `mov10` vector. The easiest way to do this is using a `for loop`. 
-
-#### For loops in R
-
+>```
+>
+>The technical variation associated with the transcript abundance estimates for each sample is represented by the box plots. The biological variation is observed by viewing across biological replicates.
+>
+>While this isoform of Mov10 shows the expected pattern of expression, with high expression in the Mov10 over-expressed samples and lower expression in the Mov10 knockdown samples. We can look at the other isoforms of Mov10 as well. 
+>
+>To get the transcript IDs of all Mov10 transcripts, we can subset the dataset to those rows with gene names of "MOV10" and only return the transcript IDs. We can use the `drop` argument to return a vector instead of a dataframe:
+>
+>```
+>mov10 <- subset(sleuth_results_oe, ext_gene == "MOV10", select=target_id, drop=T)
+>```
+>
+>Now we would like to get the bootstraps for each transcript in this `mov10` vector. The easiest way to do this is using a `for loop`. 
+>
+>#### For loops in R
+>
 "For loops" in R are very similar to using the command line, and follow the syntax:
 
 ```
@@ -448,23 +460,6 @@ This plot is difficult to see in the "Plots" window. Let's export the image as a
 ![mov10_isoforms](../img/mov10_isoform_png.png)
 
 Click on the "Plots" tab, and click on the "Export" drop-down menu. Choose "Save as image". In the "Save plot as image" window, the image format should be PNG, the file name should be "Mov10_isoform_expression.png". The box should be checked for "Maintain aspect ratio", and the "Height" should be "2000". 
-
-While we can explore our results manually, sleuth offers us the option to explore the data and results interactively using a web interface. 
-
-```
-sleuth_live(oe)
-```
-
-Using this web interface, we can explore diagnostic plots and summaries of experimental factors and expression levels. We also have the ability to perform clustering analyses such as PCA and heatmaps. Finally, we can analyze the differential expression results by plotting MA and volcano plots and by exploring expression levels at the transcript and gene levels. A brief tutorial explaining the options available interactively can be found [here](http://www.rna-seqblog.com/iihg-intro-to-sleuth-for-rna-seq/).
-
-Explore the results table under the `analyses` tab, `test table`.
-
-![results_table](../img/mov10_test_table.png)
-
-Look at the expression levels of Mov10 for three different isoforms using the `analyses` tab, `gene view`. Look for the Mov10 gene, ENSG00000155363. Compare expression of the different isoforms of Mov10.
-
-![mov_isoforms](../img/mov10_isoform_expression.png)
-
 
 ***
 *This lesson has been developed by members of the teaching team at the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
