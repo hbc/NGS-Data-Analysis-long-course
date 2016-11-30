@@ -14,12 +14,14 @@ Approximate time: 2 hours
 
 ## Alignment-free quantification of gene expression
 
-In the standard RNA-seq pipeline that we have presented so far in this course, we have taken our reads post-QC and aligned them to the genome using our transcriptome (GTF) as guidance. The goal is to identify the genomic location where these reads originated from. Another strategy for quantification which has more recently been introduced involves **transcriptome mapping**. Tools that fall in this category include [Kallisto](https://pachterlab.github.io/kallisto/about), [Sailfish](http://www.nature.com/nbt/journal/v32/n5/full/nbt.2862.html) and [Salmon](https://combine-lab.github.io/salmon/); each working slightly different from one another. Common to all of these tools is that we **avoid mapping reads**, which is a time-consuming step, and **provides quantification estimates much faster than do existing approaches** (typically 20 times faster) without loss of accuracy. For this course we will explore Sailfish in more detail.
+In the standard RNA-seq pipeline that we have presented so far in this course, we have taken our reads post-QC and aligned them to the genome using our transcriptome (GTF) as guidance. The goal is to identify the genomic location where these reads originated from. Another strategy for quantification which has more recently been introduced involves **transcriptome mapping**. Tools that fall in this category include [Kallisto](https://pachterlab.github.io/kallisto/about), [Sailfish](http://www.nature.com/nbt/journal/v32/n5/full/nbt.2862.html) and [Salmon](https://combine-lab.github.io/salmon/); each working slightly different from one another. (For this course we will explore Sailfish in more detail.) Common to all of these tools is that we **avoid mapping reads**, which is a time-consuming step, and **provides quantification estimates much faster than do existing approaches** (typically 20 times faster) without loss of accuracy. These estimates, often referred to as 'pseudocounts' are then converted for use with DEG tools like DESeq2. 
+
+<img src="../img/alignmentfree_workflow.png" width="500">
 
 
 ### What is Sailfish?
 
-[Sailfish](http://www.cs.cmu.edu/~ckingsf/software/sailfish/index.html) and it's more recent "upgrade" [Salmon](https://combine-lab.github.io/salmon/), are based on the philosophy of lightweight algorithms. They use the sequence of genes or transcripts as input (in FASTA format), and do not align the whole read. Instead it's a 2-step process based on **counting "kmers"**.
+[Sailfish](http://www.cs.cmu.edu/~ckingsf/software/sailfish/index.html) and it's more recent "upgrade" [Salmon](https://combine-lab.github.io/salmon/), are based on the philosophy of lightweight algorithms. They use the sequence of genes or transcripts as input (in FASTA format), and do not align the whole read. Sailfish uses a 2-step process based on **counting "kmers"**.
 
 <img src="../img/kmer_counting_copy.png" width="500">
 
@@ -35,7 +37,7 @@ In the standard RNA-seq pipeline that we have presented so far in this course, w
 <img src="../img/sailfish_index.png" width="500">
 
 
-**Step 2: Quantification:** The next step is to count the number of times those k-mers appear in the sequenced reads (i.e. the FASTQ file). This count information is used to figure out which transcript the read probably came from, and estimate the abundance of each gene or transcript. 
+**Step 2: Quantification:** The next step is to count the number of times those k-mers in the index appear in the sequenced reads (i.e. the FASTQ file). This count information is used to figure out which transcript the read probably came from, and estimate the abundance of each gene or transcript. 
 
 1. Shred the reads into k-mers of size k.
 2. Count the number of times each indexed k-mer occurs in the set of reads.
@@ -50,16 +52,6 @@ In the standard RNA-seq pipeline that we have presented so far in this course, w
 > The worklows above are taken from the Sailfish publication, [Patro R. et al, 2014](http://www.nature.com/nbt/journal/v32/n5/full/nbt.2862.html).
 
 
-**Sailfish Bias Correction:**
-
-* Sailfish automatically considers transcript length, GC content and dinucleotide frequencies as potential bias factors
-* For each transcript, the prediction of the regression model represents the contribution of the bias factors (as covariates) to this transcript's estimated abundance
-* These regression estimates (which may be positive or negative) are subtracted from the original estimates to obtain bias-corrected KPKMs
-
-<img src="../img/sailfish_bias.png" width="400">
-
-
-
 ## Running Sailfish on Orchestra
 
 First start an interactive session and create a new directory for our Sailfish analysis:
@@ -70,11 +62,7 @@ $ bsub -Is -q interactive bash
 $ mkdir ~/ngs_course/rnaseq/sailfish
 $ cd ~/ngs_course/rnaseq/sailfish
 ```   
-Sailfish is not available as a module on Orchestra, but it is installed as part of the bcbio pipeline. As such, if we include the appropriate paths in our `$PATH` variable we can use it:
-    
-```bash
-$ export PATH=/opt/bcbio/centos/bin:$PATH
-```
+> Sailfish is not available as a module on Orchestra, but it is installed as part of the bcbio pipeline. Since we already have the appropriate path (`/opt/bcbio/centos/bin`) in our `$PATH` variable we can use it by simply typing in `sailfish`.     
 
 As you can imagine from the description above, when running Sailfish there are also two steps.
 
@@ -131,10 +119,10 @@ ENST00000605284 17      8.69981 0       0
 
 ```
 
-*  The first two columns are self-explanatory, the name of the transcript and the length of the transcript in base pairs (bp). 
-*  The effective length represents the the various factors that effect the length of transcript due to technical limitations of the sequencing platform.
-* Sailfish outputs ‘pseudocounts’ which predict the relative abundance of different isoforms in the form of three possible metrics (KPKM, RPKM, and TPM). TPM (transcripts per million) is a commonly used normalization method as described in [1](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2820677/) and is computed based on the effective length of the transcript.
-* Estimated number of reads (an estimate of the number of reads drawn from this transcript given the transcript’s relative abundance and length)
+*  The first two columns are self-explanatory, the **name** of the transcript and the **length of the transcript** in base pairs (bp). 
+*  The **effective length** represents the the various factors that effect the length of transcript due to technical limitations of the sequencing platform.
+* Sailfish outputs ‘pseudocounts’ which predict the relative abundance of different isoforms in the form of three possible metrics (KPKM, RPKM, and TPM). **TPM (transcripts per million)** is a commonly used normalization method as described in [[1]](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2820677/) and is computed based on the effective length of the transcript.
+* Estimated **number of reads** (an estimate of the number of reads drawn from this transcript given the transcript’s relative abundance and length)
 
  
 ## Running Sailfish on multiple samples 
