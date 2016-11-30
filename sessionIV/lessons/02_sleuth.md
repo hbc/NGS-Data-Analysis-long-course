@@ -151,9 +151,9 @@ files will be used as input to Sleuth.
 
 The workflow for Sleuth is similar to the workflow followed for DESeq2, even though, the models for estimating differential expression are very different. 
 
-- Creation of Sleuth object to provide metadata, estimated counts, and design formula for the analysis, in addition to a biomaRt database to switch between transcript IDs and associated gene names.
+**Step 1:** Creation of Sleuth object to provide metadata, estimated counts, and design formula for the analysis, in addition to a biomaRt database to switch between transcript IDs and associated gene names.
 
-- Fit the sleuth model
+**Step 2:** Fit the sleuth model
 	
 	- Estimation of size (normalization) factors using the median of ratios method, similar to DESeq2 
 	
@@ -169,7 +169,7 @@ The workflow for Sleuth is similar to the workflow followed for DESeq2, even tho
 
 	- Identification of coefficients indicating overall expression strength and Beta values for estimating fold changes	
 
-- Test for significant differences between conditions
+**Step 3:** Test for significant differences between conditions
 
 
 ### Create Sleuth object for analysis
@@ -311,6 +311,8 @@ Now that we have all of the analyses performed, we need to bring the output to o
 save("oe", "summarydata", "sleuth_results_oe", file="sleuth/oe.RData")
 ```
 
+We have completed the generation of the sleuth differential expression results on Orchestra, we can now quit R (`q()`) and Orchestra, and we can explore the results on our local computers by copying over the `oe.RData` file.
+
 ## Exploration of differential expression results
 
 ### Set-up for R session
@@ -332,6 +334,7 @@ source("http://bioconductor.org/biocLite.R")
 biocLite("devtools")    # only if devtools not yet installed
 biocLite("pachterlab/sleuth")
 install.packages("dplyr") # only if dplyr not yet installed
+
 # Load the sleuth library
 
 library(sleuth)
