@@ -32,7 +32,7 @@ Sleuth models the unobserved true abundance (logarithm of true counts) using a g
 </p>
 
 
-The observed abundance estimates (log) represent the sum of the true counts and the technical noise. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
+The observed (log) abundance estimates represent the sum of the true counts and the technical noise. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
 
 <p align="center">
   <img src="../img/sleuth_formula2.png" width="425"/>
