@@ -173,6 +173,8 @@ The workflow for Sleuth is similar to the workflow followed for DESeq2, even tho
 
 After performing all analysis steps, we will explore our results by transferring the results to our local machine, and we will use the html interface available through the sleuth package.
 
+## Sleuth workflow
+
 ### Step 1: Create Sleuth object for analysis
 
 ![sleuth](../img/sleuth_workflow1.png)
