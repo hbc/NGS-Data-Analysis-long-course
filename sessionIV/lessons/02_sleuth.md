@@ -172,7 +172,7 @@ The workflow for Sleuth is similar to the workflow followed for DESeq2, even tho
 **Step 3:** Test for significant differences between conditions
 
 
-### Create Sleuth object for analysis
+### Step 1: Create Sleuth object for analysis
 
 ![sleuth](../img/sleuth_workflow1.png)
 
@@ -188,9 +188,7 @@ To run Sleuth, we not only need the transcript abundance files, but we also need
 
 3. Use biomaRt to create a dataset for Sleuth to query for Ensembl IDs and associated gene names
 
-#### Step 1: Create a dataframe needed to generate Sleuth analysis object
-
-##### Read in the metadata file 
+#### Create a dataframe needed to generate Sleuth analysis object
 
 Read in the metadata file and use the `data.frame()` function to ensure it is a dataframe, then combine the metadata with the paths to the transcript abundance files to use as input for the Sleuth analysis. Sleuth expects the data to be presented in a specific format with specific column and row names; therefore, we will create the dataframe based on the sleuth requirements for analysis.
 
@@ -209,14 +207,18 @@ names(sf_dirs) <- rownames(summarydata)
 
 sfdata <- summarydata
 
+# Sleuth requires a column entitled "sample" containing the sample names 
+
 sfdata$sample <- rownames(sfdata)
+
+# Sleuth requires a column entitled "path" containing the paths to the estimated counts files
 
 sfdata$path <- sf_dirs
 
 sfdata
 ```
 
-#### Step 2: Provide the model design
+#### Provide the model design
 
 Determine the covariates and/or confounders that should be included in your experimental design model. Sleuth can be used to analyze multiple conditions from complex experimental designs.
 
@@ -233,7 +235,7 @@ Since the only condition we plan to test is our sample type, our design formula 
 design <- ~ sampletype
 ```
 
-#### Step 3: Create Biomart dataset to query
+#### Create Biomart dataset to query
 
 Obtain the Ensembl transcript/gene IDs and gene names for annotation of results by using the biomaRt package to query the Ensembl genome database. BiomaRt allows extensive genome information to be accessible during an analysis.
 
@@ -256,11 +258,11 @@ t2g <- getBM(attributes = c("ensembl_transcript_id", "ensembl_gene_id", "externa
 t2g <- dplyr::rename(t2g, target_id = ensembl_transcript_id, ens_gene = ensembl_gene_id, ext_gene = external_gene_name)
 ```
 
-### Fit the sleuth model
+### Step 2: Fit the sleuth model
 
 ![sleuth](../img/sleuth_workflow2.png)
 
-#### Step 1: Fit the transcript abundance data to the Sleuth model
+#### Fit the transcript abundance data to the Sleuth model
 
 ```R
 # Create sleuth object for analysis 
@@ -275,7 +277,7 @@ so <- sleuth_fit(so)
 
 ```
 
-#### Step 2: Check which models have been fit and which coefficients can be tested
+#### Check which models have been fit and which coefficients can be tested
 
 Ensure the design model and coefficients are correct for your analysis.
 
@@ -289,7 +291,7 @@ models(so)
 >```
 >***An ordered factor will not give interpretable output, so do not order the factor using the factor() function, use relevel() >instead.***
 
-### Test significant differences between conditions using the Wald test
+### Step 3: Test significant differences between conditions using the Wald test
 
 ![sleuth](../img/sleuth_workflow3.png)
 
