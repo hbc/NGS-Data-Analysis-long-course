@@ -32,7 +32,7 @@ bcbio-nextgen provides *best-practice* piplelines with the goal of being:
 * Reproducible: Tracks configuration, versions, provenance and command lines
 * Analyzable: Results feed into downstream tools to make it easy to query and visualize
 
-It is availble for installation on most Linux systems (compute clusters), and also has instructions for setup on the Cloud. It is currently installed on on the Orchestra cluster, and so we will demonstrate `bcbio-nextgen` for RNA-seq data using our Mov10 dataset as input.
+It is available for installation on most Linux systems (compute clusters), and also has instructions for setup on the Cloud. It is currently installed on on the Orchestra cluster, and so we will demonstrate `bcbio-nextgen` for RNA-seq data using our Mov10 dataset as input.
 
 The figure below describes the input (yellow), workflow (green) and output (purple) components of `bcbio`:
 
@@ -51,19 +51,25 @@ The first thing we need to do in order to run `bcbio`, is setup some environment
 
 Open up your `.bashrc` using `vim` and add in the following:
 
-	# Environment variables for running bcbio
+	# Environment variables for running bcbio -- YOU MAY ALREADY HAVE THIS
 	export PATH=/opt/bcbio/centos/bin:$PATH
 	
 	unset PYTHONHOME
 	unset PYTHONPATH
 
  
-Close and save the file. Finally, let's set up the project structure. Change directories into `~/ngs_course/rnaseq` and make a directory called `bcbio-rnaseq`:
+Close and save the file. Finally, let's set up the project structure. **Since `bcbio` will spawn a number of intermediate files as it goes through the pipeline of tools, we will use `/n/scratch2` space to make sure there is enough disk space to hold all of those files.** Your home directory on Orchestra will not be able to handle this amount of data. Another alternative is talking to the folks at HMS-RC to set up a directory in the `/groups` folder for your lab. 
 
-	$ cd ~/ngs_course/rnaseq
+Change directories into `/n/scratch2` and make a directory titled your Orchestra username (i.e. `mm573`). Since this is a shared space it is useful to make your own personal directory:
+
+	$ cd /n/scratch2
+	$ mkdir <ecommmons_id>
+
+
+Now let's create a directory for the bcbio run:
+	
+	$ cd <ecommons_id>
 	$ mkdir bcbio-rnaseq
-
-
 
 ## `bcbio`: Inputs
 
@@ -152,15 +158,15 @@ Before we actually run the analysis, let's talk a bit about the tools that will 
 
 ![bcbio-workflow](../img/bcbio-workflow.png)
  
-For quality control, the FASTQC tool is used and we selected `standard` to indicate the stadard fastqsanger quality encoding. [qualimap](http://qualimap.bioinfo.cipf.es/) is another tool used to report QC according to the features of the mapped reads and provides an overall view of the data that helps to the detect biases in the sequencing and/or mapping of the data. 
+For quality control, the FASTQC tool is used and we selected `standard` to indicate the stadard fastqsanger quality encoding. [qualimap](http://qualimap.bioinfo.cipf.es/) and [MultiQC](http://multiqc.info/) are other tools that are run. These tools report QC according to the features of the mapped reads and provides an overall view of the data that helps to the detect biases in the sequencing and/or mapping of the data. 
 
-Trimming is not required unless you are using the Tophat2 aligner. Adapter trimming is very slow, and aligners that soft clip the ends of reads such as STAR and hisat2, or algorithms using pseudoalignments like Sailfish handle contaminant sequences at the ends properly. This makes trimming unnecessary, and since we have chosen `star` as our aligner we have also set `trim_reads: False`. *Tophat2 does not perform soft clipping so if that is the aligner that is chosen, trimming must still be done.*
+Trimming is not required unless you are using and aligner that doesn't perform soft-clipping. Adapter trimming is very slow, and aligners that soft clip the ends of reads such as STAR and HISAT2, or algorithms using pseudoalignments like Sailfish handle contaminant sequences at the ends properly. This makes trimming unnecessary, and since we have chosen `star` as our aligner we have also set `trim_reads: False`. 
 
 Counting of reads is done using featureCounts and does not need to be specfied in the config file. Also, Sailfish, which is an extremely fast alignment-free method of quantitation, is run for all experiments. There is also an option for Cufflinks to be run if you wanted to look at isoform level expression differences using the Tuxedo suite of tools. The outputs generated are per-sample GTF files and an FPKM matrix.
 
 ### Creating a job script to run `bcbio`
 
-Upon creation of the config file, you will have noticed two directories were created. The `work` directory is created becasue that is where `bcbio` expects you to run the job.
+Upon creation of the config file, you will have noticed two directories were created. The `work` directory is created because that is where `bcbio` expects you to run the job.
 
 Let's move into this directory:
 	
@@ -181,7 +187,7 @@ To run `bcbio` we call the same python script that we used for creating the conf
 `bcbio` pipeline runs in parallel using the IPython parallel framework. This allows scaling beyond the cores available on a single machine, and requires multiple machines with a shared filesystem like standard cluster environments. 
 Although, we will only ask for a single core in our job submission script `bcbio` will use the parameters provided in the command to spin up the appropriate number of cores required at each stage of the pipeline.
 
-> **NOTE:** Since `bcbio` will spawn a number of intermediate files as it goes through the pipeline of tools, you will need to make sure there is enough disk space to hold all of those files. **Your home directory on Orchestra will not be able to handle this amount of data.** Instead we recommend talking to the folks at HMS RC to set up a directory in the `/groups` folder for your lab. For this lesson, since we are using a small subset of the original data running in your home directory *should not be problematic*.
+
 
 The job can take on the range of hours to days depending on the size of your dataset, and so rather than running interactively we will create a job submission script. 
 
@@ -190,16 +196,16 @@ Open up a script file using `vim` and create your job script:
 	$ vim submit_bcbio.lsf
 
 ```
-#!/bin/sh
+	#!/bin/sh
 
-#BSUB -q priority
-#BSUB -J bcbio_mov10
-#BSUB -n 1
-#BSUB -W 3:00
-#BUSB -R “rusage[mem=10000]”
-#BSUB -e mov10_project.err
+	#BSUB -q priority
+	#BSUB -J bcbio_mov10
+	#BSUB -n 1
+	#BSUB -W 3:00
+	#BUSB -R “rusage[mem=10000]”
+	#BSUB -e mov10_project.err
 
-bcbio_nextgen.py ../config/mov10_project.yaml -n 64 -t ipython -s lsf -q mcore -r mincores=2 -r minconcores=2 '-rW=72:00' --retries 3 --timeout 380
+	bcbio_nextgen.py ../config/mov10_project.yaml -n 64 -t ipython -s lsf -q mcore -r mincores=2 -r minconcores=2 '-rW=72:00' --retries 3 --timeout 380
 ```
 
 Once you are done, save and close. From within the `work` directory you can now submit the job:
