@@ -291,7 +291,7 @@ models(so)
 
 ### Test significant differences between conditions using the Wald test
 
-```
+```R
 # Wald test for differential expression of isoforms
 
 ![sleuth](../img/sleuth_workflow.png)
@@ -307,7 +307,7 @@ sleuth_results_oe <- sleuth_results(oe, 'sampletypeMOV10_overexpression', show_a
 
 Now that we have all of the analyses performed, we need to bring the output to our local machines for further exploration. The `save()` function works to write an R object to file, and takes the files to include in the R object as arguments.
 
-```
+```R
 save("oe", "summarydata", "sleuth_results_oe", file="sleuth/oe.RData")
 ```
 
@@ -318,14 +318,14 @@ Before we begin to explore our results, we need to copy over the `oe.RData` file
 
 If using `scp`, you need to open the Terminal on the local machine and type:
 
-```
+```bash
 $ scp username@transfer.orchestra.med.harvard.edu:/home/username/ngs_course/rnaseq/sleuth/oe.RData Desktop
 ```
 While the R object is transferring (it may take a few minutes), open up RStudio and create a new project called `sleuth`. 
 
 Within RStudio we need to install and load Sleuth similar to what we did on Orchestra:
 
-```
+```R
 # Install the sleuth package on your local machine
 
 source("http://bioconductor.org/biocLite.R")
@@ -340,7 +340,7 @@ library(dplyr)
 
 After the R object has successfully transferred, you can load the object into your new R project using `load()` or by double-clicking on the `oe.RData` object in the RStudio file directory:
 
-```
+```R
 load("~/Desktop/oe.RData")
 ```
 
@@ -350,7 +350,7 @@ Move `oe.RData` into the `sleuth` folder.
 
 Now that we have our environment set up, we can perform some exploratory analyses. Sleuth offers us the option to explore the data and results interactively using a web interface. 
 
-```
+```R
 sleuth_live(oe)
 ```
 
