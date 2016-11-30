@@ -320,7 +320,7 @@ We have completed the generation of the sleuth differential expression results o
 
 ## Exploration of differential expression results
 
-### Set-up for R session
+### Set-up for local R session
 Before we begin to explore our results, we need to copy over the `oe.RData` file to our local machine using Filezilla or `scp`.
 
 If using `scp`, you need to open the Terminal on the local machine and type:
