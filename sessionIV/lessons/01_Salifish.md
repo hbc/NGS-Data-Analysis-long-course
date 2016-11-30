@@ -86,7 +86,7 @@ a. "Index" the transcriptome (transcripts or genes) using the `index` command:
 b. Get the abundance using the quantification step using the `quant` command and the parameters described below (more information on parameters can be found [here](http://sailfish.readthedocs.org/en/master/sailfish.html#description-of-important-options):
 
 
-   * `i`: specify the location of the index directory; for us it is `/groups/hbctraining/ngs-data-analysisSummer2016/rnaseq/sailfish.ensembl2.idx/`
+   * `i`: specify the location of the index directory; for us it is `/groups/hbctraining/ngs-data-analysis-longcourse/rnaseq/sailfish.ensembl2.idx/`
    * `-l SR`: specify stranded single-end reads
    * `-r`: list of files
    * `--useVBOpt`: use variational Bayesian EM algorithm rather than the ‘standard EM’ to optimize abundance estimates (more accurate) 
@@ -95,7 +95,7 @@ b. Get the abundance using the quantification step using the `quant` command and
 To run the quantification step on a single sample we have the command provided below. Let's try running it on our subset sample for `Mov10_oe_1.subset.fq`:
 
 ``` 
-    $ sailfish quant -i /groups/hbctraining/ngs-data-analysisSummer2016/rnaseq/sailfish.ensembl2.idx/ \
+    $ sailfish quant -i /groups/hbctraining/ngs-data-analysis-longcourse/rnaseq/sailfish.ensembl2.idx/ \
     -l SR \
     -r ~/ngs_course/rnaseq/data/untrimmed_fastq/Mov10_oe_1.subset.fq \
     --useVBOpt \
