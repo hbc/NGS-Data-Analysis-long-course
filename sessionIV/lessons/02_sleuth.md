@@ -163,7 +163,7 @@ The workflow for Sleuth is similar to the workflow followed for DESeq2, even tho
 	
 	- Estimation of size (normalization) factors using the median of ratios method, similar to DESeq2 
 	
-	- Normalization of estimated counts using size factors
+	- Normalization of estimated counts using size factors (est. counts / size factors)
 
 	- Filtering of low abundance transcripts (< 5 est counts in more than 47% of the samples)
 
