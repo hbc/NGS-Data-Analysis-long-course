@@ -155,19 +155,19 @@ The workflow for Sleuth is similar to the workflow followed for DESeq2, even tho
 
 **Step 2:** Fit the sleuth model
 	
-	- Estimation of size (normalization) factors using the median of ratios method, similar to DESeq2 
+- Estimation of size (normalization) factors using the median of ratios method, similar to DESeq2 
 	
-	- Normalization of estimated counts using size factors (est. counts / size factors)
+- Normalization of estimated counts using size factors (est. counts / size factors)
 
-	- Filtering of low abundance transcripts (< 5 est counts in more than 47% of the samples)
+- Filtering of low abundance transcripts (< 5 est counts in more than 47% of the samples)
 
-	- Normalization of technical variation estimates
+- Normalization of technical variation estimates
 
-	- Estimation of biological variance and shrinkage estimates (With small sample sizes, we will make very bad estimates of transcript-wise dispersion unless we share information across transcripts. Sleuth regularizes the biological variance estimate with shrinkage, similar to DESeq2, except uses a different statistical method (similar to Limma Voom).)
+- Estimation of biological variance and shrinkage estimates (With small sample sizes, we will make very bad estimates of transcript-wise dispersion unless we share information across transcripts. Sleuth regularizes the biological variance estimate with shrinkage, similar to DESeq2, except uses a different statistical method (similar to Limma Voom).)
 	
-	- Parameter estimation and estimation of variance using the general linear model.
+- Parameter estimation and estimation of variance using the general linear model.
 
-	- Identification of coefficients indicating overall expression strength and Beta values for estimating fold changes	
+- Identification of coefficients indicating overall expression strength and Beta values for estimating fold changes	
 
 **Step 3:** Test for significant differences between conditions
 
