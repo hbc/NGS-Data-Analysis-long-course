@@ -157,7 +157,7 @@ files will be used as input to Sleuth.
 
 The workflow for Sleuth is similar to the workflow followed for DESeq2, even though, the models for estimating differential expression are very different. 
 
-- Creation of Sleuth object to provide metadata, count data, and design formula for the analysis, in addition to a biomaRt database to switch between transcript IDs and associated gene names.
+- Creation of Sleuth object to provide metadata, estimated counts, and design formula for the analysis, in addition to a biomaRt database to switch between transcript IDs and associated gene names.
 
 - Fit the sleuth model
 	
