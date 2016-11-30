@@ -188,103 +188,118 @@ The developers of DESeq2 have developed a package that can make the conversion o
 
 **Step 1:** Install the `tximport` package and the `readr` package (you'll only need to do this once):
     
-    # Install from Bioconductor
-    source("http://bioconductor.org/biocLite.R")
-    biocLite("tximport")
-    biocLite("readr")
-    
+```R
+# Install from Bioconductor
+source("http://bioconductor.org/biocLite.R")
+biocLite("tximport")
+biocLite("readr")
+```
+
 **Step 2:** Load the required libraries:
 
-    library(tximport)
-    library(readr)
-    library(DESeq2)
-    library(biomaRt) # tximport requires gene symbols as row names
+```R
+# Load libraries
+library(tximport)
+library(readr)
+library(DESeq2)
+library(biomaRt) # tximport requires gene symbols as row names
+```
 
 **Step 3:** Load the quantification data that was output from Sailfish:
 
-```
-    ## List all directories containing data  
-    samples <- list.files(path = ".", full.names = F, pattern="\\.sailfish$")
+```R
+## List all directories containing data  
+samples <- list.files(path = ".", full.names = F, pattern="\\.sailfish$")
     
-    ## Obtain a vector of all filenames including the path
-    files <- file.path(samples, "quant.sf")
+## Obtain a vector of all filenames including the path
+files <- file.path(samples, "quant.sf")
     
-    ## Since all quant files have the same name it is useful to have names for each element
-    names(files) <-  samples
+## Since all quant files have the same name it is useful to have names for each element
+names(files) <-  samples
  ```
     
 > **OPTION 2: An alternative to this is having absolute paths instead of relative paths.** This would be useful so you can run this from anywhere in your filesystem.
 >
 
-```	
-	dir <- getwd()
-	files <- file.path(dir, samples, "quant.sf")
+```R
+## DO NOT RUN
+dir <- getwd()
+files <- file.path(dir, samples, "quant.sf")
 	
-	## Create your own function
-	assignNames <- function(x){
-			strsplit(x, "/")[[1]][6]
-			}
-	names(files) <- sapply(files, assignNames, USE.NAMES=F)
+## Create your own function
+assignNames <- function(x){
+		strsplit(x, "/")[[1]][6]
+		}
+names(files) <- sapply(files, assignNames, USE.NAMES=F)
 ```
 
 Either of these methods will work, or even a combination of the two. The **main objective here is to add names to our quant files which will allow us to easily discriminate between samples in the final output matrix**. 
 
 **Step 4.** Create a dataframe containing Ensembl Transcript IDs and Gene symbols
 
-Our Sailfish index was generated with transcript sequences listed by Ensembl IDs, but `tximport` needs to know **which genes these transcripts came from**, so we need to use the `biomaRt` package to extract this information.
-	
-    # Create a character vector of Ensembl IDs		
-    ids <- read.delim(files[1], sep="\t", header=T)    # extract the transcript ids from one of the files
-    ids <- as.character(ids[,1]) 
-   
-    # Create a mart object
-    # Note that we are using an archived host, since "www.ensembl.org" gave us an error
-    mart <- useDataset("hsapiens_gene_ensembl", useMart("ENSEMBL_MART_ENSEMBL", host="mar2016.archive.ensembl.org"))
-    
-    # Get official gene symbol and Ensembl gene IDs
-    tx2gene <- getBM(
-        filters= "ensembl_transcript_id", 
-         attributes= c("ensembl_transcript_id", "external_gene_name"),
-         values= ids,
-         mart= mart)
-    
-    # Re-order and save columns to a new variable
-    head(tx2gene)
+Our Sailfish index was generated with transcript sequences listed by Ensembl IDs, but `tximport` needs to know **which genes these transcripts came from**, so we need to use the `biomaRt` package to extract this information. However, since BiomaRt has been a little unreliable we are actually not going to use this code right now.
+```R
+## DO NOT RUN
 
-> *NOTE:* If this does not work for you there is a file in your current working directory that you can upload instead. Load it in using `tx2gene <- read.delim("tx2gene.txt",sep=" ")`
+# Create a character vector of Ensembl IDs		
+ids <- read.delim(files[1], sep="\t", header=T)    # extract the transcript ids from one of the files
+ids <- as.character(ids[,1]) 
+
+# Create a mart object
+# Note that we are using an archived host, since "www.ensembl.org" gave us an error
+mart <- useDataset("hsapiens_gene_ensembl", useMart("ENSEMBL_MART_ENSEMBL", host="mar2016.archive.ensembl.org"))
+
+# Get official gene symbol and Ensembl gene IDs
+tx2gene <- getBM(
+    filters= "ensembl_transcript_id", 
+     attributes= c("ensembl_transcript_id", "external_gene_name"),
+     values= ids,
+     mart= mart)
+     
+# Re-order and save columns to a new variable
+head(tx2gene)
+```
+
+We have already run the above code for you and saved the output in a text file which is in the sailfish directory. Load it in using: 
+
+```R
+tx2gene <- read.delim("tx2gene.txt",sep=" ")
+```
     
 **Step 5:** Run tximport to summarize gene-level information    
+```R
+?tximport   # let's take a look at the arguments for the tximport function
 
-    ?tximport   # let's take a look at the arguments for the tximport function
-    
-    txi <- tximport(files, type="sailfish", txIn = TRUE, txOut = FALSE, tx2gene=tx2gene, reader=read_tsv)
-
+txi <- tximport(files, type="sailfish", txIn = TRUE, txOut = FALSE, tx2gene=tx2gene, reader=read_tsv)
+```
 ### Output from `tximport`
 
 The `txi` object is a simple list with three matrices: abundance, counts, length. 
-
-	attributes(txi)
-
+```R
+attributes(txi)
+```
 A final element 'countsFromAbundance' carries through the character argument used in the tximport call. The length matrix contains the average transcript length for each gene which can be used as an offset for gene-level analysis. 
 
 
 ### Using DESeq2 for DE analysis with pseudocounts
-    
-    library(DESeq2)   # load this if you have not loaded it earlier
-    
-    source('DESeqDataFromTx.R')   # required for using tximport output as input for DESeq2
-    
-    ## Create a sampletable/metadata
-    
-    # Before we create this metadata object, let's see what the sample (column) order of the counts matrix is:
-    colnames(txi$counts)
-    
-    condition=factor(c(rep("Ctl",3), rep("KD", 2), rep("OE", 3)))
-    sampleTable <- data.frame(condition, row.names = colnames(txi$counts))
-    
-    ## Create a DESeqDataSet object
-    dds <- DESeqDataSetFromTximport(txi, sampleTable, ~ condition)
-    
+
+```R    
+library(DESeq2)   # load this if you have not loaded it earlier
+
+source('DESeqDataFromTx.R')   # required for using tximport output as input for DESeq2
+
+## Create a sampletable/metadata
+
+# Before we create this metadata object, let's see what the sample (column) order of the counts matrix is:
+colnames(txi$counts)
+
+condition=factor(c(rep("Ctl",3), rep("KD", 2), rep("OE", 3)))
+sampleTable <- data.frame(condition, row.names = colnames(txi$counts))
+
+## Create a DESeqDataSet object
+dds <- DESeqDataSetFromTximport(txi, sampleTable, ~ condition)
+```
+
 Now you have created a DESeq object to proceed with DE analysis as we discussed in the last session!
 
 ***
