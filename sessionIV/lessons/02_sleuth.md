@@ -291,10 +291,10 @@ models(so)
 
 ### Test significant differences between conditions using the Wald test
 
+![sleuth](../img/sleuth_workflow.png)
+
 ```R
 # Wald test for differential expression of isoforms
-
-![sleuth](../img/sleuth_workflow.png)
 
 oe <- sleuth_wt(so, 'sampletypeMOV10_overexpression')
 
