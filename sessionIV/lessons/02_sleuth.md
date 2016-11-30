@@ -171,6 +171,7 @@ The workflow for Sleuth is similar to the workflow followed for DESeq2, even tho
 
 **Step 3:** Test for significant differences between conditions
 
+After performing all analysis steps, we will explore our results by transferring the results to our local machine, and we will use the html interface available through the sleuth package.
 
 ### Step 1: Create Sleuth object for analysis
 
