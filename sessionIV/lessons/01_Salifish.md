@@ -64,22 +64,27 @@ In the standard RNA-seq pipeline that we have presented so far in this course, w
 
 First start an interactive session and create a new directory for our Sailfish analysis:
 
-    $ bsub -Is -q interactive bash
+```bash
+$ bsub -Is -q interactive bash
 
-    $ mkdir ~/ngs_course/rnaseq/sailfish
-    $ cd ~/ngs_course/rnaseq/sailfish
-    
+$ mkdir ~/ngs_course/rnaseq/sailfish
+$ cd ~/ngs_course/rnaseq/sailfish
+```   
 Sailfish is not available as a module on Orchestra, but it is installed as part of the bcbio pipeline. As such, if we include the appropriate paths in our `$PATH` variable we can use it:
     
-    $ export PATH=/opt/bcbio/centos/bin:$PATH
-    
+```bash
+$ export PATH=/opt/bcbio/centos/bin:$PATH
+```
+
 As you can imagine from the description above, when running Sailfish there are also two steps.
 
 a. "Index" the transcriptome (transcripts or genes) using the `index` command:
     
-    ## DO NOT RUN THIS CODE
-    $ sailfish index -p <num of cores> -k <kmer size> -t <fasta of gene sequences> 
-                         -o <folder name>
+```bash
+## DO NOT RUN THIS CODE
+$ sailfish index -p <num of cores> -k <kmer size> -t <fasta of gene sequences> 
+   -o <folder name>
+```
 
 **We are not going to run this in class, but it only takes a few minutes.** We will be using an index we have generated from transcript sequences (all known transcripts/ splice isoforms with multiples for some genes), but this can be generated from genic sequences too. 
 
@@ -94,12 +99,12 @@ b. Get the abundance using the quantification step using the `quant` command and
 
 To run the quantification step on a single sample we have the command provided below. Let's try running it on our subset sample for `Mov10_oe_1.subset.fq`:
 
-``` 
-    $ sailfish quant -i /groups/hbctraining/ngs-data-analysis-longcourse/rnaseq/sailfish.ensembl2.idx/ \
-    -l SR \
-    -r ~/ngs_course/rnaseq/data/untrimmed_fastq/Mov10_oe_1.subset.fq \
-    --useVBOpt \
-    -o Mov10_oe_1.subset.sailfish
+```bash
+$ sailfish quant -i /groups/hbctraining/ngs-data-analysis-longcourse/rnaseq/sailfish.ensembl2.idx/ \
+-l SR \
+-r ~/ngs_course/rnaseq/data/untrimmed_fastq/Mov10_oe_1.subset.fq \
+--useVBOpt \
+-o Mov10_oe_1.subset.sailfish
 ```
 
 ## Sailfish output
@@ -112,7 +117,7 @@ There is a logs directory, which contains all of the text that was printed to sc
 
 This is the **quantification file** in which each row corresponds to a transcript, listed by Ensembl ID, and the columns correspond to metrics for each transcript:
 
-```
+```bash
 Name    Length  EffectiveLength TPM     NumReads
 ENST00000415118 8       4.79618 0       0
 ENST00000434970 9       5.24851 0       0
@@ -142,7 +147,7 @@ Open up a script in `vim`:
 
 Let's start with our shebang line followed by all BSUB directives:
 
-```
+```bash
 #!/bin/bash
 #BSUB -q mcore       # Partition to submit to (comma separated)
 #BSUB -n 6           # Number of cores, since we are running the STAR command with 6 threads
@@ -156,13 +161,12 @@ Now we can create a for loop to iterate over all FASTQ samples, and run Sailfish
 
 > *NOTE:* We are iterating over FASTQ files in the full dataset directory, located at `/groups/hbctraining/ngs-data-analysis2016/rnaseq/full_dataset/`
 
-```
+```bash
 for fq in /groups/hbctraining/ngs-data-analysis2016/rnaseq/full_dataset/*.fastq
  do 
    base=`basename $fq .fastq`
    sailfish quant -i /n/data1/cores/bcbio/hbctraining/sailfish-run/sailfish.ensembl2.idx/  -p 6 -l SR  -r $fq --useVBOpt --numBootstraps 30 -o $base.sailfish 
  done
-
 ```
 
 Save and close the script. This is now ready to run. **We are not going to submit this job in class**, since it might take awhile we have already generated these files for you for use with the statistical analysis below.
