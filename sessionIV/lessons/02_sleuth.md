@@ -28,14 +28,14 @@ Sleuth accounts for this technical variability by using bootstraps as a proxy fo
 Sleuth models the unobserved true abundance (logarithm of true counts) using a general linear model, but includes the technical variance (variance between bootstrapping runs) as error in the response variable. 
 
 <p align="center">
-  <img src="../img/sleuth_formula1.png" width="500" align="middle"/>
+  <img src="../img/sleuth_formula1.png" width="500"/>
 </p>
 
 
 The observed abundance estimates (log) represent the sum of the true counts and the technical noise. Thereby, sleuth teases apart the source of the variance (technical vs. biological) for estimation of the "true" biological variance when determining whether transcripts are differentially expressed.
 
 <p align="center">
-  <img src="../img/sleuth_formula2.png" width="400" align="middle"/>
+  <img src="../img/sleuth_formula2.png" width="400"/>
 </p>
 
 In addition to performing differential expression analysis of transcripts, the sleuth tool also provides an html interface allowing exploration of the data and differential expression results interactively. More information about the theory/process for sleuth is available in [this blogpost](https://liorpachter.wordpress.com/2015/08/17/a-sleuth-for-rna-seq/) and step-by-step instructions are available in [this tutorial](https://rawgit.com/pachterlab/sleuth/master/inst/doc/intro.html).
