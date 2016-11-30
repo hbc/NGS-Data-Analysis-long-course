@@ -51,7 +51,7 @@ While Sailfish and Sleuth are lightweight algorithms that can be quickly run on 
 
 Let's get started by setting up our directory. First let's copy over our metadata and the full sailfish output files. 
 
-```
+```bash
 $ bsub -Is -R "rusage[mem=16000]" -q interactive bash
 
 $ cd ~/ngs_course/rnaseq
@@ -63,7 +63,7 @@ $ cp -r /groups/hbctraining/ngs-data-analysis-longcourse/rnaseq/snapshots/sailfi
 
 Now let's make a folder for our sleuth results and load the R module to run it.
 
-```
+```bash
 $ mkdir sleuth
 
 $ module load stats/R/3.2.1
@@ -71,7 +71,7 @@ $ module load stats/R/3.2.1
 
 Sleuth is an R package, and while some R packages are automatically available to us on Orchestra, some of the packages we need to run Sleuth are not. Therefore, to run Sleuth on Orchestra, we need to manually install these programs into our personal R library. If you haven't created a personal R library, you can do so by entering the following code ([Orchestra Wiki](https://wiki.med.harvard.edu/Orchestra/WebHome)):
 
-```
+```bash
 $ mkdir -p ~/R/library
 
 $ echo 'R_LIBS_USER="~/R/library"' >  $HOME/.Renviron
@@ -81,7 +81,7 @@ $ export R_LIBS_USER="/home/username/R/library"
 
 Now, start R:
 
-```
+```bash
 $ R
 ```
 
@@ -97,13 +97,7 @@ To manually install a package on Orchestra from CRAN we would have to specify wh
 
 Let's install the `Wasabi` package, which is a Bioconductor package.
 
-```
-source("http://bioconductor.org/biocLite.R")
-biocLite("COMBINE-lab/wasabi")
-
-# When asked whether you want to "Update all/some/none?" Select `n` for none.
-```
-```
+```R
 source("http://bioconductor.org/biocLite.R")
 biocLite("COMBINE-lab/wasabi")
 
@@ -116,12 +110,12 @@ We have created an Rscript to run Wasabi and Sleuth for you, but to explain each
 
 Before starting, let's set our working directory to the `rnaseq` folder:
 
-```
+```R
 setwd("~/ngs_course/rnaseq")
 ```
 and load the libraries for wasabi and sleuth, which is already installed on Orchestra. Sleuth also has a couple of dependencies and requires these other packages be loaded, as well: `biomaRt`, and `dplyr` (automatically available from Orchestra):
 
-```
+```R
 library(wasabi)
 library(sleuth)
 library(biomaRt)
@@ -136,7 +130,7 @@ First, we create a simple vector containing the paths to the directories contain
 
 Now, let's use this function to create our list of the paths to our transcript abundance files:
 
-```
+```R
 sf_dirs <- file.path("sailfish", c("Mov10_kd_2.sailfish", "Mov10_kd_3.sailfish", "Mov10_oe_1.sailfish", "Mov10_oe_2.sailfish", "Mov10_oe_3.sailfish","Irrel_kd_1.sailfish", "Irrel_kd_2.sailfish", "Irrel_kd_3.sailfish"))
 
 sf_dirs
@@ -144,7 +138,7 @@ sf_dirs
 
 Now, we simply run the `prepare_fish_for_sleuth` function, which will write some status messages to the console and, when it's done, each directory will contain an `abundance.h5` file in a sleuth-compatible format.
 
-```
+```R
 prepare_fish_for_sleuth(sf_dirs)
 ```
 
@@ -200,7 +194,7 @@ To run Sleuth, we not only need the transcript abundance files, but we also need
 
 Read in the metadata file and use the `data.frame()` function to ensure it is a dataframe, then combine the metadata with the paths to the transcript abundance files to use as input for the Sleuth analysis. Sleuth expects the data to be presented in a specific format with specific column and row names; therefore, we will create the dataframe based on the sleuth requirements for analysis.
 
-```
+```R
 # Read in metadata file
 
 summarydata <- data.frame(read.table("meta/Mov10_full_meta.txt", header=TRUE, row.names=1), check.rows=FALSE)
@@ -235,7 +229,7 @@ between sexes. To learn more about setting up design formulas for more complex d
 
 Since the only condition we plan to test is our sample type, our design formula is very simple:
 
-```
+```R
 design <- ~ sampletype
 ```
 
@@ -243,7 +237,7 @@ design <- ~ sampletype
 
 Obtain the Ensembl transcript/gene IDs and gene names for annotation of results by using the biomaRt package to query the Ensembl genome database. BiomaRt allows extensive genome information to be accessible during an analysis.
 
-```
+```R
 # Using biomaRt, ensure host is the appropriate version since the main portal (www.ensembl.org) is not accessible from Orchestra
 
 ## Specify that the database to query is the human gene database
@@ -268,7 +262,7 @@ t2g <- dplyr::rename(t2g, target_id = ensembl_transcript_id, ens_gene = ensembl_
 
 #### Step 1: Fit the transcript abundance data to the Sleuth model
 
-```
+```R
 # Create sleuth object for analysis 
 
 so <- sleuth_prep(sfdata, design, target_mapping = t2g) 
@@ -285,7 +279,7 @@ so <- sleuth_fit(so)
 
 Ensure the design model and coefficients are correct for your analysis.
 
-```
+```R
 models(so)
 ```
 > **NOTE:** Sleuth will automatically use the first level (alphabetically) in the factor variable being tested to compare all other conditions against (in our metadata, this is 'control'). If you want to use a different condition to be the base level, then you would need to use the relevel() function to change the base level of the variable in step 1 above. For example, if we wanted the base level of `sampletype` to be "MOV10_knockdown", we could use the following code:
