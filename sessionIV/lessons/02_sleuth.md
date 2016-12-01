@@ -87,11 +87,6 @@ Since Sleuth was designed to use the output of Kallisto as input, our Sailfish t
 We have installed all of these packages for you to copy to your personal libraries:
 
 ```bash
-# Copy all of the R library installations from our folder to save time
-
-# $ cp /home/mp298/R/library/* ~/R/library
-
-# $ echo 'R_LIBS_USER="~/R/library"' >  $HOME/.Renviron
 
 $ export R_LIBS_USER="/home/mp298/R/library"
 ```
@@ -314,7 +309,15 @@ Now that we have all of the analyses performed, we need to bring the output to o
 save("oe", "summarydata", "sleuth_results_oe", file="sleuth/oe.RData")
 ```
 
-We have completed the generation of the sleuth differential expression results on Orchestra, we can now quit R (`q()`) and Orchestra, and we can explore the results on our local computers by copying over the `oe.RData` file.
+We have completed the generation of the sleuth differential expression results on Orchestra, we can now quit R (`q()`) .
+
+Now copy all of the R library installations from our folder so that you have all packages needed to run Sleuth to your own personal folder
+
+```bash
+$ cp /home/mp298/R/library/* ~/R/library
+
+$ echo 'R_LIBS_USER="~/R/library"' >  $HOME/.RenvironOrchestra, and we can explore the results on our local computers by copying over the `oe.RData` file.
+```
 
 ## Exploration of differential expression results
 
