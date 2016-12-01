@@ -89,11 +89,11 @@ We have installed all of these packages for you to copy to your personal librari
 ```bash
 # Copy all of the R library installations from our folder to save time
 
-$ cp /home/mp298/R/library/* ~/R/library
+# $ cp /home/mp298/R/library/* ~/R/library
 
-$ echo 'R_LIBS_USER="~/R/library"' >  $HOME/.Renviron
+# $ echo 'R_LIBS_USER="~/R/library"' >  $HOME/.Renviron
 
-$ export R_LIBS_USER="/home/username/R/library"
+$ export R_LIBS_USER="/home/mp298/R/library"
 ```
 
 Now, start R:
