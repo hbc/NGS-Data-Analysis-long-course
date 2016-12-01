@@ -309,27 +309,32 @@ Now that we have all of the analyses performed, we need to bring the output to o
 save("oe", "summarydata", "sleuth_results_oe", file="sleuth/oe.RData")
 ```
 
-We have completed the generation of the sleuth differential expression results on Orchestra, we can now quit R (`q()`) .
+We have completed the generation of the sleuth differential expression results on Orchestra, we can now **quit R (`q()`)** .
 
-Now copy all of the R library installations from our folder so that you have all packages needed to run Sleuth to your own personal folder
+You should now be back in the Orchestra shell window. Now copy all of the R library installations from our folder so that you have all packages needed to run Sleuth to your own personal folder.
 
 ```bash
 $ cp /home/mp298/R/library/* ~/R/library
+```
 
-$ echo 'R_LIBS_USER="~/R/library"' >  $HOME/.RenvironOrchestra, and we can explore the results on our local computers by copying over the `oe.RData` file.
+**The next command is needed to make sure that next time you install packages they are installed to your own home directory.*** 
+
+```bash
+$ echo 'R_LIBS_USER="~/R/library"' >  $HOME/.Renviron
 ```
 
 ## Exploration of differential expression results
 
 ### Set-up for local R session
-Before we begin to explore our results, we need to copy over the `oe.RData` file to our local machine using Filezilla or `scp`.
+
+Before we begin to explore our results, we need to **copy over the `oe.RData` file to our local machine using Filezilla** or `scp`.
 
 If using `scp`, you need to open the Terminal on the local machine and type:
 
 ```bash
 $ scp username@transfer.orchestra.med.harvard.edu:/home/username/ngs_course/rnaseq/sleuth/oe.RData Desktop
 ```
-While the R object is transferring (it may take a few minutes), open up RStudio and create a new project called `sleuth`. 
+**Open up RStudio and create a new project called `sleuth`.**
 
 Within RStudio we need to install and load Sleuth similar to what we did on Orchestra:
 
