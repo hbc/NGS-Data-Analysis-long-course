@@ -84,7 +84,7 @@ $ mkdir -p ~/R/library
 
 Since Sleuth was designed to use the output of Kallisto as input, our Sailfish transcript abundance estimates need to be massaged into the format of the Kallisto output. To do this, we are going to use the package [Wasabi](https://github.com/COMBINE-lab/wasabi). 
 
-To manually install a package on Orchestra from CRAN we would have to specify where our library is using the following: `install.packages("name-of-your-package", lib="~/R/library")`. For Bioconductor packages nothing will change since we have already modified the environment variable to point to the library. We have installed all of these packages for you to copy to your personal libraries:
+We have installed all of these packages for you to copy to your personal libraries:
 
 ```bash
 # Copy all of the R library installations from our folder to save time
@@ -103,6 +103,8 @@ $ R
 ```
 
 The terminal window should now turn into the R console with the R prompt `>`. 
+
+If you were to manually install a package on Orchestra from CRAN we would have to specify where our library is using the following: `install.packages("name-of-your-package", lib="~/R/library")`. For Bioconductor packages nothing would change since we have already modified the environment variable to point to the library.
 
 ***NOTE:*** *Since we are not working in RStudio on Orchestra, we will not be able to readily view our environment or plots.*
 
