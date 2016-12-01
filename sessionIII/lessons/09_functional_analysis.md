@@ -203,7 +203,7 @@ cluster_summary <- summary(ego)
 ### Visualizing clusterProfiler results
 ClusterProfiler has a variety of options for viewing the over-represented GO terms. We will explore the dotplot, enrichment plot, and the category netplot.
 
-The dotplot shows the number of genes associated with the first 50 terms (size) and the p-adjusted values for these terms (color). 
+The dotplot shows the number of genes associated with the first 25 terms (size) and the p-adjusted values for these terms (color). 
 
 ```r
 dotplot(ego, showCategory=25)
