@@ -127,25 +127,15 @@ ENST00000605284 17      8.69981 0       0
  
 ## Running Sailfish on multiple samples 
 
-We just ran Sailfish on a single sample (and keep in mind a subset of chr1 from the original data). To obtain meaningful results we need to run this on **all samples for the full dataset**. To do so, we will create a script and submit it as a job to Orchestra. 
+We just ran Sailfish on a single sample (and keep in mind a subset of chr1 from the original data). To obtain meaningful results we need to run this on **all samples for the full dataset**. To do so, we will create a shell script which will submit each Sailfish run as a job to Orchestra.
 
 Open up a script in `vim`:
 
-	$ vim sailfish_all_samples.lsf
+	$ vim sailfish_all_samples.sh
 
-Let's start with our shebang line followed by all BSUB directives:
+Now we can create a for loop to iterate over all FASTQ samples, and run Sailfish on each one. We begin by listing all BSUB directives to specify the resources we are requesting including memory, cores and wall time.
 
-```bash
-#!/bin/bash
-#BSUB -q mcore       # Partition to submit to (comma separated)
-#BSUB -n 6           # Number of cores, since we are running the STAR command with 6 threads
-#BSUB -W 3:00        # Runtime in D-HH:MM (or use minutes)
-#BSUB -J sailfish_Mov10         # Job name
-#BSUB -o %J.out       # File to which standard out will be written
-#BSUB -e %J.err       # File to which standard err will be written
-```
-
-Now we can create a for loop to iterate over all FASTQ samples, and run Sailfish on each one. Note, that we are adding a parameter called `--numBootstraps` to the Sailfish command. Sailfish has the ability to optionally compute bootstrapped abundance estimates. **Bootstraps are required for estimation of technical variance**. Bootstrapping essentially takes a different sub-sample of reads for each bootstapping run for estimating the transcript abundances. The technical variance is the variation in transcript abundance estimates calculated for each of the different sub-samplings (or bootstraps). We will discuss this in more detail in the next lesson.
+Next comes the Sailfish command. Note, that we are adding a parameter called `--numBootstraps` to the Sailfish command. Sailfish has the ability to optionally compute bootstrapped abundance estimates. **Bootstraps are required for estimation of technical variance**. Bootstrapping essentially takes a different sub-sample of reads for each bootstapping run for estimating the transcript abundances. The technical variance is the variation in transcript abundance estimates calculated for each of the different sub-samplings (or bootstraps). We will discuss this in more detail in the next lesson.
 
 > *NOTE:* We are iterating over FASTQ files in the full dataset directory, located at `/groups/hbctraining/ngs-data-analysis2016/rnaseq/full_dataset/`
 
@@ -159,7 +149,7 @@ for fq in /groups/hbctraining/ngs-data-analysis2016/rnaseq/full_dataset/*.fastq
  done
 ```
 
-Save and close the script. This is now ready to run. **We are not going to submit this job in class**, since it might take awhile we have already generated these files for you for use with the statistical analysis below.
+Save and close the script. This is now ready to run. **We are not going to run this script in class**, since it might take awhile and will interfere with the files we have already generated for you for use with the statistical analysis below.
 
 ## Performing DE analysis on Pseudocounts
 
