@@ -314,7 +314,7 @@ We have completed the generation of the sleuth differential expression results o
 You should now be back in the Orchestra shell window. Now copy all of the R library installations from our folder so that you have all packages needed to run Sleuth to your own personal folder.
 
 ```bash
-$ cp /home/mp298/R/library/* ~/R/library
+$ cp -r /home/mp298/R/library/* ~/R/library
 ```
 
 **The next command is needed to make sure that next time you install packages they are installed to your own home directory.*** 
