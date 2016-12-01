@@ -71,13 +71,25 @@ Now let's make a folder for our sleuth results and load the R module to run it.
 ```bash
 $ mkdir sleuth
 
-$ module load stats/R/3.2.1
+$ module load stats/R/3.3.1
 ```
 
 Sleuth is an R package, and while some R packages are automatically available to us on Orchestra, some of the packages we need to run Sleuth are not. Therefore, to run Sleuth on Orchestra, we need to manually install these programs into our personal R library. If you haven't created a personal R library, you can do so by entering the following code ([Orchestra Wiki](https://wiki.med.harvard.edu/Orchestra/WebHome)):
 
 ```bash
 $ mkdir -p ~/R/library
+```
+
+### Installing R packages
+
+Since Sleuth was designed to use the output of Kallisto as input, our Sailfish transcript abundance estimates need to be massaged into the format of the Kallisto output. To do this, we are going to use the package [Wasabi](https://github.com/COMBINE-lab/wasabi). 
+
+To manually install a package on Orchestra from CRAN we would have to specify where our library is using the following: `install.packages("name-of-your-package", lib="~/R/library")`. For Bioconductor packages nothing will change since we have already modified the environment variable to point to the library. We have installed all of these packages for you to copy to your personal libraries:
+
+```bash
+# Copy all of the R library installations from our folder to save time
+
+$ cp /home/mp298/R/library/* ~/R/library
 
 $ echo 'R_LIBS_USER="~/R/library"' >  $HOME/.Renviron
 
@@ -94,22 +106,6 @@ The terminal window should now turn into the R console with the R prompt `>`.
 
 ***NOTE:*** *Since we are not working in RStudio on Orchestra, we will not be able to readily view our environment or plots.*
 
-### Installing R packages
-
-Since Sleuth was designed to use the output of Kallisto as input, our Sailfish transcript abundance estimates need to be massaged into the format of the Kallisto output. To do this, we are going to use the package [Wasabi](https://github.com/COMBINE-lab/wasabi). 
-
-To manually install a package on Orchestra from CRAN we would have to specify where our library is using the following: `install.packages("name-of-your-package", lib="~/R/library")`. For Bioconductor packages nothing will change since we have already modified the environment variable to point to the library.
-
-Let's install the `Wasabi` package, which is a Bioconductor package.
-
-```R
-source("http://bioconductor.org/biocLite.R")
-biocLite("COMBINE-lab/wasabi")
-
-# When asked whether you want to "Update all/some/none?" Select `n` for none.
-```
-
-We have created an Rscript to run Wasabi and Sleuth for you, but to explain each step, we will run the commands interactively. In a new terminal, it may be helpful to have the script open to copy from.
 
 ### Setting up working directory and loading libraries
 
