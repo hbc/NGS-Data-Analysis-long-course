@@ -1,7 +1,7 @@
 ---
 title: "Functional Analysis for RNA-Seq"
 author: "Mary Piper"
-date: "Tuesday, July 5th, 2016"
+date: "Thursday, December 1, 2016"
 ---
 
 Approximate time: 105 minutes
