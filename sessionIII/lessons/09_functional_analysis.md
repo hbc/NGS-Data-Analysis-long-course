@@ -222,7 +222,7 @@ enrichMap(ego, n=25, vertex.label.font=10)
 Finally, the category netplot shows the relationships between the genes associated with the top five most significant GO terms and the fold changes of the significant genes associated with these terms (color). This plot is particularly useful for hypothesis generation in identifying genes that may be important to several of the most affected processes. 
 
 ```r
-cnetplot(ego, categorySize="pvalue", showCategory = 5)
+cnetplot(ego, categorySize="pvalue", showCategory = 5, vertex.label.font=6)
 ```
 
 ![cnetplot](../img/cnet.png)
