@@ -57,6 +57,13 @@ Open up your `.bashrc` using `vim` and add in the following:
 	unset PYTHONHOME
 	unset PYTHONPATH
 
+> *NOTE:* For people who are using non-english keyboards, you may also want to add the following to your `.bashrc` file:
+>
+> ```
+> export LC_ALL=en_US.UTF-8
+> export LANG=en_US.UTF-8
+> export LANGUAGE=en_US.UTF-8
+> ````
  
 Close and save the file. Finally, let's set up the project structure. **Since `bcbio` will spawn a number of intermediate files as it goes through the pipeline of tools, we will use `/n/scratch2` space to make sure there is enough disk space to hold all of those files.** Your home directory on Orchestra will not be able to handle this amount of data. Another alternative is talking to the folks at HMS-RC to set up a directory in the `/groups` folder for your lab. 
 
