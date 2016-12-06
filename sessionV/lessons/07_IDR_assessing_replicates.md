@@ -123,7 +123,7 @@ Now let's move into the `chipseq/results` directory and create a new directory f
 
 Copy over the sorted narrowPeak files for each replicate for Nanog and Pou5f1:
 
-	$ cp /groups/hbctraining/ngs-data-analysisSummer2016/chipseq/idr/macs/*sorted* IDR/
+	$ cp /groups/hbctraining/ngs-data-analysis-longcourse/chipseq/idr/macs/*sorted* IDR/
 	
 
 ### Peak consistency between true replicates
