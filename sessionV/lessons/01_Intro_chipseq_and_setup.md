@@ -109,9 +109,9 @@ Now that we have the directory structure created, let's copy over the data to pe
 ```
 $ cd data
 
-$ cp /groups/hbctraining/ngs-data-analysisSummer2016/chipseq/raw_fastq/*fastq untrimmed_fastq/
+$ cp /groups/hbctraining/ngs-data-analysis-longcourse/chipseq/raw_fastq/*fastq untrimmed_fastq/
 
-$ cp /groups/hbctraining/ngs-data-analysisSummer2016/chipseq/reference_data/chr12* reference_data/
+$ cp /groups/hbctraining/ngs-data-analysis-longcoursechipseq/reference_data/chr12* reference_data/
 ```
 
 We will be using tools within the bcbio pipeline, so please make sure bcbio is in your PATH:
