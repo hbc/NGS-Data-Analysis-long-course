@@ -61,7 +61,7 @@ Navigate to the `results` directory we have been working in and create a new dir
 
 Finally, you will need the **sample sheet** which contains metadata information. Copy this over to your `diffBind` directory and then we will take a quick look at what is contained in it.
 
-	$ cp /groups/hbctraining/ngs-data-analysisSummer2016/chipseq/ENCODE/diffBind/samples_chr12_DiffBind.csv diffBind/
+	$ cp /groups/hbctraining/ngs-data-analysis-longcourse/chipseq/ENCODE/diffBind/samples_chr12_DiffBind.csv diffBind/
 
 	$ less diffBind/samples_chr12_DiffBind.csv
 
