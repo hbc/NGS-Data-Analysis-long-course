@@ -63,7 +63,7 @@ To run SPP, there are several functions that need to be run sequentially. For mo
 
 For this class, we have put together an R script that contains all of the methods required for peak calling. You can copy over the script into your current directory, and then we can discuss the methods in more detail.
 
-	$ cp /groups/hbctraining/ngs-data-analysis2016/chipseq/scripts/get_peaks.R .
+	$ cp /groups/hbctraining/ngs-data-analysis-longcourse/chipseq/scripts/get_peaks.R .
 
 Open it up using `vim`, as there is a modification we need to make in order for you to be able to run this from your working directory. Use `:set number` in `vim` to add numbers to your lines. Now scroll down to line 16. Here, you need to change the path to where your `spp` directory is located. It will look something like this:
 
@@ -101,7 +101,7 @@ input.data <- read.bam.tags(file.input, read.tag.names=T)
 chip.data <- read.bam.tags(file.data, read.tag.names=T)
 
 # Set path 
-path <- "/groups/hbctraining/ngs-data-analysis2016/chipseq/spp/"
+path <- "/groups/hbctraining/ngs-data-analysis-longcourse/chipseq/spp/"
 
 # Create a prefix for your output file
 # This can be changed based on file naming convention 
