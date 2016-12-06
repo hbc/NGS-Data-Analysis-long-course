@@ -214,7 +214,7 @@ Once you have IDR values for true replicates, you want to see how this compares 
 
 _We will not run this analysis, but have provided a bash script below if you wanted to take a stab at it._ To run this script you will need to:
 
-* Provide BAM files and run it for each TF separately. These are located at `/groups/hbctraining/ngs-data-analysisSummer2016/chipseq/bowtie2`. Or you can point to the BAM files generated from Bowtie2 in the home directory.
+* Provide BAM files and run it for each TF separately. These are located at `/groups/hbctraining/ngs-data-analysis-longcourse/chipseq/bowtie2`. Or you can point to the BAM files generated from Bowtie2 in the home directory.
 * Be sure to also ask for enough memory in your `bsub` command.
 * Change the paths for output to the directories that are relevant to you
 
@@ -257,7 +257,7 @@ mkdir -p /n/scratch2/mm573/idr_ngscourse/pooled_pseudoreps
 mkdir -p /n/scratch2/mm573/idr_ngscourse/tmp
 
 # Set paths
-baseDir=/groups/hbctraining/ngs-data-analysisSummer2016/chipseq/bowtie2
+baseDir=/groups/hbctraining/ngs-data-analysis-longcourse/chipseq/bowtie2
 macsDir=/n/scratch2/mm573/idr_ngscourse/macs
 outputDir=/n/scratch2/mm573/idr_ngscourse/pooled_pseudoreps
 tmpDir=/n/scratch2/mm573/idr_ngscourse/tmp
