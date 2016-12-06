@@ -34,7 +34,7 @@ Next we will load our VCF file into the database. This command assumes that the 
 
 > If this does not work, copy over the database:
 >
-> `cp /groups/hbctraining/ngs-data-analysisSummer2016/var-calling/annotation/na12878_q20.db .`
+> `cp /groups/hbctraining/ngs-data-analysis-longcourse/var-calling/annotation/na12878_q20.db .`
 
 ### Constructing a query in GEMINI
 
