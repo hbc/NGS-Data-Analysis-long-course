@@ -35,7 +35,7 @@ $ bsub -Is -q interactive bash
 
 $ cd ngs_course/var-calling
 
-$ cp /groups/hbctraining/ngs-data-analysisSummer2016/var-calling/reference_data/dbsnp.138.chr20.vcf.gz* \
+$ cp /groups/hbctraining/ngs-data-analysis-longcourse/var-calling/reference_data/dbsnp.138.chr20.vcf.gz* \
 data/reference_data/
 
 ```
