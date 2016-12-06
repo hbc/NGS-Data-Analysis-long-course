@@ -141,7 +141,7 @@ The input of GREAT is a BED file containing the coordinates of the peak calls. W
 cut -f 1,2,3 Encode-hesc-Nanog.narrowPeak > Encode-hesc-Nanog.bed
 ```
 
-Using **FileZilla**, transfer `/groups/hbctraining/ngs-data-analysisSummer2016/chipseq/other/ENCODE_peak_calls/Encode-hesc-Nanog.bed` to your Desktop. Open [GREAT](http://bejerano.stanford.edu/great/public/html/index.php), and perform the following steps:
+Using **FileZilla**, transfer `/groups/hbctraining/ngs-data-analysis-longcourse/chipseq/other/ENCODE_peak_calls/Encode-hesc-Nanog.bed` to your Desktop. Open [GREAT](http://bejerano.stanford.edu/great/public/html/index.php), and perform the following steps:
 
 1. Choose the `Encode-hesc-Nanog.bed` file and use the `Whole genome` for Background regions. Click Submit. GREAT provides the output in HTML format organized by section.
 
