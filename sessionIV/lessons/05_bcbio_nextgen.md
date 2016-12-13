@@ -34,11 +34,11 @@ bcbio-nextgen provides *best-practice* piplelines with the goal of being:
 
 It is available for installation on most Linux systems (compute clusters), and also has instructions for setup on the Cloud. It is currently installed on on the Orchestra cluster, and so we will demonstrate `bcbio-nextgen` for RNA-seq data using our Mov10 dataset as input.
 
-The figure below describes the input (yellow), workflow (green) and output (purple) components of `bcbio`:
+The figure below describes the input (yellow), the workflow for RNA-seq (green) and output (purple) components of `bcbio`:
 
-![bcbio](../img/bcbio-pipeline.png) 
+![bcbio](../img/bcbio-pipeline2.png) 
 
-As we work through this lesson we will introduce each component in more detail.
+**As we work through this lesson we will introduce each component in more detail**.
 
 
 ## Setting up
@@ -82,7 +82,7 @@ Now let's create a directory for the bcbio run:
 
 There are three things required as input for your `bcbio` run:
 
-![bcbio-input](../img/bcbio-input.png) 
+![bcbio-input](../img/bcbio_inputs2.png) 
 
 The files we will use as input are the **raw untrimmed FASTQ files**. We will need to copy the full dataset over from the `hbctraining` directory and into our current directory:
 
@@ -161,15 +161,16 @@ mov10_project/
 
 ## `bcbio`: Workflow
 
-Before we actually run the analysis, let's talk a bit about the tools that will be run and some of the `algorithm` details we specified for these tools. The RNA-seq pipeline includes steps for quality control, adapter trimming, alignment, variant calling, transcriptome reconstruction and post-alignment quantitation at the level of the gene and isoform.
+Before we actually run the analysis, let's talk a bit about the tools that will be run and some of the `algorithm` details we specified for these tools. The RNA-seq pipeline includes steps for quality control, adapter trimming, alignment, and post-alignment quantitation at the level of the gene and isoform.
 
-![bcbio-workflow](../img/bcbio-workflow.png)
+![bcbio-workflow](../img/bcbio_workflow2.png)
  
-For quality control, the FASTQC tool is used and we selected `standard` to indicate the stadard fastqsanger quality encoding. [qualimap](http://qualimap.bioinfo.cipf.es/) and [MultiQC](http://multiqc.info/) are other tools that are run. These tools report QC according to the features of the mapped reads and provides an overall view of the data that helps to the detect biases in the sequencing and/or mapping of the data. 
+For quality control, the FASTQC tool is used and we selected `standard` to indicate the **standard fastqsanger quality** encoding. [qualimap](http://qualimap.bioinfo.cipf.es/) and [MultiQC](http://multiqc.info/) are other tools that are run. These tools report QC according to the features of the mapped reads and provides an overall view of the data that helps to the detect biases in the sequencing and/or mapping of the data. 
 
 Trimming is not required unless you are using and aligner that doesn't perform soft-clipping. Adapter trimming is very slow, and aligners that soft clip the ends of reads such as STAR and HISAT2, or algorithms using pseudoalignments like Sailfish handle contaminant sequences at the ends properly. This makes trimming unnecessary, and since we have chosen `star` as our aligner we have also set `trim_reads: False`. 
 
-Counting of reads is done using featureCounts and does not need to be specfied in the config file. Also, Sailfish, which is an extremely fast alignment-free method of quantitation, is run for all experiments. There is also an option for Cufflinks to be run if you wanted to look at isoform level expression differences using the Tuxedo suite of tools. The outputs generated are per-sample GTF files and an FPKM matrix.
+Counting of reads is done using featureCounts and does not need to be specfied in the config file. Also, Sailfish, which is an extremely fast alignment-free method of quantitation, is run. For each sample we get the `quant.sf` files and also a file of aggregated values across samples. In the outputs section you will find a more detail about the various quantitation files that are generated.
+
 
 ### Creating a job script to run `bcbio`
 
@@ -191,9 +192,8 @@ To run `bcbio` we call the same python script that we used for creating the conf
 * `--timeout 380`: numbers of minutes to wait for a cluster to start up before timing out
 * `-rW=72:00`: specifies resource options to pass along to the underlying queue scheduler
 
-`bcbio` pipeline runs in parallel using the IPython parallel framework. This allows scaling beyond the cores available on a single machine, and requires multiple machines with a shared filesystem like standard cluster environments. 
+**`bcbio` pipeline runs in parallel using the IPython parallel framework. This allows scaling beyond the cores available on a single machine, and requires multiple machines with a shared filesystem like standard cluster environments.** 
 Although, we will only ask for a single core in our job submission script `bcbio` will use the parameters provided in the command to spin up the appropriate number of cores required at each stage of the pipeline.
-
 
 
 The job can take on the range of hours to days depending on the size of your dataset, and so rather than running interactively we will create a job submission script. 
@@ -223,9 +223,9 @@ Use `bjobs` to see the status of your job. *How many jobs do you see?*
 
 ## `bcbio`: Output
 
-![bcbio-ouput](../img/bcbio-output.png)
+![bcbio-ouput](../img/bcbio_outputs2.png)
 
-### Run summary files
+### Run summary
 
 The results of the run will be summarized for you in a new directory called `final` as specified in our config file. The directory will be located in your project directory:
 
@@ -238,7 +238,7 @@ mov10_project/
 
 There is a run summary file inside the date-stamped folder called `project-summary` in YAML format. The content of this file describes various quality metrics for each sample post-alignment. You will also find a directory called `multiqc`. Inside here you will find an HTML file that summarizes QC metrics for all samples into a single report. This is an [example report](http://multiqc.info/examples/rna-seq/multiqc_report.html) to give you an idea of the type of information you will find. *NOTE: you will need to move this over to your local laptop in order to view and interpret QC metrics.*
 
-### Quantification files
+### Quantitation files
 
 Inside the date-stamped directory you will also find a number of different quanitification files for your dataset. These files correspond to aggregated information from the different quantification methods that were applied in the workflow. For RNA-seq these are listed below and also detailed in the [readthedocs](https://bcbio-nextgen.readthedocs.io/en/latest/contents/outputs.html#rna-seq):
 
