@@ -34,6 +34,8 @@ bcbio-nextgen provides *best-practice* piplelines with the goal of being:
 
 It is available for installation on most Linux systems (compute clusters), and also has instructions for setup on the Cloud. It is currently installed on on the Orchestra cluster, and so we will demonstrate `bcbio-nextgen` for RNA-seq data using our Mov10 dataset as input.
 
+> *NOTE:* There is also a [simplified version of how to use bcbio](https://github.com/sorgerlab/rnaseq) for RNA-Seq analysis put together by the Sorger lab, as the [readthedocs](https://bcbio-nextgen.readthedocs.io/en/latest/index.html) can be sometimes be overwhelming with much more detail than you need to get started.
+
 The figure below describes the input (yellow), the workflow for RNA-seq (green) and output (purple) components of `bcbio`:
 
 ![bcbio](../img/bcbio-pipeline2.png) 
@@ -251,6 +253,14 @@ Inside the date-stamped directory you will also find a number of different quani
 * `tx2gene.csv` – Annotation file needed for DESeq2 to use Sailfish output.
 
 In the `final` directory there are also individual directories for each sample in your dataset. Within each of these folders you will find the final sorted BAM file and its associated index. There is also a `qc` folder which contains sub-directories that contain results from the different QC tools (FASTQC, qualimap). Finally, you should see a `sailfish` folder which contains the Sailfish output including `abundance.h5` files, which means these samples are ready for `sleuth` should you decide to run it.
+
+> #### Using bcbio output to run `DESeq2` or `sleuth`
+> 
+> * *For gene-level differential expression analysis,* the `quant.sf` files are found within the `final` directory in a subdirectory under each sample. For example, the Mov10_oe1 file can be found in `bcbio-rnaseq/mov10_project/final/Mov10_oe1/sailfish/quant/`. These files can be used as input to the `tximport/DESeq2` workflow as described in our [previous lesson](https://github.com/hbc/NGS-Data-Analysis-long-course/blob/Fall_2016/sessionIV/lessons/01_Salifish.md#performing-de-analysis-on-pseudocounts). 
+> * If you are interested in looking at differential expression of splice isoforms, you will want to use the `abundance.h5` files found at the same path listed above. These are the sleuth-compatible format which saves you having to run `wasabi`. These files can be used as input to the `sleuth` workflow as described in our [previous lesson](https://github.com/hbc/NGS-Data-Analysis-long-course/blob/Fall_2016/sessionIV/lessons/02_sleuth.md#sleuth-workflow)
+> * *NOTE: that you will need to setup a directory structure imialr to what we had in class in order to follow along. i.e you will need to make sure each directory is named after the sample data it contains.*
+
+
 
 ### Log files
 
