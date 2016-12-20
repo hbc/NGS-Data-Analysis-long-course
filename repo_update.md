@@ -1,4 +1,4 @@
-To update the master branch of this repo perform the following steps on your local computer:
+To update to the master branch of this repo perform the following steps on your local computer:
 ```
 git pull origin newest_branch
 git checkout newest_branch
